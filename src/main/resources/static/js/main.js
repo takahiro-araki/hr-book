@@ -242,7 +242,7 @@
 
         setTimeout(function(){
             readMasterData(person);
-        }, 500);
+        }, 1000);
 
 
 

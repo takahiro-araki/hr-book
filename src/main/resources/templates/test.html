@@ -1,14 +1,214 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja" 
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Engineer Ability Sheet</title>
+
+    <link rel="stylesheet" th:href="@{/css/lib/solid.min.css}">
+    <link rel="stylesheet" th:href="@{/css/lib/brands.min.css}">
+    <link rel="stylesheet" th:href="@{/css/lib/fontawesome.min.css}">
+
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/ability.css}">
+
+    <script th:src="@{/js/lib/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/lib/popper.min.js}"></script>
+    <script th:src="@{/js/lib/tooltip.min.js}"></script>
+
 </head>
-<body>Springでページを表示するテスト
-<span th:text="test">aaa</span>
-<img th:src="@{/img/avator-male.png}">
+<body>
+<div class="container">
+    <div class="members"></div>
+    <div class="main-contents">
+
+        <div class="box ability-box" style="">
+            <div class="profile">
+                <div class="row">
+                    <div class="col">
+                        <div class="name row">エンジニア太郎</div>
+                        <div class="belong-to row">株式会社エンジニア</div>
+                        <div class="title row">プログラマー</div>
+                    </div>
+                    <div class="col">
+                        <img class="avatar" src="/hr-book/img/avator-male.png">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="style">
+                        <div class="style-item col"><i class="fas fa-desktop"></i>&nbsp;<span class="style-desktop dark-blue">Mac</span></div>
+                        <div class="style-item col"><i class="fas fa-mobile-alt"></i>&nbsp;<span class="style-mobile dark-red">Android</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="point-skills"><div class="point-skill">
+                <div class="skill-name">プログラム</div>
+                <div class="skill-score score-s">S</div>
+                <div class="skill-point">100</div>
+            </div><div class="point-skill">
+                <div class="skill-name">データベース</div>
+                <div class="skill-score score-a">A</div>
+                <div class="skill-point">80</div>
+            </div><div class="point-skill">
+                <div class="skill-name">ネットワーク</div>
+                <div class="skill-score score-b">B</div>
+                <div class="skill-point">70</div>
+            </div><div class="point-skill">
+                <div class="skill-name">OS</div>
+                <div class="skill-score score-c">C</div>
+                <div class="skill-point">60</div>
+            </div><div class="point-skill">
+                <div class="skill-name">ハードウェア</div>
+                <div class="skill-score score-d">D</div>
+                <div class="skill-point">50</div>
+            </div><div class="point-skill">
+                <div class="skill-name">セキュリティ</div>
+                <div class="skill-score score-e">E</div>
+                <div class="skill-point">40</div>
+            </div><div class="point-skill">
+                <div class="skill-name">ミドルウェア</div>
+                <div class="skill-score score-f">F</div>
+                <div class="skill-point">20</div>
+            </div></div>
+
+            <div class="abilities">
+
+                <div class="numerical-abilities"><div class="numerical-ability level-5" data-detail="障害が発生したときに能力を発揮できる指数。高いほど障害に強い。" aria-describedby="tooltip_fvflc1s8ra">
+                <div class="ability-name">対障害</div><div class="ability-value">5</div>
+            </div><div class="numerical-ability level-4" data-detail="リリース作業を安定して実行できる指数。高いほど安定している。">
+                <div class="ability-name">対リリース</div><div class="ability-value">4</div>
+            </div><div class="numerical-ability level-3" data-detail="障害・トラブル・不運が続いた時でも、メンタルを保っていられるか。高いほど強い。">
+                <div class="ability-name">打たれ強さ</div><div class="ability-value">3</div>
+            </div><div class="numerical-ability level-2" data-detail="体調不良やケガ等で休むことがないかどうか。高いほど休まない。">
+                <div class="ability-name">休みにくさ</div><div class="ability-value">2</div>
+            </div><div class="numerical-ability level-1" data-detail="自分の意見やノウハウを伝えるスキル。高いほど優れている。">
+                <div class="ability-name">プレゼン力</div><div class="ability-value">1</div>
+            </div><div class="numerical-ability level-3" data-detail="心身の状況にパフォーマンスが左右されるか否か。高いほど安定している。">
+                <div class="ability-name">安定度</div><div class="ability-value">3</div>
+            </div><div class="numerical-ability level-3" data-detail="コミュニケーションスキル。高いほど能力が高い。">
+                <div class="ability-name">コミュ力</div><div class="ability-value">3</div>
+            </div><div class="numerical-ability level-3" data-detail="物事をインプットする力。高いほどスポンジのように吸収する。">
+                <div class="ability-name">情報吸収力</div><div class="ability-value">3</div>
+            </div><div class="numerical-ability level-3" data-detail="物事をアウトプットする力。高いほど自分の知識や考えを世の中に送り出している。">
+                <div class="ability-name">情報発信力</div><div class="ability-value">3</div>
+            </div><div class="numerical-ability level-3" data-detail="仕事する上で、リスクを十分にとっているか。高いほどヘッジする能力が高い。">
+                <div class="ability-name">リスクヘッジ</div><div class="ability-value">3</div>
+            </div><div class="tooltip" role="tooltip" id="tooltip_fvflc1s8ra" aria-hidden="true" x-placement="top" style="position: absolute; will-change: transform; visibility: hidden; top: 0px; left: 0px; transform: translate3d(43px, -64px, 0px);"><div class="tooltip-arrow" style="left: 7px;"></div><div class="tooltip-inner">障害が発生したときに能力を発揮できる指数。高いほど障害に強い。</div></div></div>
+                <div class="special-abilities"><div class="special-ability positive-ability" data-detail="No.1 状況を見て、ある程度未来に起こるであろうことが予想できる">予知能力</div><div class="special-ability positive-ability" data-detail="No.2 組織の中で、コードのレビュアーや技術的な課題について意見を聞かれる場面が多い">テックリード</div><div class="special-ability positive-ability" data-detail="No.3 何でもかんでも基本、Vimでする。IDE？なんですかそれは">Vim職人</div><div class="special-ability personality" data-detail="No.4 業務で生じる様々な作業を基本的にShellで解決する。Shellがあれば何でもできる。">Shell芸人</div><div class="special-ability positive-ability" data-detail="No.5 どんなときでも明るく、楽しそうに仕事を行う">超ポジティブ</div><div class="special-ability negative-ability" data-detail="No.6 遅刻することが多い">遅刻魔</div><div class="special-ability negaposi-ability" data-detail="No.7 機嫌がいい時のパフォーマンスは非常に高く、逆に悪いときのパフォーマンスは非常に低くなる">気分屋</div><div class="special-ability personality" data-detail="No.8 期待の新人。才能が花開くのはこれからだが、同時に可能性を秘めている。">新人</div><div class="special-ability negative-ability font-small" data-detail="No.9 いつでもどこでも、よく喋っている。逆にいないと場が静かになる程。">おしゃべりクソ野郎</div><div class="special-ability personality" data-detail="No.10 集団の場では声を上げる立場になることが多い">ガヤ</div><div class="special-ability positive-ability" data-detail="No.11 常に情報収集を怠らない">アンテナ</div><div class="special-ability positive-ability" data-detail="No.12 フランス語を話すことができる">フランス語</div><div class="special-ability personality" data-detail="No.13 Apple製品を盲信している">Apple信者</div><div class="special-ability personality" data-detail="No.14 列思考DBのVerticaを盲信している">Vertica教徒</div><div class="special-ability positive-ability" data-detail="No.15 ショートカットキーを極めれば、マウスなんていりません。">マウスは不要</div><div class="special-ability personality" data-detail="No.16 実を言うと、インデントにはSpaceを使いたい">TabよりSpace</div><div class="special-ability personality" data-detail="No.17 実を言うと、インデントにはTabを使いたい">SpaceよりTab</div><div class="special-ability negative-ability" data-detail="No.18 上司や先輩相手でも、物の言い方が偉そう">上から目線</div><div class="special-ability personality" data-detail="No.19 飲み会などの賑やかな場面で盛り上げ役に回ることが多い">お祭り野郎</div><div class="special-ability personality" data-detail="No.20 エディタはVimを使用する。Emacsはあまり好きじゃない">Vim派</div><div class="special-ability personality" data-detail="No.21 エディタはEmacsを使用する。Vimはあまり好きじゃない">Emacs派</div><div class="special-ability positive-ability" data-detail="No.22 思考回路・意見が論理的に展開されている">ロジカル</div><div class="special-ability personality" data-detail="No.23 独り言が多い">独り言</div><div class="special-ability positive-ability" data-detail="No.24 裏打ちされた経験で、なかなか真似のできないスキルを発揮する">職人技</div><div class="special-ability negaposi-ability" data-detail="No.25 頑固な性格。他人の意見の影響を受けにくい。">こだわり強い</div><div class="special-ability personality" data-detail="No.26 チームで仕事をしたほうがパフォーマンスを発揮しやすい">チームプレイヤー</div><div class="special-ability personality" data-detail="No.27 一人で仕事をしたほうがパフォーマンスを発揮しやすい">ソロプレイヤー</div><div class="special-ability positive-ability" data-detail="No.28 守備範囲は狭いが、その分野に非常に特化したスキルを持っている">とんがり野郎</div><div class="special-ability positive-ability" data-detail="No.29 とにかく行動が早い、もしくは開発スピードが爆速な人">電光石火</div><div class="special-ability negative-ability" data-detail="No.30 想定外のことが起きると思考が停止しやすい">テンパリ屋</div><div class="special-ability positive-ability" data-detail="No.31 まだ障害ではないバグや状況をいち早く察知できる">地雷探知機</div><div class="special-ability negative-ability" data-detail="No.32 近い将来、誰かが踏むであろう障害を仕込んでしまいやすい">地雷埋め</div><div class="special-ability negaposi-ability" data-detail="No.33 後輩に萎縮されることもあるが、上司や先輩に意見や提案を通す凄みがある">威圧感</div><div class="special-ability negative-ability" data-detail="No.34 不運に見舞われることが多い">ハードラック</div><div class="special-ability positive-ability" data-detail="No.35 アーキテクチャ設計が得意">アーキテクチャ</div><div class="special-ability positive-ability" data-detail="No.36 組織の中で指揮を執る立場になることが多い">リーダーシップ</div><div class="special-ability personality" data-detail="No.37 出張に行く機会が多い">出張多い</div><div class="special-ability personality" data-detail="No.38 よく笑う">ゲラ</div><div class="special-ability negative-ability" data-detail="No.39 過去に自分が原因で大障害を引き起こしたことがある">バグテロリスト</div><div class="special-ability positive-ability" data-detail="No.40 テクニカルとマネージメントの両スキルを持っている">二刀流</div><div class="special-ability positive-ability" data-detail="No.41 火消し要因としてPJにアサインされることが多い">め組の人</div><div class="special-ability positive-ability" data-detail="No.42 二ヶ国語以上の言語を話すことができる">マルチリンガル</div><div class="special-ability personality" data-detail="No.43 革新的もしくは実験的な試みが好き。新しいことを取り入れる傾向。">アバンギャルド</div><div class="special-ability personality" data-detail="No.44 保守的。今までの文化や習慣を重んじ、トレンドに左右されない。">コンサバティブ</div><div class="special-ability personality" data-detail="No.45 口よりも手が動く。">寡黙</div><div class="special-ability personality" data-detail="No.46 デスクトップにアイコンが散らばっている。">過密デスクトップ</div><div class="special-ability personality" data-detail="No.47 JISキーボードではありません。シングルクォートはシフト押さない。">英字キーボード</div><div class="special-ability personality" data-detail="No.48 キーボードに文字を表記する必要はないです。男気でタイピング。">無刻印キーボード</div><div class="special-ability positive-ability" data-detail="No.49 まだ誰もやっていない挑戦、例えばPOCのような取り組みが得意">切り込み隊長</div><div class="special-ability positive-ability" data-detail="No.50 基本的にバグは出さない、安定した開発ができる。">鉄壁</div><div class="special-ability positive-ability" data-detail="No.51 守備範囲が広い。どんなことでもある程度できる。">オールラウンダー</div><div class="special-ability personality" data-detail="No.52 トレーニングは欠かさない。健康な肉体を宿すパワフルエンジニア">肉体派</div><div class="special-ability negative-ability" data-detail="No.53 やらないといけないのは理解している。だが、直前になるまではしない">ギリギリパンチ</div><div class="special-ability negative-ability" data-detail="No.54 タイプミスしがち。その時の自分には正しく見えていた。">タイポ多し</div><div class="special-ability negative-ability" data-detail="No.55 緊張しやすい。人前に出てしゃべるなんて！！">上がり症</div><div class="special-ability personality" data-detail="No.56 Windowsの標準ブラウザが好き。追加のインストールは必要ない。">IE・Edge派</div><div class="special-ability personality" data-detail="No.57 Google製タブブラウザが好き。端末が変わってもスキンとお気に入りは一緒">Chrome派</div><div class="special-ability personality" data-detail="No.58 アップデートでアドオンが死んでいっても、私は使い続ける。">Firefox派</div><div class="special-ability personality" data-detail="No.59 Appleの標準ブラウザが好き。追加のインストールは必要ない。">Safari派</div><div class="special-ability personality" data-detail="No.60 SleipnirとかOperaとかVivaldiとかが好き。">少数派ブラウザ</div><div class="special-ability personality" data-detail="No.61 Php StormとかInteliJとか、JetBrains社のIDEが好き。かゆいところに手が届く。">JetBrains派</div><div class="special-ability personality" data-detail="No.62 昔から、IDEがはEclipse。重いとかそういうことじゃない。愛です。">Eclipse派</div><div class="special-ability personality" data-detail="No.63 マイノリティーなIDEでも良いじゃないか、私はこれが好きなんだ。">Netbeans派</div><div class="special-ability personality" data-detail="No.64 夜に作業するほうが気分も乗るし、集中できるます。">夜行性</div><div class="special-ability personality" data-detail="No.65 朝早く起きて、新鮮な気分でやることで作業効率が上がります。">朝活派</div><div class="special-ability negative-ability" data-detail="No.66 急いでいる。遅いことが嫌い。人生には限られた時間しか無い。">せっかち</div><div class="special-ability positive-ability" data-detail="No.67 メールやチャットの返事を早く返してくれる">レス&nbsp;○</div><div class="special-ability negative-ability" data-detail="No.68 メールやチャットの返事が遅い、または無い">レス&nbsp;×</div><div class="special-ability positive-ability" data-detail="No.69 みんなが意見を聞きに来る。もしくは周りにアドバイスを積極的にする。">司令塔</div><div class="special-ability negative-ability" data-detail="No.70 業務で起こる色々な物事に対して、基本的に興味がない">無関心</div><div class="special-ability positive-ability" data-detail="No.71 相手が1,2をしゃべると、10までを理解する。">察し力</div><div class="special-ability positive-ability" data-detail="No.72 周りに対して常に気を使っている">気配り屋</div><div class="special-ability positive-ability" data-detail="No.73 いつも冷静で物事に動じにくい">冷静沈着</div><div class="special-ability negative-ability" data-detail="No.74 すぐに焦ってしまう">慌てん坊</div><div class="special-ability positive-ability" data-detail="No.75 気分を害することがあっても、怒るような場面は少ない">穏やか</div><div class="special-ability negative-ability" data-detail="No.76 すぐに頭に血が上りやすい">短気</div><div class="special-ability positive-ability" data-detail="No.77 障害やトラブル等の渦中に自分から進んで入っていく。火中の栗を拾う人。">栗拾い</div><div class="special-ability positive-ability" data-detail="No.78 観察しただけではわからないことも、直感で察知することができる">洞察力</div><div class="special-ability negative-ability" data-detail="No.79 会議等で席にいないことが多い">席にいない</div><div class="special-ability positive-ability" data-detail="No.80 PJがピンチなとき、思ってもいない力を発揮する">火事場の馬鹿力</div><div class="special-ability positive-ability" data-detail="No.81 本人がいるだけで、プロジェクトにやる気がみなぎる">情熱エール</div><div class="special-ability positive-ability" data-detail="No.82 複数の仕事を並列してこなすことができる">マルチタスク</div></div>
+            </div>
+
+        </div>
+
+        <div class="box technical-box hide" style="display: none;">
+            <div class="profile">
+                <div class="row">
+                    <div class="col">
+                        <div class="name row">エンジニア太郎</div>
+                        <div class="belong-to row">株式会社エンジニア</div>
+                        <div class="title row">プログラマー</div>
+                    </div>
+                    <div class="col">
+                        <img class="avatar" src="/hr-book/img/avator-male.png">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="style">
+                        <div class="style-item col"><i class="fas fa-desktop"></i>&nbsp;<span class="dark-blue">Mac&nbsp;<i class="fab fa-apple"></i></span></div>
+                        <div class="style-item col"><i class="fas fa-mobile-alt"></i>&nbsp;<span class="dark-red">Android&nbsp;<i class="fab fa-android"></i></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>プログラム言語</h2>
+            <div class="abilities">
+                <div class="technical-ability blank">&nbsp;</div>
+            </div>
+
+            <h2>データベース</h2>
+            <div class="abilities">
+                <div class="technical-ability blank">&nbsp;</div>
+            </div>
+
+            <h2>ネットワーク</h2>
+            <div class="abilities">
+                <div class="technical-ability blank">&nbsp;</div>
+            </div>
+
+            <h2>OS・ミドルウェア</h2>
+            <div class="abilities">
+                <div class="technical-ability blank">&nbsp;</div>
+            </div>
+
+            <h2>ハードウェア</h2>
+            <div class="abilities">
+                <div class="technical-ability blank">&nbsp;</div>
+            </div>
+
+            <h2>AD EBiS</h2>
+            <div class="abilities">
+                <div class="technical-ability blank">&nbsp;</div>
+            </div>
+
+            <h2>EC-CUBE</h2>
+            <div class="abilities">
+                <div class="technical-ability blank">&nbsp;</div>
+            </div>
+
+        </div>
+
+
+        <div class="box management-box hide" style="display: none;">
+            <div class="profile">
+                <div class="row">
+                    <div class="col">
+                        <div class="name row">エンジニア太郎</div>
+                        <div class="belong-to row">株式会社エンジニア</div>
+                        <div class="title row">プログラマー</div>
+                    </div>
+                    <div class="col">
+                        <img class="avatar" src="/hr-book/img/avator-male.png">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="style">
+                        <div class="style-item col"><i class="fas fa-desktop"></i>&nbsp;<span class="dark-blue">Mac&nbsp;<i class="fab fa-apple"></i></span></div>
+                        <div class="style-item col"><i class="fas fa-mobile-alt"></i>&nbsp;<span class="dark-red">Android&nbsp;<i class="fab fa-android"></i></span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="abilities">Under construction</div>
+        </div>
+
+        <div class="hide">
+            <div class="point-skill">
+                <div class="skill-name"></div>
+                <div class="skill-score"></div>
+                <div class="skill-point"></div>
+            </div>
+
+
+            <div class="numerical-ability" data-detail="eee">
+                <div class="ability-name"></div><div class="ability-value"></div>
+            </div>
+
+
+            <div class="special-ability">&nbsp;</div>
+
+
+        </div>
+
+    </div>
+
+    </div>
+<div class="ajax-modal" style="display: none;">
+    <img class="loader" src="/hr-book/img/ajax-loader.gif">
+</div>
 
 </body>
 </html>

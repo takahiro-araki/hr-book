@@ -21,7 +21,7 @@ public class HumanController {
 	@RequestMapping("/detail")
 	public String showDetail() {
 
-		return "index";
+		return "test";
 
 	}
 
