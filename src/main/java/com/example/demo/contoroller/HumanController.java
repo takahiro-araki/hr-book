@@ -1,7 +1,11 @@
 package com.example.demo.contoroller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.demo.service.HumanService;
 
 /**
  * エンジニアの情報を操作するコントローラ.
@@ -13,15 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/emp-list")
 public class HumanController {
 
+	@Autowired
+	private HumanService humanService;
+
 	/**
 	 * エンジニアの個別のスキル詳細ページを表示するメソッド.
 	 * 
 	 * @return スキル詳細ページ
 	 */
 	@RequestMapping("/detail")
-	public String showDetail() {
-
-		return "test";
+	public String showDetail(Model model) {
+		model.addAttribute("human", humanService.load(1));
+		return "humanDetail";
 
 	}
 

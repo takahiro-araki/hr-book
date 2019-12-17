@@ -1,6 +1,6 @@
 package com.example.demo.domain;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,20 +11,32 @@ import java.util.List;
  */
 public class Human {
 
+	/** 従業員ID */
+	private Integer empId;
 	/** エンジニアの名前 */
 	private String humanName;
 	/** 入社日 */
-	private LocalDate joinDate;
+	private Date joinDate;
+	/** アサイン先 */
+	private String assignCompanyName;
 	/** アイコン画像 */
 	private String icon_img;
 	/** ベーススキル一覧 */
 	private List<BaseSkill> baseSkills;
 	/** サブスキル一覧 */
-	private List<SubSkill> subSukills;
+	private List<SubSkill> subSkills;
 	/** コモンスキル一覧 */
 	private List<CommonSkill> commonSkills;
 	/** 申請状況 */
 	private Integer orderStatus;
+
+	public Integer getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(Integer empId) {
+		this.empId = empId;
+	}
 
 	public String getHumanName() {
 		return humanName;
@@ -34,12 +46,20 @@ public class Human {
 		this.humanName = humanName;
 	}
 
-	public LocalDate getJoinDate() {
+	public Date getJoinDate() {
 		return joinDate;
 	}
 
-	public void setJoinDate(LocalDate joinDate) {
+	public void setJoinDate(Date joinDate) {
 		this.joinDate = joinDate;
+	}
+
+	public String getAssignCompanyName() {
+		return assignCompanyName;
+	}
+
+	public void setAssignCompanyName(String assignCompanyName) {
+		this.assignCompanyName = assignCompanyName;
 	}
 
 	public String getIcon_img() {
@@ -58,12 +78,12 @@ public class Human {
 		this.baseSkills = baseSkills;
 	}
 
-	public List<SubSkill> getSubSukills() {
-		return subSukills;
+	public List<SubSkill> getSubSkills() {
+		return subSkills;
 	}
 
-	public void setSubSukills(List<SubSkill> subSukills) {
-		this.subSukills = subSukills;
+	public void setSubSkills(List<SubSkill> subSkills) {
+		this.subSkills = subSkills;
 	}
 
 	public List<CommonSkill> getCommonSkills() {
@@ -84,9 +104,9 @@ public class Human {
 
 	@Override
 	public String toString() {
-		return "Human [humanName=" + humanName + ", joinDate=" + joinDate + ", icon_img=" + icon_img + ", baseSkills="
-				+ baseSkills + ", subSukills=" + subSukills + ", commonSkills=" + commonSkills + ", orderStatus="
-				+ orderStatus + "]";
+		return "Human [empId=" + empId + ", humanName=" + humanName + ", assignCompanyName=" + assignCompanyName
+				+ ", icon_img=" + icon_img + ", baseSkills=" + baseSkills + ", subSkills=" + subSkills
+				+ ", commonSkills=" + commonSkills + ", orderStatus=" + orderStatus + "]";
 	}
 
 }

@@ -63,6 +63,14 @@ div {
 	color: #B00011;
 }
 
+.dark-green {
+	color: #006400;
+}
+
+.dark-gray {
+	color: #A9A9A9;
+}
+
 .blue-shadow {
 	text-shadow: 2px 2px 2px #0e5aad
 	, 2px -2px 2px #0e5aad
