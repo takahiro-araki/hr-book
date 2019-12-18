@@ -1,20 +1,20 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Regist Form</title>
 
-    <link rel="stylesheet" href="../static/base.css" type="text/css">
-    <link rel="stylesheet" href="../static/regist.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/base.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/regist.css}" type="text/css">
 
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="js/lib/popper.min.js"></script>
-    <script type="text/javascript" src="js/lib/tooltip.min.js"></script>
+    <script type="text/javascript" th:src="@{js/lib/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{js/lib/tooltip.min.js}"></script>
 
 
-    <script type="text/javascript" src="../js/regist.js"></script>
+    <script type="text/javascript" th:src="@{js/regist.js}"></script>
 
 </head>
 <body>
@@ -62,13 +62,14 @@
 
             <div class="col">
                 <h2>Skill Point</h2>
-
-                <div class="contents skill-point">
+        
+                <div class="contents skill-point" th:each="baseSkill:${baseSkillList}">
                     <label>Skill Name</label>
-                    <span class="box12">ここに文章</span>
+                    <span class="box12" th:text="${baseSkill.baseSkillName}">ここに文章</span>
+                    <input type="hidden" th:value="${baseSkill.baseSkillId}">
                     <label>Skill Point</label><input type="number" class="skill-value" name="skill-point-1" value="100" placeholder="100" min="1" max="100">
                 </div>
-                <div class="contents skill-point">
+                <!-- <div class="contents skill-point">
                     <label>Skill Name</label>
                     <span class="box12">ここに文章</span>
                     <label>Skill Point</label><input type="number" class="skill-value" name="skill-point-2" value="100" placeholder="100" min="1" max="100">
@@ -92,7 +93,7 @@
                     <label>Skill Name</label>
                     <span class="box12">ここに文章</span>
                     <label>Skill Point</label><input type="number" class="skill-value" name="skill-point-6" value="100" placeholder="100" min="1" max="100">
-                </div>
+                </div> -->
             </div>
 
 

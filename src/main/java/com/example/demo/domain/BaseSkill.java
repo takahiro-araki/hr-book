@@ -8,10 +8,20 @@ package com.example.demo.domain;
  */
 public class BaseSkill {
 
+	/** ベーススキルId */
+	private Integer baseSkillId;
 	/** ベーススキル名 */
 	private String baseSkillName;
 	/** ベーススキルスコア */
 	private Integer baseSkillScore;
+
+	public Integer getBaseSkillId() {
+		return baseSkillId;
+	}
+
+	public void setBaseSkillId(Integer baseSkillId) {
+		this.baseSkillId = baseSkillId;
+	}
 
 	public String getBaseSkillName() {
 		return baseSkillName;
@@ -31,7 +41,8 @@ public class BaseSkill {
 
 	@Override
 	public String toString() {
-		return "BaseSkill [baseSkillName=" + baseSkillName + ", baseSkillScore=" + baseSkillScore + "]";
+		return "BaseSkill [baseSkillId=" + baseSkillId + ", baseSkillName=" + baseSkillName + ", baseSkillScore="
+				+ baseSkillScore + "]";
 	}
 
 }
