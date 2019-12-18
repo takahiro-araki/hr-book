@@ -14,7 +14,6 @@
     <script type="text/javascript" th:src="@{js/lib/tooltip.min.js}"></script>
 
 
-    <script type="text/javascript" th:src="@{js/regist.js}"></script>
 
 </head>
 <body>
@@ -49,7 +48,7 @@
                 </div>
                 <div class="contents">
                     <label>Mobile</label>
-                    <select id="mobile" name="mobile">
+                    <select>
                         <option value="iPhone">iPhone</option>
                         <option value="Android">Android</option>
                         <option value="Windows">Windows</option>
@@ -69,31 +68,6 @@
                     <input type="hidden" th:value="${baseSkill.baseSkillId}">
                     <label>Skill Point</label><input type="number" class="skill-value" name="skill-point-1" value="100" placeholder="100" min="1" max="100">
                 </div>
-                <!-- <div class="contents skill-point">
-                    <label>Skill Name</label>
-                    <span class="box12">ここに文章</span>
-                    <label>Skill Point</label><input type="number" class="skill-value" name="skill-point-2" value="100" placeholder="100" min="1" max="100">
-                </div>
-                <div class="contents kill-point">
-                    <label>Skill Name</label>
-                    <span class="box12">ここに文章</span>
-                    <label>Skill Point</label><input type="number" class="skill-value" name="skill-point-3" value="100" placeholder="100" min="1" max="100">
-                </div>
-                <div class="contents skill-point">
-                    <label>Skill Name</label>
-                    <span class="box12">ここに文章</span>
-                    <label>Skill Point</label><input type="number" class="skill-value" name="skill-point-4" value="100" placeholder="100" min="1" max="100">
-                </div>
-                <div class="contents skill-point">
-                    <label>Skill Name</label>
-                    <span class="box12">ここに文章</span>
-                    <label>Skill Point</label><input type="number" class="skill-value" name="skill-point-5" value="100" placeholder="100" min="1" max="100">
-                </div>
-                <div class="contents skill-point">
-                    <label>Skill Name</label>
-                    <span class="box12">ここに文章</span>
-                    <label>Skill Point</label><input type="number" class="skill-value" name="skill-point-6" value="100" placeholder="100" min="1" max="100">
-                </div> -->
             </div>
 
 
@@ -111,96 +85,15 @@
 
             <div class="col">
                 <h2 class="numerical-ability-header">Numerical Ability</h2>
-                <div class="numerical-abilities">
+                <div class="numerical-abilities" th:each="commonSkill:${commonSkillList}">
                 <div class="indivisual-numetic-abilities"></div>
-                	対障害&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                	<select id="" name="mobile">
-                        <option value="iPhone">1</option>
-                        <option value="Android">2</option>
-                        <option value="Windows">3</option>
-                        <option value="FireFox">4</option>
-                        <option value="Other">5</option>
-                    </select>
-                     <div class="indivisual-numetic-abilities"></div>
-                	対障害&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                	<select id="" name="mobile">
-                        <option value="iPhone">1</option>
-                        <option value="Android">2</option>
-                        <option value="Windows">3</option>
-                        <option value="FireFox">4</option>
-                        <option value="Other">5</option>
-                    </select>
-                    <div class="indivisual-numetic-abilities"></div>
-                	対障害&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                	<select id="" name="mobile">
-                        <option value="iPhone">1</option>
-                        <option value="Android">2</option>
-                        <option value="Windows">3</option>
-                        <option value="FireFox">4</option>
-                        <option value="Other">5</option>
-                    </select>
-                    <div class="indivisual-numetic-abilities"></div>
-                	対障害&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                	<select id="" name="mobile">
-                        <option value="iPhone">1</option>
-                        <option value="Android">2</option>
-                        <option value="Windows">3</option>
-                        <option value="FireFox">4</option>
-                        <option value="Other">5</option>
-                    </select>
-                    <div class="indivisual-numetic-abilities"></div>
-                	対障害&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                	<select id="" name="mobile">
-                        <option value="iPhone">1</option>
-                        <option value="Android">2</option>
-                        <option value="Windows">3</option>
-                        <option value="FireFox">4</option>
-                        <option value="Other">5</option>
-                    </select>
-                    <div class="indivisual-numetic-abilities"></div>
-                	対障害&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                	<select id="" name="mobile">
-                        <option value="iPhone">1</option>
-                        <option value="Android">2</option>
-                        <option value="Windows">3</option>
-                        <option value="FireFox">4</option>
-                        <option value="Other">5</option>
-                    </select>
-                    <div class="indivisual-numetic-abilities"></div>
-                	対障害&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                	<select id="" name="mobile">
-                        <option value="iPhone">1</option>
-                        <option value="Android">2</option>
-                        <option value="Windows">3</option>
-                        <option value="FireFox">4</option>
-                        <option value="Other">5</option>
-                    </select>
-                    <div class="indivisual-numetic-abilities"></div>
-                	対障害&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                	<select id="" name="mobile">
-                        <option value="iPhone">1</option>
-                        <option value="Android">2</option>
-                        <option value="Windows">3</option>
-                        <option value="FireFox">4</option>
-                        <option value="Other">5</option>
-                    </select>
-                    <div class="indivisual-numetic-abilities"></div>
-                	対障害&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                	<select id="" name="mobile">
-                        <option value="iPhone">1</option>
-                        <option value="Android">2</option>
-                        <option value="Windows">3</option>
-                        <option value="FireFox">4</option>
-                        <option value="Other">5</option>
-                    </select>
-                    <div class="indivisual-numetic-abilities"></div>
-                	対障害&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                	<select id="" name="mobile">
-                        <option value="iPhone">1</option>
-                        <option value="Android">2</option>
-                        <option value="Windows">3</option>
-                        <option value="FireFox">4</option>
-                        <option value="Other">5</option>
+                	<span th:text="${commonSkill.commonSkillName}">対障害</span>_&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                	<select id="" name="commonSkill">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
                 </div>
                 
@@ -209,29 +102,22 @@
             <div class="col">
                 <h2 class="special-ability-header">Special Ability</h2>
                 <div class="special-abilities">
-                <div></div>
+                	<span th:each="subSkill:${subSkillList}">	
+	                	<input type="button" th:value="${subSkill.subSkillName}" class="button2">
+                   	</span>
                 	<div>
-                	<input type="button" value="予知能力" class="button2" type="submit">
-                	<input type="button" value="テックリード" class="button2" type="submit">
-                	<input type="button" value="vim職人" class="button2" type="submit">
-                	<input type="button" value="shell芸人" class="button2" type="submit">
-                	<input type="button" value="超ボジティブ" class="button2" type="submit">
-                	<input type="button" value="遅刻癖" class="button2" type="submit">
-                	<input type="button" value="気分屋" class="button2" type="submit">
+	                	<input type="button" value="テックリード" class="button2">
+	                	<input type="button" value="予知能力" class="button2">
+	                	<input type="button" value="テックリード" class="button2">
+	                	<input type="button" value="予知能力" class="button2">
+	                	<input type="button" value="テックリード" class="button2">
+	                	<input type="button" value="予知能力" class="button2">
+	                	<input type="button" value="テックリード" class="button2">
+               		 </div>
+	                	<input type="button" value="予知能力" class="button2">
+	                	<input type="button" value="テックリード" class="button2">
                 </div>
-                <div>
-                	<input type="button" value="テックリード" class="button2" type="submit">
-                	<input type="button" value="予知能力" class="button2" type="submit">
-                	<input type="button" value="テックリード" class="button2" type="submit">
-                	<input type="button" value="予知能力" class="button2" type="submit">
-                	<input type="button" value="テックリード" class="button2" type="submit">
-                	<input type="button" value="予知能力" class="button2" type="submit">
-                	<input type="button" value="テックリード" class="button2" type="submit">
-                </div>
-                	<input type="button" value="予知能力" class="button2" type="submit">
-                	<input type="button" value="テックリード" class="button2" type="submit">
-                </div>
-                <button id="output" class="btn btn-blue">Output</button>
+                		<button id="output" class="btn btn-blue">Output</button>
             </div>
 
         </div>
