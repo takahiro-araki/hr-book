@@ -250,3 +250,13 @@ input[type=button]{
     padding: 10px 30px;
     width:100px;
 }
+.box12  {
+	border-radius: 5px/5px;
+	color: #919191;
+	border: solid;
+	border-width: thin; 
+	margin : 0;
+	padding: 5px 185px 5px 5px;
+	margin: 0;
+	
+}
