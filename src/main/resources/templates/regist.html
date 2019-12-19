@@ -21,7 +21,7 @@
     <div class="container">
         <div class="form-box">
 
-            <div class="col">
+            <div class="profile">
                 <h2>Profile</h2>
                 <div class="contents">
                     <label>Name</label><input type="text" id="name" name="name" placeholder="開発太郎">
@@ -36,30 +36,31 @@
                     <label>Image</label><input type="text" id="avator" name="avatar" placeholder=".png/.jpeg">
                 </div>
 
-                <h3>Style</h3>
-                <div class="contents">
-                    <label>Desktop</label>
-                    <select id="desktop" name="desktop">
-                        <option value="Windows">Windows</option>
-                        <option value="Mac">Mac</option>
-                        <option value="Linux">Linux</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="contents">
-                    <label>Mobile</label>
-                    <select>
-                        <option value="iPhone">iPhone</option>
-                        <option value="Android">Android</option>
-                        <option value="Windows">Windows</option>
-                        <option value="FireFox">FireFox</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-            </div>
+         	<div class="style">
+	                <h2>Style</h2>
+		            <div class="contents">
+		                    <label>Desktop</label>
+		                    <select id="desktop" name="desktop">
+		                        <option value="Windows">Windows</option>
+		                        <option value="Mac">Mac</option>
+		                        <option value="Linux">Linux</option>
+		                        <option value="Other">Other</option>
+		                    </select>
+		                </div>
+		                <div class="contents">
+		                    <label>Mobile</label>
+		                    <select>
+		                        <option value="iPhone">iPhone</option>
+		                        <option value="Android">Android</option>
+		                        <option value="Windows">Windows</option>
+		                        <option value="FireFox">FireFox</option>
+		                        <option value="Other">Other</option>
+		                    </select>
+		                </div>
+	           	 	</div>
+  				</div>
 
-
-            <div class="col">
+            <div class="base-skill">
                 <h2>Skill Point</h2>
         
                 <div class="contents skill-point" th:each="baseSkill:${baseSkillList}">
@@ -71,7 +72,7 @@
             </div>
 
 
-            <div class="col" style="position: relative;height: 100%;">
+           <div class="inherent-skill" style="position: relative;height: 100%;">
                 <h2>Inherent Ability</h2>
                 <div class="contents">
                     <label>Name</label><input type="text" id="inherent-ability-name" name="inherent-ability-name" value="Ability Name" placeholder="Ability Name">
@@ -80,10 +81,10 @@
                 <div class="contents">
                     <label>Description</label><textarea id="inherent-ability-value" placeholder="Ability Description">Ability Description</textarea>
                 </div>
-            </div>
+            </div> 
 
 
-            <div class="col">
+            <div class="numeric-skill">
                 <h2 class="numerical-ability-header">Numerical Ability</h2>
                 <div class="numerical-abilities" th:each="commonSkill:${commonSkillList}">
                 <div class="indivisual-numetic-abilities"></div>
@@ -99,23 +100,12 @@
                 
             </div>
 
-            <div class="col">
+            <div class="sub-skill">
                 <h2 class="special-ability-header">Special Ability</h2>
                 <div class="special-abilities">
                 	<span th:each="subSkill:${subSkillList}">	
 	                	<input type="button" th:value="${subSkill.subSkillName}" class="button2">
                    	</span>
-                	<div>
-	                	<input type="button" value="テックリード" class="button2">
-	                	<input type="button" value="予知能力" class="button2">
-	                	<input type="button" value="テックリード" class="button2">
-	                	<input type="button" value="予知能力" class="button2">
-	                	<input type="button" value="テックリード" class="button2">
-	                	<input type="button" value="予知能力" class="button2">
-	                	<input type="button" value="テックリード" class="button2">
-               		 </div>
-	                	<input type="button" value="予知能力" class="button2">
-	                	<input type="button" value="テックリード" class="button2">
                 </div>
                 		<button id="output" class="btn btn-blue">Output</button>
             </div>
@@ -146,7 +136,7 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
             </select>
-            <div class="col description"></div>
+            <div class=" description"></div>
         </div>
 
     </div>

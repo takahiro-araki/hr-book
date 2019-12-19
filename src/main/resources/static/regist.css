@@ -265,3 +265,29 @@ select[name=commonSkill]{
 	left:240px;
 	margin:0 0 200px 0;
 }
+.profile{
+	position:absolute;
+	
+}
+.base-skill{
+	position:relative;
+	left:400px;
+}
+.inherent-skill{
+	position:relative;
+	top:50px;
+}
+.style{
+	position:relative;
+	top:-205px;
+	left:1000px;
+}
+.numeric-skill{
+	position:relative;
+	top:30px;
+}
+.sub-skill{
+	position:relative;
+	top:100px;
+	left:150px;
+}
