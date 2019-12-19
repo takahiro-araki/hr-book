@@ -26,10 +26,9 @@ public class HumanController {
 	 * @return スキル詳細ページ
 	 */
 	@RequestMapping("/detail")
-	public String showDetail(Model model) {
-		model.addAttribute("human", humanService.load(1));
+	public String showDetail(Model model,Integer humanId) {
+		model.addAttribute("human", humanService.load(humanId));
 		return "humanDetail";
-
 	}
 
 }

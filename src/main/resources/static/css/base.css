@@ -87,6 +87,7 @@ div {
 
 
 .tooltip {
+	display: none;
 	padding: 0.6rem 0.6rem;
 	margin-bottom: 1rem;
 	background: #FFFFDF;
@@ -97,6 +98,10 @@ div {
 	, -1px 1px 2px rgba(0,0,0,0.2)
 	, 1px -1px 2px rgba(0,0,0,0.2)
 ;
+}
+
+.numerical-ability div:hover .tooltip {
+  display: block;
 }
 
 .tooltip .tooltip-inner {

@@ -387,6 +387,41 @@ a.tab.other {
 
 
 
+.tooltips {
+	display: none;
+	position: absolute;
+	z-index: 10;
+	padding: 0.6rem 0.6rem;
+	margin-bottom: 1rem;
+	background: #FFFFDF;
+	border-radius: 5px;
+	border: #cccccc 1px solid;
+	box-shadow: 1px 1px 2px rgba(0,0,0,0.2)
+	, -1px -1px 2px rgba(0,0,0,0.2)
+	, -1px 1px 2px rgba(0,0,0,0.2)
+	, 1px -1px 2px rgba(0,0,0,0.2)
+}
+
+.tooltips:after {
+  width: 100%;
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0.5em;
+  top: -8px;
+  border-top: 8px solid transparent;
+  border-left: 8px solid #FFFFDF;
+  
+} 
+
+.numerical-abilities div:hover .tooltips {
+  display: block;
+}
+.special-abilities div:hover .tooltips {
+  display: block;
+  color: #000000;
+}
+
 
 
 
@@ -535,12 +570,42 @@ a.tab.other {
 	background: #FFC794;
 }
 
-.personality {
+.sub-skill-0 {
 	/*
 		color: #145c72;
 		border: rgba(23, 162, 184, 1) 2px solid;
 		background: #9cf2ff;
 	*/
+	color: #0fab29;
+	border-color: #14de36;
+	background: #cdfad4;
+
+}
+
+.sub-skill-1 {
+	color: #0e5aad;
+	border-color: #0F71DF;
+	background: #CDE3FC;
+}
+
+.sub-skill-2 {
+	color: #a3174e;
+	border-color: #E92175;
+	background: #FECBE0;
+
+}
+
+.sub-skill-3 {
+	color: #63219c;
+	border-color: #8828CE;
+	background: linear-gradient(to right ,#CDE3FC 45%, #FECBE0 55%, #FECBE0);
+}
+/* .personality {
+	
+		color: #145c72;
+		border: rgba(23, 162, 184, 1) 2px solid;
+		background: #9cf2ff;
+	
 	color: #0fab29;
 	border-color: #14de36;
 	background: #cdfad4;
@@ -564,7 +629,7 @@ a.tab.other {
 	color: #63219c;
 	border-color: #8828CE;
 	background: linear-gradient(to right ,#CDE3FC 45%, #FECBE0 55%, #FECBE0);
-}
+} */
 
 
 
