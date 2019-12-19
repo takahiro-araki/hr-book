@@ -8,12 +8,23 @@ package com.example.demo.domain;
  */
 public class CommonSkill {
 
+	/** コモンスキルId */
+	private Integer commonSkillId;
+
 	/** コモンスキル名 */
 	private String commonSkillName;
 	/** コモンスキルスコア */
 	private Integer commonSkillScore;
 	/** 説明文 */
 	private String description;
+
+	public Integer getCommonSkillId() {
+		return commonSkillId;
+	}
+
+	public void setCommonSkillId(Integer commonSkillId) {
+		this.commonSkillId = commonSkillId;
+	}
 
 	public String getCommonSkillName() {
 		return commonSkillName;
@@ -41,8 +52,8 @@ public class CommonSkill {
 
 	@Override
 	public String toString() {
-		return "CommonSkill [commonSkillName=" + commonSkillName + ", commonSkillScore=" + commonSkillScore
-				+ ", description=" + description + "]";
+		return "CommonSkill [commonSkillId=" + commonSkillId + ", commonSkillName=" + commonSkillName
+				+ ", commonSkillScore=" + commonSkillScore + ", description=" + description + "]";
 	}
 
 }

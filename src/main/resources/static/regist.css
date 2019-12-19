@@ -237,6 +237,7 @@ input:focus {
 	position:relative;
 	top:-1250px;
 	left:60px;
+	margin:0 0 20px 0;
 }
 .sub-skill{
 	position:absolute;
@@ -249,4 +250,18 @@ input[type=button]{
     font-weight: bold;
     padding: 10px 30px;
     width:100px;
+}
+.box12  {
+	border-radius: 5px/5px;
+	color: #919191;
+	border: solid;
+	border-width: thin; 
+	margin : 0;
+	padding: 5px 185px 5px 5px;
+	margin: 0;
+}
+select[name=commonSkill]{
+	position:absolute;
+	left:240px;
+	margin:0 0 200px 0;
 }
