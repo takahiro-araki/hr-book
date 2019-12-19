@@ -8,12 +8,10 @@ package com.example.demo.domain;
  */
 public class BaseSkill {
 
-	/** ベーススキルId */
+	/** ベーススキルID */
 	private Integer baseSkillId;
 	/** ベーススキル名 */
 	private String baseSkillName;
-	/** ベーススキルスコア */
-	private Integer baseSkillScore;
 
 	public Integer getBaseSkillId() {
 		return baseSkillId;
@@ -31,35 +29,9 @@ public class BaseSkill {
 		this.baseSkillName = baseSkillName;
 	}
 
-	public Integer getBaseSkillScore() {
-		return baseSkillScore;
-	}
-
-	public void setBaseSkillScore(Integer baseSkillScore) {
-		this.baseSkillScore = baseSkillScore;
-	}
-
-	public String getRank() {
-		if (baseSkillScore == 100) {
-			return "s";
-		} else if (baseSkillScore >= 80) {
-			return "a";
-		} else if (baseSkillScore >= 60) {
-			return "b";
-		} else if (baseSkillScore >= 40) {
-			return "c";
-		} else if (baseSkillScore >= 20) {
-			return "d";
-		} else if (baseSkillScore >= 0) {
-			return "e";
-		}
-		return null;
-	}
-
 	@Override
 	public String toString() {
-		return "BaseSkill [baseSkillId=" + baseSkillId + ", baseSkillName=" + baseSkillName + ", baseSkillScore="
-				+ baseSkillScore + "]";
+		return "BaseSkill [baseSkillId=" + baseSkillId + ", baseSkillName=" + baseSkillName + "]";
 	}
 
 }

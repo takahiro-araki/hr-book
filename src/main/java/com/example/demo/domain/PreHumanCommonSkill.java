@@ -1,21 +1,21 @@
 package com.example.demo.domain;
 
-import java.time.LocalDate;
-
 /**
  * @author yuma.watanabe
  *
  */
 public class PreHumanCommonSkill {
+
+	/** 仮登録コモンスキルデータID */
 	private Integer humanCommonSkillId;
+	/** 申請データID */
 	private Integer orderId;
+	/** コモンスキルID */
 	private Integer commonSkillId;
+	/** コモンスキルスコア */
 	private Integer commonSkillScore;
-	private Integer actStatus;
-	private String register;
-	private LocalDate registDate;
-	private String renewer;
-	private LocalDate renewDate;
+	/** コモンスキル */
+	private CommonSkill commonSkill;
 
 	public Integer getHumanCommonSkillId() {
 		return humanCommonSkillId;
@@ -49,52 +49,19 @@ public class PreHumanCommonSkill {
 		this.commonSkillScore = commonSkillScore;
 	}
 
-	public Integer getActStatus() {
-		return actStatus;
+	public CommonSkill getCommonSkill() {
+		return commonSkill;
 	}
 
-	public void setActStatus(Integer actStatus) {
-		this.actStatus = actStatus;
-	}
-
-	public String getRegister() {
-		return register;
-	}
-
-	public void setRegister(String register) {
-		this.register = register;
-	}
-
-	public LocalDate getRegistDate() {
-		return registDate;
-	}
-
-	public void setRegistDate(LocalDate registDate) {
-		this.registDate = registDate;
-	}
-
-	public String getRenewer() {
-		return renewer;
-	}
-
-	public void setRenewer(String renewer) {
-		this.renewer = renewer;
-	}
-
-	public LocalDate getRenewDate() {
-		return renewDate;
-	}
-
-	public void setRenewDate(LocalDate renewDate) {
-		this.renewDate = renewDate;
+	public void setCommonSkill(CommonSkill commonSkill) {
+		this.commonSkill = commonSkill;
 	}
 
 	@Override
 	public String toString() {
 		return "PreHumanCommonSkill [humanCommonSkillId=" + humanCommonSkillId + ", orderId=" + orderId
-				+ ", commonSkillId=" + commonSkillId + ", commonSkillScore=" + commonSkillScore + ", actStatus="
-				+ actStatus + ", register=" + register + ", registDate=" + registDate + ", renewer=" + renewer
-				+ ", renewDate=" + renewDate + "]";
+				+ ", commonSkillId=" + commonSkillId + ", commonSkillScore=" + commonSkillScore + ", commonSkill="
+				+ commonSkill + "]";
 	}
 
 }

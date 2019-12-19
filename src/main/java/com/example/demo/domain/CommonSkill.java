@@ -10,11 +10,8 @@ public class CommonSkill {
 
 	/** コモンスキルId */
 	private Integer commonSkillId;
-
 	/** コモンスキル名 */
 	private String commonSkillName;
-	/** コモンスキルスコア */
-	private Integer commonSkillScore;
 	/** 説明文 */
 	private String description;
 
@@ -34,14 +31,6 @@ public class CommonSkill {
 		this.commonSkillName = commonSkillName;
 	}
 
-	public Integer getCommonSkillScore() {
-		return commonSkillScore;
-	}
-
-	public void setCommonSkillScore(Integer commonSkillScore) {
-		this.commonSkillScore = commonSkillScore;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -52,8 +41,8 @@ public class CommonSkill {
 
 	@Override
 	public String toString() {
-		return "CommonSkill [commonSkillId=" + commonSkillId + ", commonSkillName=" + commonSkillName
-				+ ", commonSkillScore=" + commonSkillScore + ", description=" + description + "]";
+		return "CommonSkill [commonSkillId=" + commonSkillId + ", commonSkillName=" + commonSkillName + ", description="
+				+ description + "]";
 	}
 
 }

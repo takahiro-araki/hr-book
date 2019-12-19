@@ -66,7 +66,7 @@
 				<div class="point-skills" th:each="baseSkill:${human.baseSkills}"
 					th:object="${baseSkill}">
 					<div class="point-skill">
-						<div class="skill-name" th:text="*{baseSkillName}">プログラム</div>
+						<div class="skill-name" th:text="*{baseSkill.baseSkillName}">プログラム</div>
 						<div th:class="'skill-score score-' + *{rank}" th:text="*{#strings.toUpperCase(rank)}">R</div>
 						<div class="skill-point" th:text="*{baseSkillScore}">100</div>
 					</div>
@@ -77,16 +77,16 @@
 						<div th:each="commonSkill:${human.commonSkills}"
 							th:class="'numerical-ability level-'+*{commonSkillScore}"
 							th:object="${commonSkill}">
-							<div class="ability-name" th:text="*{commonSkillName}">対障害</div>
+							<div class="ability-name" th:text="*{commonSkill.commonSkillName}">対障害</div>
 							<div class="ability-value" th:text="*{commonSkillScore}">5</div>
-							<div class="tooltips" th:text="*{description}"></div>
+							<div class="tooltips" th:text="*{commonSkill.description}"></div>
 						</div>
 					</div>
 					<div class="special-abilities">
-						<div th:class="'special-ability sub-skill-' + *{subSkillScore}"
+						<div th:class="'special-ability sub-skill-' + *{subSkill.subSkillStatusType}"
 							th:each="subSkill:${human.subSkills}" th:object="${subSkill}">
-							<div class="ability-name" th:text="*{subSkillName}">test</div>
-							<div class="tooltips" th:text="*{description}"></div>
+							<div class="ability-name" th:text="*{subSkill.subSkillName}">test</div>
+							<div class="tooltips" th:text="*{subSkill.description}"></div>
 						</div>
 					</div>
 				</div>

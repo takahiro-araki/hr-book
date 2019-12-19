@@ -1,20 +1,21 @@
 package com.example.demo.domain;
 
-import java.time.LocalDate;
-
 /**
  * @author yuma.watanabe
  * 
  */
 public class PreHumanBaseSkill {
+
+	/** 仮登録ベーススキルデータID */
 	private Integer preHumanBaseSkillId;
+	/** 申請データID */
 	private Integer orderId;
+	/** ベーススキルID */
 	private Integer baseSkillId;
-	private Integer actStatus;
-	private String register;
-	private LocalDate registDate;
-	private String renewer;
-	private LocalDate renewDate;
+	/** ベーススキルスコア */
+	private Integer baseSkillScore;
+	/** ベーススキル */
+	private BaseSkill baseSkill;
 
 	public Integer getPreHumanBaseSkillId() {
 		return preHumanBaseSkillId;
@@ -40,51 +41,44 @@ public class PreHumanBaseSkill {
 		this.baseSkillId = baseSkillId;
 	}
 
-	public Integer getActStatus() {
-		return actStatus;
+	public Integer getBaseSkillScore() {
+		return baseSkillScore;
 	}
 
-	public void setActStatus(Integer actStatus) {
-		this.actStatus = actStatus;
+	public void setBaseSkillScore(Integer baseSkillScore) {
+		this.baseSkillScore = baseSkillScore;
 	}
 
-	public String getRegister() {
-		return register;
+	public BaseSkill getBaseSkill() {
+		return baseSkill;
 	}
 
-	public void setRegister(String register) {
-		this.register = register;
+	public void setBaseSkill(BaseSkill baseSkill) {
+		this.baseSkill = baseSkill;
 	}
-
-	public LocalDate getRegistDate() {
-		return registDate;
-	}
-
-	public void setRegistDate(LocalDate registDate) {
-		this.registDate = registDate;
-	}
-
-	public String getRenewer() {
-		return renewer;
-	}
-
-	public void setRenewer(String renewer) {
-		this.renewer = renewer;
-	}
-
-	public LocalDate getRenewDate() {
-		return renewDate;
-	}
-
-	public void setRenewDate(LocalDate renewDate) {
-		this.renewDate = renewDate;
+	
+	public String getRank() {
+		if (baseSkillScore == 100) {
+			return "s";
+		} else if (baseSkillScore >= 80) {
+			return "a";
+		} else if (baseSkillScore >= 60) {
+			return "b";
+		} else if (baseSkillScore >= 40) {
+			return "c";
+		} else if (baseSkillScore >= 20) {
+			return "d";
+		} else if (baseSkillScore >= 0) {
+			return "e";
+		}
+		return null;
 	}
 
 	@Override
 	public String toString() {
 		return "PreHumanBaseSkill [preHumanBaseSkillId=" + preHumanBaseSkillId + ", orderId=" + orderId
-				+ ", baseSkillId=" + baseSkillId + ", actStatus=" + actStatus + ", register=" + register
-				+ ", registDate=" + registDate + ", renewer=" + renewer + ", renewDate=" + renewDate + "]";
+				+ ", baseSkillId=" + baseSkillId + ", baseSkillScore=" + baseSkillScore + ", baseSkill=" + baseSkill
+				+ "]";
 	}
 
 }

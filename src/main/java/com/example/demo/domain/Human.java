@@ -22,11 +22,11 @@ public class Human {
 	/** アイコン画像 */
 	private String icon_img;
 	/** ベーススキル一覧 */
-	private List<BaseSkill> baseSkills;
+	private List<PreHumanBaseSkill> baseSkills;
 	/** サブスキル一覧 */
-	private List<SubSkill> subSkills;
+	private List<PreHumanSubSkill> subSkills;
 	/** コモンスキル一覧 */
-	private List<CommonSkill> commonSkills;
+	private List<PreHumanCommonSkill> commonSkills;
 	/** 申請状況 */
 	private Integer orderStatus;
 
@@ -70,27 +70,27 @@ public class Human {
 		this.icon_img = icon_img;
 	}
 
-	public List<BaseSkill> getBaseSkills() {
+	public List<PreHumanBaseSkill> getBaseSkills() {
 		return baseSkills;
 	}
 
-	public void setBaseSkills(List<BaseSkill> baseSkills) {
+	public void setBaseSkills(List<PreHumanBaseSkill> baseSkills) {
 		this.baseSkills = baseSkills;
 	}
 
-	public List<SubSkill> getSubSkills() {
+	public List<PreHumanSubSkill> getSubSkills() {
 		return subSkills;
 	}
 
-	public void setSubSkills(List<SubSkill> subSkills) {
+	public void setSubSkills(List<PreHumanSubSkill> subSkills) {
 		this.subSkills = subSkills;
 	}
 
-	public List<CommonSkill> getCommonSkills() {
+	public List<PreHumanCommonSkill> getCommonSkills() {
 		return commonSkills;
 	}
 
-	public void setCommonSkills(List<CommonSkill> commonSkills) {
+	public void setCommonSkills(List<PreHumanCommonSkill> commonSkills) {
 		this.commonSkills = commonSkills;
 	}
 
@@ -104,9 +104,9 @@ public class Human {
 
 	@Override
 	public String toString() {
-		return "Human [empId=" + empId + ", humanName=" + humanName + ", assignCompanyName=" + assignCompanyName
-				+ ", icon_img=" + icon_img + ", baseSkills=" + baseSkills + ", subSkills=" + subSkills
-				+ ", commonSkills=" + commonSkills + ", orderStatus=" + orderStatus + "]";
+		return "Human [empId=" + empId + ", humanName=" + humanName + ", joinDate=" + joinDate + ", assignCompanyName="
+				+ assignCompanyName + ", icon_img=" + icon_img + ", baseSkills=" + baseSkills + ", subSkills="
+				+ subSkills + ", commonSkills=" + commonSkills + ", orderStatus=" + orderStatus + "]";
 	}
 
 }

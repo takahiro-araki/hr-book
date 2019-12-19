@@ -28,6 +28,7 @@ public class HumanController {
 	@RequestMapping("/detail")
 	public String showDetail(Model model,Integer humanId) {
 		model.addAttribute("human", humanService.load(humanId));
+		System.out.println(humanService.load(humanId).toString());
 		return "humanDetail";
 	}
 

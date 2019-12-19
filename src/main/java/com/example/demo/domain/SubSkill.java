@@ -13,7 +13,7 @@ public class SubSkill {
 	/** サブスキル名 */
 	private String subSkillName;
 	/** サブスキルスコア */
-	private Integer subSkillScore;
+	private Integer subSkillStatusType;
 	/** 説明文 */
 	private String description;
 
@@ -33,12 +33,12 @@ public class SubSkill {
 		this.subSkillName = subSkillName;
 	}
 
-	public Integer getSubSkillScore() {
-		return subSkillScore;
+	public Integer getSubSkillStatusType() {
+		return subSkillStatusType;
 	}
 
-	public void setSubSkillScore(Integer subSkillScore) {
-		this.subSkillScore = subSkillScore;
+	public void setSubSkillStatusType(Integer subSkillStatusType) {
+		this.subSkillStatusType = subSkillStatusType;
 	}
 
 	public String getDescription() {
@@ -51,8 +51,8 @@ public class SubSkill {
 
 	@Override
 	public String toString() {
-		return "SubSkill [subSkillId=" + subSkillId + ", subSkillName=" + subSkillName + ", subSkillScore="
-				+ subSkillScore + ", description=" + description + "]";
+		return "SubSkill [subSkillId=" + subSkillId + ", subSkillName=" + subSkillName + ", subSkillStatusType="
+				+ subSkillStatusType + ", description=" + description + "]";
 	}
 
 }
