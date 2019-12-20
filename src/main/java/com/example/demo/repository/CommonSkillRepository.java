@@ -23,11 +23,12 @@ public class CommonSkillRepository {
 		CommonSkill commonSkill = new CommonSkill();
 		commonSkill.setCommonSkillId(rs.getInt("common_skill_id"));
 		commonSkill.setCommonSkillName(rs.getString("common_skill_name"));
+		commonSkill.setDescription(rs.getString("description"));
 		return commonSkill;
 	};
 	
 	public List<CommonSkill> findAll(){
-		String findAllSql = "SELECT common_skill_id,common_skill_name FROM common_skills";
+		String findAllSql = "SELECT common_skill_id,common_skill_name,description FROM common_skills";
 		List<CommonSkill> commonSkillList = template.query(findAllSql,COMMON_SKILL_ROW_MAPPER);
 		return commonSkillList;
 	}
