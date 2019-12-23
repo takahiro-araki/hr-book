@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * SpringSecurityの設定ファイル.
@@ -40,22 +41,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //	@Override
 //	protected void configure(HttpSecurity http) throws Exception {
 //		// 認可に関する設定
-////		http.authorizeRequests()
-////				.antMatchers("/login")
-////				.permitAll().antMatchers("/emp-list/showDetail")
-////				.hasRole("USER").antMatchers("/admin/**").hasRole("ADMIN").anyRequest().authenticated();
+//		http.authorizeRequests()
+//			.antMatchers("/login")
+//			.antMatchers("/top")
+//			.permitAll()
+//			.antMatchers("/emp-list/showDetail")
+//			.hasRole("USER")
+//			.antMatchers("/admin/**")
+//			.hasRole("ADMIN")
+//			.anyRequest().authenticated();
 //
 //		// ログインに関する設定
-////		http.formLogin().loginPage("/user/toLogin").loginProcessingUrl("/login").failureUrl("/user/toLogin?error=true")
-////				.defaultSuccessUrl("/top", true).usernameParameter("email").passwordParameter("password");
+//		http.formLogin()
+//			.loginPage("/user/toLogin")
+//			.loginProcessingUrl("/login")
+//			.failureUrl("/user/toLogin?error=true")
+//			.defaultSuccessUrl("/top", true)
+//			.usernameParameter("email")
+//			.passwordParameter("password");
 //
 //		// ログアウトに関する設定
-////		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout**")).logoutSuccessUrl("/top")// ログアウト後に遷移させるパス(ここでは商品一覧画面を設定)
-////				.deleteCookies("JSESSIONID").invalidateHttpSession(true);
+//		http.logout()
+//			.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
+//			.logoutSuccessUrl("/top")// ログアウト後に遷移させるパス(ここでは商品一覧画面を設定)
+//			.deleteCookies("JSESSIONID")
+//			.invalidateHttpSession(true);
 //	}
 
 	/**
 	 * Basic認証を無効にする. 全サイトログイン認証なしで入れるように一時的に修正
+	 * 
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

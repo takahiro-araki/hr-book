@@ -56,7 +56,7 @@ public class PreHumanBaseSkill {
 	public void setBaseSkill(BaseSkill baseSkill) {
 		this.baseSkill = baseSkill;
 	}
-	
+
 	public String getRank() {
 		if (baseSkillScore == 100) {
 			return "s";
