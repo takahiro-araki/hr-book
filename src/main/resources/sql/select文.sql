@@ -28,7 +28,7 @@ FROM (
       description,
       order_status,
       order_id,
-      rank() over(
+      dense_rank() over(
         partition by human_id
         ORDER BY
           order_id DESC
@@ -99,7 +99,7 @@ FROM (
       ) AS j
   ) AS j2
 WHERE
-  order_ver = 1
+  order_ver =:orderId
   AND human_id =:humanId
 ORDER BY
   human_id,
