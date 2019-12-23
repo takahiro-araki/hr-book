@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link rel="stylesheet" th:href="@{/css/lib/solid.min.css}">
+<link rel="stylesheet" th:href="@{/css/lib/brands.min.css}">
+<link rel="stylesheet" th:href="@{/css/lib/fontawesome.min.css}">
+
+<link rel="stylesheet" th:href="@{/css/base.css}">
+<link rel="stylesheet" th:href="@{/css/ability.css}">
+</head>
+<body>
+	<div class="container">
+	<div id="userField">
+	<div>あなたのプロフィール</div>
+		<div class="main-contents" th:if="${user!=null}">
+			<div class="box ability-box" style="">
+				<div class="profile">
+					<div class="col">
+						<div class="name row" th:text="${user.humanName}">ユーザ名</div>
+						<div class="belong-to row"
+							th:text="'アサイン先 : '+${user.assignCompanyName}">アサイン先</div>
+						<div class="title row" th:text="'入社日 : '+${user.joinDate}">入社日</div>
+					</div>
+					<div class="col">
+						<img class="avatar" src="/hr-book/img/avator-male.png">
+					</div>
+					<div class="row">
+						<div class="style">
+							<div class="style-item col">
+								&nbsp;<span class="style-desktop dark-blue">認証状況</span>
+							</div>
+							<div class="style-item col" th:if="${user.orderStatus == 0}">
+								&nbsp;<span class="style-mobile dark-gray" th:text="未承認">承認ステータス</span>
+							</div>
+							<div class="style-item col" th:if="${user.orderStatus == 1}">
+								&nbsp;<span class="style-mobile dark-gray" th:text="申請中">承認ステータス</span>
+							</div>
+							<div class="style-item col" th:if="${user.orderStatus == 2}">
+								&nbsp;<span class="style-mobile dark-green" th:text="認証済">承認ステータス</span>
+							</div>
+							<div class="style-item col" th:if="${user.orderStatus == 3}">
+								&nbsp;<span class="style-mobile dark-red" th:text="差し戻し">承認ステータス</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="point-skills" th:each="baseSkill:${user.baseSkills}"
+					th:object="${baseSkill}">
+					<div class="point-skill">
+						<div th:class="skill-name" th:text="*{baseSkill.baseSkillName}">ベーススキル名</div>
+						<div th:class="'skill-score score-' + *{rank}"
+							th:text="*{#strings.toUpperCase(rank)}">R</div>
+						<div th:class="skill-point" th:text="*{baseSkillScore}">100</div>
+					</div>
+				</div>
+				<a th:href="@{/emp-list/detail(humanId=${user.humanId})}"><button>個別詳細へ進む</button></a>
+			</div>
+		</div>
+		<br>
+		-----------------------------------------------------------------------------------------------------
+		<br>
+		<form th:action="@{/list(page=${pageNumber},name=${name},order=${order})}"
+			th:object="${showHumanListForm}">
+			<input type="text" name="name" id="nameSearch">
+			<button type="submit" id="nameSearchButton">エンジニア検索</button>
+		</form>
+		<form th:action="@{/list(page=${pageNumber},name=${name},order=${order})}"
+			th:object="${showHumanListForm}">
+			<select id="orderSelect" class="forUser" name="order">
+				<option value="" selected>----</option>
+				<option value="orderStatus">申請状況別</option>
+				<option value="joinDate">入社日順</option>
+			</select>
+			<button type="submit">並び替えをする</button>
+		</form>
+		-----------------------------------------------------------------------------------------------------
+		<br>
+		</div>
+		<div>エンジニアのプロフィール</div>
+		<div class="main-contents">
+			<div th:each="human:${humanPage}">
+				<div class="box ability-box" style="">
+					<div class="profile">
+						<div class="col">
+							<div class="name row" th:text="${human.humanName}">ユーザ名</div>
+							<div class="belong-to row"
+								th:text="'アサイン先 : '+${human.assignCompanyName}">アサイン先</div>
+							<div class="title row" th:text="'入社日 : '+${human.joinDate}">入社日</div>
+						</div>
+						<div class="col">
+							<img class="avatar" src="/hr-book/img/avator-male.png">
+						</div>
+						<div class="row">
+							<div class="style">
+								<div class="style-item col">
+									&nbsp;<span class="style-desktop dark-blue">認証状況</span>
+								</div>
+								<div class="style-item col" th:if="${human.orderStatus == 0}">
+									&nbsp;<span class="style-mobile dark-gray" th:text="未承認">承認ステータス</span>
+								</div>
+								<div class="style-item col" th:if="${human.orderStatus == 1}">
+									&nbsp;<span class="style-mobile dark-gray" th:text="申請中">承認ステータス</span>
+								</div>
+								<div class="style-item col" th:if="${human.orderStatus == 2}">
+									&nbsp;<span class="style-mobile dark-green" th:text="認証済">承認ステータス</span>
+								</div>
+								<div class="style-item col" th:if="${human.orderStatus == 3}">
+									&nbsp;<span class="style-mobile dark-red" th:text="差し戻し">承認ステータス</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div th:class="point-skills" th:each="baseSkill:${human.baseSkills}"
+						th:object="${baseSkill}">
+						<div th:class="point-skill">
+							<div class="skill-name" th:text="*{baseSkill.baseSkillName}">スキル名</div>
+							<div th:class="'skill-score score-' + *{rank}"
+								th:text="*{#strings.toUpperCase(rank)}">R</div>
+							<div class="skill-point" th:text="*{baseSkillScore}">100</div>
+						</div>
+					</div>
+					<a th:href="@{/emp-list/detail(humanId=${human.humanId})}"><button>個別詳細へ進む</button></a> 
+				</div>
+			</div>
+			<span class="pagenation" th:if="${humanPage.totalPages>0}"
+				th:each="pageNumber:${pageNumbers}"> <a
+				th:href="@{/list(page=${pageNumber},name=${name},order=${order})}" th:text="${pageNumber}"></a>
+			</span>
+		</div>
+	</div>
+</body>
+</html>

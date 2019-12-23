@@ -15,7 +15,7 @@ import com.example.demo.repository.HumanRepository;
  */
 @Transactional
 @Service
-public class HumanService {
+public class ShowHumanService {
 
 	@Autowired
 	private HumanRepository humanRepository;

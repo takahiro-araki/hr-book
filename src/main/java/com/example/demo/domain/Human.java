@@ -15,6 +15,8 @@ public class Human {
 	private Integer userId;
 	/** 従業員ID */
 	private Integer empId;
+	/**ヒューマンID */
+	private Integer humanId;
 	/** エンジニアの名前 */
 	private String humanName;
 	/** 入社日 */
@@ -32,13 +34,6 @@ public class Human {
 	/** 申請状況 */
 	private Integer orderStatus;
 
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
 
 	public Integer getEmpId() {
 		return empId;
@@ -47,6 +42,7 @@ public class Human {
 	public void setEmpId(Integer empId) {
 		this.empId = empId;
 	}
+
 
 	public String getHumanName() {
 		return humanName;
@@ -111,12 +107,41 @@ public class Human {
 	public void setOrderStatus(Integer orderStatus) {
 		this.orderStatus = orderStatus;
 	}
+	
+	
+	public Integer getHumanId() {
+		return humanId;
+	}
+
+	public void setHumanId(Integer humanId) {
+		this.humanId = humanId;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public Integer getTotalScore() {
+		Integer totalScore=0;
+		for(PreHumanBaseSkill baseSkill:baseSkills) {
+			totalScore+=baseSkill.getBaseSkillScore();
+		}
+		return totalScore;
+	}
 
 	@Override
 	public String toString() {
-		return "Human [empId=" + empId + ", humanName=" + humanName + ", joinDate=" + joinDate + ", assignCompanyName="
-				+ assignCompanyName + ", icon_img=" + icon_img + ", baseSkills=" + baseSkills + ", subSkills="
-				+ subSkills + ", commonSkills=" + commonSkills + ", orderStatus=" + orderStatus + "]";
+		return "Human [userId=" + userId + ", empId=" + empId + ", humanId=" + humanId + ", humanName=" + humanName
+				+ ", joinDate=" + joinDate + ", assignCompanyName=" + assignCompanyName + ", icon_img=" + icon_img
+				+ ", baseSkills=" + baseSkills + ", subSkills=" + subSkills + ", commonSkills=" + commonSkills
+				+ ", orderStatus=" + orderStatus + "]";
 	}
+
+
+	
 
 }
