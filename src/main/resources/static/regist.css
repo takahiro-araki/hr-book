@@ -271,14 +271,7 @@ input:focus {
     color: #424242;
 	
 }
-.box12  {
-	border-radius: 5px/5px;
-	color: #919191;
-	border: solid;
-	border-width: thin; 
-	padding: 5px 100px 5px 5px;
-	margin: 0 20px 0 0;
-}
+
 select[name=commonSkillScores]{
 	position:absolute;
 	left:180px;
@@ -286,24 +279,27 @@ select[name=commonSkillScores]{
 }
 .profile{
 	position:absolute;
+	left:50px;
 	
 }
 .base-skill{
 	position:relative;
-	left:400px;
+	left:500px;
+	top:15px;
+	
 }
 .inherent-skill{
 	position:relative;
-	top:50px;
+	top:80px;
 }
 .style{
 	position:relative;
-	top:-205px;
+	top:-250px;
 	left:1000px;
 }
 .numeric-skill{
-	position:absolute;
-	top:1810px;
+	position:relative;
+	top:1380px;
 }
 .sub-skill{
 	position:absolute;
@@ -316,6 +312,37 @@ select[name=commonSkillScores]{
 	top:-10px;
 	padding:0 7px 0 0;
 }
-.off{
-	
+#company{
+	padding-right:55px;
+	position:relative;
+	left:-51px;
 }
+#assignCompanyName{
+	position:relative;
+	left:50px;
+}
+
+
+.box{
+	position:relative;
+
+	display: inline-block;
+    width: 14%;
+    padding:5px 0 0 3px;
+    border:solid;
+    color:#919191;
+    border-width:thin;
+    border-radius: 5px/5px;
+    /* éqóvëfÇÃïùÇÃãœìôâª */
+    table-layout: fixed;
+}
+input[type=number]{
+	position:relative;
+
+}
+#skill-point{
+	position:relative;
+
+}
+
+

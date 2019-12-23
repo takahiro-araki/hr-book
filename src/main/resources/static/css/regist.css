@@ -216,3 +216,10 @@ input:focus {
 	display: block;
 	width: 100%;
 }
+.box12 textarea{
+	padding: 0.6rem;
+	width: 20rem;
+	height: 8rem;
+	border: 1px solid #999999;
+	border-radius: 4px;
+}
