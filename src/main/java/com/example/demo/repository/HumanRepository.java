@@ -1,9 +1,11 @@
 package com.example.demo.repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -29,6 +31,9 @@ public class HumanRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	public static final ResultSetExtractor<List<Human>> EXTRACTOR = (rs) -> {
 		List<Human> humanList = new ArrayList<>();
@@ -138,6 +143,19 @@ public class HumanRepository {
 			return null;
 		}
 		return humanList.get(0);
+	}
+
+	/**
+	 * 
+	 * エンジニア１人を登録するメソッド.
+	 * 
+	 * @param human
+	 */
+	public Integer insertHuman(Human human,Timestamp date) {
+		String insertSql = "INSERT INTO HUMANS(user_id,emp_id,human_name,join_date,icon_img,act_status,version_num,register,regist_date)"
+			+ "VALUES(?,?,?,?,?,?,?,?,?) RETURNING human_id";
+		Integer a = jdbcTemplate.queryForObject(insertSql,Integer.class,human.getUserId(),human.getEmpId(),human.getHumanName(),human.getJoinDate(),human.getIcon_img(),1,1,human.getHumanName(),date);
+		return a;
 	}
 
 }
