@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.demo.service.HumanService;
+import com.example.demo.service.ShowHumanService;
 
 /**
  * エンジニアの情報を操作するコントローラ.
@@ -15,10 +15,10 @@ import com.example.demo.service.HumanService;
  */
 @Controller
 @RequestMapping("/emp-list")
-public class HumanController {
+public class ShowHumanController {
 
 	@Autowired
-	private HumanService humanService;
+	private ShowHumanService humanService;
 
 	/**
 	 * エンジニアの個別のスキル詳細ページを表示するメソッド.
@@ -26,7 +26,7 @@ public class HumanController {
 	 * @return スキル詳細ページ
 	 */
 	@RequestMapping("/detail")
-	public String showDetail(Model model,Integer humanId) {
+	public String showDetail(Model model, Integer humanId) {
 		model.addAttribute("human", humanService.load(humanId));
 		System.out.println(humanService.load(humanId).toString());
 		return "humanDetail";

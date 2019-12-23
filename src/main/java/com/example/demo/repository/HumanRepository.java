@@ -17,6 +17,7 @@ import com.example.demo.domain.PreHumanBaseSkill;
 import com.example.demo.domain.PreHumanCommonSkill;
 import com.example.demo.domain.PreHumanSubSkill;
 import com.example.demo.domain.SubSkill;
+import com.example.demo.form.ShowHumanListForm;
 
 /**
  * 登録したエンジニアのDBを操作するリポジトリ.
@@ -88,6 +89,36 @@ public class HumanRepository {
 		return humanList;
 	};
 
+	public static final ResultSetExtractor<List<Human>> EXTRACTOR_ONLY_BASESKILL = (rs) -> {
+		List<Human> humanList = new ArrayList<>();
+		List<PreHumanBaseSkill> baseSkills = null;
+		int beforeHumanId = -1;
+		while (rs.next()) {
+			int nowHumanId = rs.getInt("human_id");
+			if (beforeHumanId != nowHumanId) {
+				Human human = new Human();
+				human.setHumanId(rs.getInt("human_id"));
+				human.setHumanName(rs.getString("human_name"));
+				human.setUserId(rs.getInt("user_id"));
+				human.setJoinDate(rs.getDate("join_date"));
+				human.setAssignCompanyName(rs.getString("assign_company_name"));
+				human.setIcon_img(rs.getString("icon_img"));
+				human.setOrderStatus(rs.getInt("order_status"));
+				baseSkills = new ArrayList<>();
+				human.setBaseSkills(baseSkills);
+				humanList.add(human);
+				beforeHumanId = nowHumanId;
+			}
+			PreHumanBaseSkill preHumanBaseSkill = new PreHumanBaseSkill();
+			preHumanBaseSkill.setBaseSkillScore(rs.getInt("base_skill_score"));
+			BaseSkill baseSkill = new BaseSkill();
+			baseSkill.setBaseSkillName(rs.getString("base_skill_name"));
+			preHumanBaseSkill.setBaseSkill(baseSkill);
+			baseSkills.add(preHumanBaseSkill);
+		}
+		return humanList;
+	};
+
 	/**
 	 * エンジニア一人をloadするメソッド.
 	 * 
@@ -138,6 +169,59 @@ public class HumanRepository {
 			return null;
 		}
 		return humanList.get(0);
+	}
+
+	/**
+	 * エンジニアを一覧表示するメソッド.
+	 * 
+	 * userRoleが１～２の場合、全エンジニアを表示、userRoleが３の場合、ユーザーと全員がアクセス可能なエンジニアを表示
+	 * 
+	 * @param ユーザーロール
+	 * @return エンジニア情報リスト
+	 */
+	public List<Human> getList(ShowHumanListForm form, Integer userRole, Integer userId) {
+		List<Human> humanList = null;
+		StringBuilder sb = new StringBuilder();
+		sb.append(
+				"select HUMANS.user_id,HUMANS.human_id,HUMANS.human_name, HUMANS.join_date,HUMANS.icon_img,HUMANS.assign_company_name, ");
+		sb.append("ORDERS.order_status,PRE_HUMAN_BASE_SKILLS.base_skill_score,BASE_SKILLS.base_skill_name ");
+		sb.append("from HUMANS ");
+		sb.append("LEFT OUTER JOIN ORDERS USING(human_id) ");
+		sb.append("LEFT OUTER JOIN PRE_HUMAN_BASE_SKILLS USING(order_id) ");
+		sb.append("LEFT OUTER JOIN BASE_SKILLS USING(base_skill_id) ");
+		if (userRole == 1 || userRole == 2) {
+			if (form.search()) {
+				if (form.getName() != "") {
+					sb.append(" WHERE HUMANS.human_name LIKE :name ");
+				}
+				if (form.getOrder() != "") {
+					if(form.getOrder().equals("joinDate") ) {
+						sb.append("ORDER BY  " + "	HUMANS.join_date " + "desc, "+"HUMANS.human_id  ");	
+					}
+					else {
+						sb.append("ORDER BY  " + "ORDERS.order_status, " + "HUMANS.human_id ");	
+					}
+				}
+				SqlParameterSource param = new MapSqlParameterSource().addValue("name", ("%" + form.getName() + "%"));
+				humanList = template.query(sb.toString(), param, EXTRACTOR_ONLY_BASESKILL);
+			} else {
+				humanList = template.query(sb.toString(), EXTRACTOR_ONLY_BASESKILL);
+			}
+		} else {
+				if(form.getName()!="") {
+					sb.append("WHERE ( HUMANS.user_id=:userId ) OR ");
+					sb.append(" ( (HUMANS.emp_id= 999 OR HUMANS.emp_id=99) ");
+					sb.append(" AND HUMANS.human_name LIKE :name ) ");
+					SqlParameterSource param = new MapSqlParameterSource().addValue("userId",userId).addValue("name", ("%" + form.getName() + "%"));
+						humanList = template.query(sb.toString(), param, EXTRACTOR_ONLY_BASESKILL);
+				}else {
+					sb.append("WHERE  HUMANS.user_id=:userId  OR ");
+					sb.append(" (HUMANS.emp_id= 999 OR HUMANS.emp_id=99) ");
+						SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
+						humanList = template.query(sb.toString(), param, EXTRACTOR_ONLY_BASESKILL);
+				}
+			}
+		return humanList;
 	}
 
 }
