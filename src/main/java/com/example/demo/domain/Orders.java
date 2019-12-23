@@ -1,6 +1,7 @@
 package com.example.demo.domain;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * @author yuma.watanebe
@@ -13,7 +14,7 @@ public class Orders {
 	private Integer actStatus;
 	private Integer versionNum;
 	private String register;
-	private LocalDate registDate;
+	private Date registDate;
 	private String renewer;
 	private LocalDate renewDate;
 
@@ -65,11 +66,11 @@ public class Orders {
 		this.register = register;
 	}
 
-	public LocalDate getRegistDate() {
+	public Date getRegistDate() {
 		return registDate;
 	}
 
-	public void setRegistDate(LocalDate registDate) {
+	public void setRegistDate(Date registDate) {
 		this.registDate = registDate;
 	}
 

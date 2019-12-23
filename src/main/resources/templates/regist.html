@@ -21,7 +21,7 @@
     <h1>Regist Form</h1>
     <div class="container">
         <div class="form-box">
-          <form method="post" id="submit" th:action="@{insertSkills}" enctype="multipart/form-data"> 
+          <form method="post" id="submit" th:action="@{insertSkills}" enctype="multipart/form-data" th:object="${inputSkillForm}"> 
           
             <div class="profile">
                 <h2>Profile</h2>
@@ -35,8 +35,9 @@
                     <label>Join Date</label><input type="text" id="title" name="joinDate" placeholder="2019-01-01">
                 </div>
                 <div class="contents">
-                    <label>Image</label><input name="iconImage" type="file" accept=".jpg,.png,image/jpeg,image/png" placeholder=".png/.jpeg"/>
+                    <label>Image</label><input th:field="*{iconImage}" type="file" accept=".jpg,.png,image/jpeg,image/png" placeholder=".png/.jpeg"/>
                 </div>
+                <div style=color:red th:errors="*{iconImage}"></div>
 
          	<div class="style">
 	                <h2>Style</h2>

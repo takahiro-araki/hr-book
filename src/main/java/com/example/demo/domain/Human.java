@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class Human {
 
+	/** ユーザID */
+	private Integer userId;
 	/** 従業員ID */
 	private Integer empId;
 	/** エンジニアの名前 */
@@ -29,6 +31,14 @@ public class Human {
 	private List<PreHumanCommonSkill> commonSkills;
 	/** 申請状況 */
 	private Integer orderStatus;
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
 	public Integer getEmpId() {
 		return empId;
