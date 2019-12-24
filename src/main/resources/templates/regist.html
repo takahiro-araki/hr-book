@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Regist Form</title>
 
-    <link rel="stylesheet" th:href="@{/base.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/regist.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{css/base.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{css/regist.css}" type="text/css">
 
     <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" th:src="@{js/lib/popper.min.js}"></script>
@@ -27,24 +27,28 @@
                 <h2>Profile</h2>
                 <div>
                 <div class="contents">
-                    <label>Name</label><input type="text" id="name" name="humanName" placeholder="開発太郎">
+                    <label>Name</label><input type="text" id="name" th:field="*{humanName}" placeholder="開発太郎">
+                <div class="error"style="color:red" th:errors="*{humanName}"></div>
                 </div>
                 <div class="contents">
-                    <label>Employee Id</label><input type="text" id="empId" name="empId" placeholder="0000">
+                    <label>Employee Id</label><input type="text" id="empId" th:field="*{empId}" placeholder="0000">
+                <div class="error" style="color:red" th:errors="*{empId}"></div>
                 </div>
                 <div class="contents">
-                    <label>Join Date</label><input type="text" id="title" name="joinDate" placeholder="2019-01-01">
+                    <label>Join Date</label><input type="text" id="title" th:field="*{joinDate}" placeholder="2019-01-01">
+                <div class="error" style="color:red" th:errors="*{joinDate}"></div>
                 </div>
                 <div class="contents">
                 <div id="company">
-                    <label>AssignCompanyName</label><input type="text" id="assignCompanyName" name="joinDate" placeholder="○○株式会社">
+                <div></div>
+                    <label>AssignCompanyName</label><input type="text" id="assignCompanyName"  placeholder="○○株式会社">
                 </div>
                 </div>
                 
                 <div class="contents">
                     <label>Image</label><input th:field="*{iconImage}" type="file" accept=".jpg,.png,image/jpeg,image/png" placeholder=".png/.jpeg"/>
+                <div class="error" style=color:red th:errors="*{iconImage}"></div>
                 </div>
-                <div style=color:red th:errors="*{iconImage}"></div>
                </div>
 
          	<div class="style">
@@ -73,11 +77,12 @@
 
             <div class="base-skill">
                 <h2>Skill Point</h2>
+                <div class="baseSkillError" style="color:red" th:errors="*{baseSkillScores}"></div>
                 <div class="contents baseSkill" th:each="baseSkill:${baseSkillList}">
                     	<label>Skill Name</label>
                     	<span class="box" th:text="${baseSkill.baseSkillName}">ここに文章</span>
                     	<input type="hidden" th:value="${baseSkill.baseSkillId}" name="baseSkillIds">
-                    	<label id="skill-point">Skill Point</label><input type="number" class="skill-value" name="baseSkillScores" value="100" placeholder="100" min="1" max="100">
+                    	<label id="skill-point">Skill Point</label><input type="number" class="skill-value" th:field="*{baseSkillScores}" value="100" placeholder="100" min="1" max="100">
                 </div>
             </div>
 
@@ -107,7 +112,7 @@
 	                        <option value="5">5</option>
 	                    </select>
                     <pre class="description" th:text="${commonSkill.description}">コモンスキル</pre>
-	                <input type="hidden" name="commonSkillIds" th:value="${commonSkill.commonSkillId}">
+	                <input type="hidden" th:field="*{commonSkillIds}" th:value="${commonSkill.commonSkillId}">
                 </div>
                 
             </div>
@@ -115,9 +120,10 @@
             <div class="sub-skill">
                 <h2 class="special-ability-header">Special Ability</h2>
                 <div class="special-abilities">
+                   	<div class="subSkillError" style="color:red" th:errors="*{subSkillIds}"></div>
                 	<span th:each="subSkill:${subSkillList}">	
 	                	<input type="button" th:value="${subSkill.subSkillName}" class="off" onclick="switchOnOff(this)">
-	                	<input type="hidden" th:value="${subSkill.subSkillId}" name="subSkillIds">
+	                	<input type="hidden" th:value="${subSkill.subSkillId}" th:field="*{subSkillIds}">
                    	</span>
                 </div>
                 		<button type="button" id="output" class="btn btn-blue">Output</button>

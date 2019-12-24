@@ -1,8 +1,8 @@
 .form-box {
 	position: relative;
-	margin: 2rem 0.2rem;
 	padding: 0.2rem 1.4rem;
 	border: #17a2b8 2px solid;
+	height:1500px;
 }
 
 
@@ -79,6 +79,9 @@ input:focus {
 
 .special-abilities {
 	margin: 02.2rem 4rem;
+	position:relative;
+	top:-950px;
+	left:-100px;
 }
 
 .ability:focus:hover{
@@ -157,6 +160,9 @@ input:focus {
 
 
 .btn {
+	position:absolute;
+	top:-570px;
+	left:470px;
 	font-size: 2rem;
 	font-weight: bold;
 	padding: 0.6rem 1.6rem;
@@ -216,10 +222,138 @@ input:focus {
 	display: block;
 	width: 100%;
 }
-.box12 textarea{
-	padding: 0.6rem;
-	width: 20rem;
-	height: 8rem;
-	border: 1px solid #999999;
-	border-radius: 4px;
+.numerical-ability-header{
+	position:relative;
+	top:-1250px;
+}
+.special-ability-header{
+	position:absolute;;
+	top:-1000px;
+	left:-150px;
+}
+.indivisual-numetic-abilities{
+	margin-top:10px;
+}
+.numerical-abilities{
+	position:relative;
+	top:-1250px;
+	left:60px;
+	margin:0 0 20px 0;
+}
+.sub-skill{
+	position:absolute;
+	top:-1030px;
+	left:-90px;
+}
+.on{
+	border-radius: 5px/5px;
+	margin:5px 20px;
+	font-size: 0.9em;
+    font-weight: bold;
+    padding: 10px 10px;
+    width:120px;
+    font-weight: bold;
+    background: -moz-linear-gradient(bottom, #36d, #248 50%, #36d);
+    color: #feffff;
+    background: -webkit-gradient(linear, left bottom, left top, from(#36d), color-stop(0.5, #248), to(#36d));
+    box-shadow: 2px 2px 3px 1px #666;
+    
+}
+.off{
+	border-radius: 5px/5px;
+	margin:5px 20px;
+	font-size: 0.9em;
+    font-weight: bold;
+    padding: 10px 10px;
+    width:120px;
+    font-weight: bold;
+    background-color: #feffff;
+    color: #424242;
+	
+}
+
+select[name=commonSkillScores]{
+	position:absolute;
+	left:180px;
+	top:-3px;
+}
+.profile{
+	position:absolute;
+	left:50px;
+	
+}
+.base-skill{
+	position:relative;
+	left:500px;
+	top:15px;
+	
+}
+.inherent-skill{
+	position:relative;
+	top:160px;
+}
+.style{
+	position:relative;
+	top:-250px;
+	left:1000px;
+}
+.numeric-skill{
+	position:relative;
+	top:1480px;
+}
+.sub-skill{
+	position:absolute;
+	top:2000px;
+	left:170px;
+}
+.description{
+	position:absolute;
+	left:290px;
+	top:-10px;
+	padding:0 7px 0 0;
+}
+#company{
+	padding-right:55px;
+	position:relative;
+	left:-51px;
+}
+#assignCompanyName{
+	position:relative;
+	left:50px;
+}
+
+
+.box{
+	position:relative;
+
+	display: inline-block;
+    width: 14%;
+    padding:5px 0 0 3px;
+    border:solid;
+    color:#919191;
+    border-width:thin;
+    border-radius: 5px/5px;
+    /* éqóvëfÇÃïùÇÃãœìôâª */
+    table-layout: fixed;
+}
+input[type=number]{
+	position:relative;
+
+}
+#skill-point{
+	position:relative;
+
+}
+.error{
+	position:relative;
+	left:80px;
+}
+.subSkillError{
+	position:relative;
+	top:-55px;
+	left:45px;
+}
+.baseSkillError{
+	position:relative;
+	left:300px;
 }
