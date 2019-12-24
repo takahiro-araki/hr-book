@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -31,10 +32,10 @@ public class UserRepository {
 		user.setActStatus(rs.getInt("actStatus"));
 		return user;
 	};
-	
+
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
+
 	/**
 	 * メールアドレスでユーザー情報を検索する.
 	 * 
@@ -43,15 +44,21 @@ public class UserRepository {
 	 */
 	public User findByMailAddress(String mailAddress) {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress);
-		String sql = "SELECT (user_id,emp_id,user_name,mail_address,passward,user_roll,act_status) \n" + 
-				"FROM Users \n" + 
-				"WHERE mail_address = :mailAddress \n" + 
-				";";
+		String sql = "SELECT (user_id,emp_id,user_name,mail_address,passward,user_roll,act_status)  " + "FROM Users  "
+				+ "WHERE mail_address = :mailAddress  " + ";";
 		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
 		if (userList.size() == 0) {
 			return null;
-		}else {
-			return userList.get(0);			
+		} else {
+			return userList.get(0);
 		}
+	}
+
+	public void insert(User user) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
+		String sql = "INSERT INTO USERS ( " + "    emp_id, " + "    user_name, " + "    mail_address, "
+				+ "    passward, " + "    user_roll, " + "    act_status " + "  ) " + "VALUES "
+				+ "  (:empId, :name, :mailAddress, :password, :userRole, 1)";
+		template.update(sql, param);
 	}
 }
