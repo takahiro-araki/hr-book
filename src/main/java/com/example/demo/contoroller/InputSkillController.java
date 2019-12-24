@@ -2,6 +2,8 @@ package com.example.demo.contoroller;
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,13 +58,25 @@ public class InputSkillController {
 	public String insertSkills(@Validated InputSkillForm form, BindingResult result, Model model) {
 		// 画像のバリデーションチェックのメソッドを呼び出す
 		checkImage(form, result);
+		// baseSkillScoreのバリデーションチェック
+		for (String score : form.getBaseSkillScores()) {
+			String pattern = "^[1-9]{1,2}$|^100$|^0$";
+			if (!score.matches(pattern)) {
+				result.rejectValue("baseSkillScores", "", "半角数字0~100で記入ください");
+				break;
+			}
+		}
+		if (form.getSubSkillIds() == null) {
+			result.rejectValue("subSkillIds", "", "1つ以上選択してください");
+		}
+		// subSkillIdのバリデーションチェック
+
 		// result.hasErrorメソッド
 		if (result.hasErrors()) {
 			model.addAttribute("baseSkillList", inputSkillService.findAllBaseSkill());
 			model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
 			model.addAttribute("subSkillList", inputSkillService.findAllSubSkill());
 			return "regist";
-
 		}
 		try {
 			inputSkillService.insertHuman(form);
