@@ -3,7 +3,7 @@ user_id serial primary key,
 emp_id integer unique not null,
 user_name varchar(20) not null,
 mail_address varchar(300) not null,
-passward varchar(20) not null,
+password varchar(128) not null,
 user_roll integer not null,
 act_status integer not null
 );

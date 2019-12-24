@@ -138,7 +138,7 @@ public class HumanRepository {
 				+ "      emp_id, " + "      human_name, " + "      join_date, " + "      icon_img, "
 				+ "      assign_company_name, " + "      skill_id, " + "      skill_name, " + "      score, "
 				+ "      skill_type, " + "      description, " + "      order_status, " + "      order_id, "
-				+ "      rank() over( " + "        partition by human_id " + "        ORDER BY "
+				+ "      dense_rank() over( " + "        partition by human_id " + "        ORDER BY "
 				+ "          order_id DESC " + "      ) AS order_ver " + "    FROM ( " + "        ( "
 				+ "          SELECT " + "            human_id, " + "            emp_id, " + "            human_name, "
 				+ "            join_date, " + "            icon_img, " + "            assign_company_name, "

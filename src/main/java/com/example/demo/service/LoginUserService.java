@@ -42,7 +42,6 @@ public class LoginUserService implements UserDetailsService {
 
 	public void insert(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		System.out.println(user);
 		userRepository.insert(user);
 	}
 
