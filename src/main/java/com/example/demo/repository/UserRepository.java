@@ -44,7 +44,7 @@ public class UserRepository {
 	 */
 	public User findByMailAddress(String mailAddress) {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress);
-		String sql = "SELECT (user_id,emp_id,user_name,mail_address,passward,user_roll,act_status)  " + "FROM Users  "
+		String sql = "SELECT (user_id,emp_id,user_name,mail_address,password,user_roll,act_status)  " + "FROM Users  "
 				+ "WHERE mail_address = :mailAddress  " + ";";
 		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
 		if (userList.size() == 0) {
@@ -57,7 +57,7 @@ public class UserRepository {
 	public void insert(User user) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
 		String sql = "INSERT INTO USERS ( " + "    emp_id, " + "    user_name, " + "    mail_address, "
-				+ "    passward, " + "    user_roll, " + "    act_status " + "  ) " + "VALUES "
+				+ "    password, " + "    user_roll, " + "    act_status " + "  ) " + "VALUES "
 				+ "  (:empId, :name, :mailAddress, :password, :userRole, 1)";
 		template.update(sql, param);
 	}
