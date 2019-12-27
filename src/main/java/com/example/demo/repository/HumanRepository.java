@@ -54,7 +54,7 @@ public class HumanRepository {
 				human.setHumanName(rs.getString("human_name"));
 				human.setJoinDate(rs.getDate("join_date"));
 				human.setAssignCompanyName(rs.getString("assign_company_name"));
-				human.setIcon_img(rs.getString("icon_img"));
+				human.setIconImg(rs.getString("icon_img"));
 				human.setOrderStatus(rs.getInt("order_status"));
 				baseSkills = new ArrayList<>();
 				human.setBaseSkills(baseSkills);
@@ -107,7 +107,7 @@ public class HumanRepository {
 				human.setUserId(rs.getInt("user_id"));
 				human.setJoinDate(rs.getDate("join_date"));
 				human.setAssignCompanyName(rs.getString("assign_company_name"));
-				human.setIcon_img(rs.getString("icon_img"));
+				human.setIconImg(rs.getString("icon_img"));
 				human.setOrderStatus(rs.getInt("order_status"));
 				baseSkills = new ArrayList<>();
 				human.setBaseSkills(baseSkills);
@@ -185,7 +185,7 @@ public class HumanRepository {
 	public Integer insertHuman(Human human,Timestamp date) {
 		String insertSql = "INSERT INTO HUMANS(user_id,emp_id,human_name,join_date,icon_img,act_status,version_num,register,regist_date)"
 			+ "VALUES(?,?,?,?,?,?,?,?,?) RETURNING human_id";
-		Integer a = jdbcTemplate.queryForObject(insertSql,Integer.class,human.getUserId(),human.getEmpId(),human.getHumanName(),human.getJoinDate(),human.getIcon_img(),1,1,human.getHumanName(),date);
+		Integer a = jdbcTemplate.queryForObject(insertSql,Integer.class,human.getUserId(),human.getEmpId(),human.getHumanName(),human.getJoinDate(),human.getIconImg(),1,1,human.getHumanName(),date);
 		return a;}
 		
 	/* エンジニアを一覧表示するメソッド.

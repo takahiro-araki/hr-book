@@ -94,7 +94,7 @@ public class InputSkillController {
 	 * @param エラーメッセージ格納変数
 	 */
 	public void checkImage(InputSkillForm form, BindingResult result) {
-		MultipartFile imageFile = form.getIconImage();
+		MultipartFile imageFile = form.getIconImg();
 		String fileExtension = null;
 		try {
 			fileExtension = extractExtension(imageFile.getOriginalFilename());

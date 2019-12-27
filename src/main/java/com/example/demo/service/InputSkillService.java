@@ -90,9 +90,9 @@ public class InputSkillService {
 		human.setEmpId(Integer.parseInt(form.getEmpId()));
 		human.setHumanName(form.getHumanName());
 		human.setJoinDate(Date.valueOf(form.getJoinDate()));
-		human.setIcon_img(form.getIconImage().getOriginalFilename());
+		human.setIconImg(form.getIconImg().getOriginalFilename());
 		// ここに写真を保存するメソッドを呼び出す
-		createFile(form.getIconImage());
+		createFile(form.getIconImg());
 		Integer humanId = humanRepository.insertHuman(human, returnToday());
 		insertOrders(form, humanId);
 	}

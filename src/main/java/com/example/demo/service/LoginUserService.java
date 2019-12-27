@@ -32,10 +32,12 @@ public class LoginUserService implements UserDetailsService {
 			throw new UsernameNotFoundException("そのEmailは登録されていません");
 		}
 		Collection<GrantedAuthority> authorityList = new ArrayList<>();
-		if (user.getUserRole() == 2) {
-			authorityList.add(new SimpleGrantedAuthority("USER"));
+		if (user.getUserRole() == 0) {
+			authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		} else if (user.getUserRole() == 1) {
+			authorityList.add(new SimpleGrantedAuthority("ROLE_SALES"));
 		} else {
-			authorityList.add(new SimpleGrantedAuthority("ADMIN"));
+			authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
 		return new LoginUser(user, authorityList);
 	}

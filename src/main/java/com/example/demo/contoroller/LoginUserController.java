@@ -31,9 +31,13 @@ public class LoginUserController {
 		return new InsertUserForm();
 	}
 
+	@RequestMapping("/login")
+	public String login() {
+		return "login";
+	}
+
 	@RequestMapping("/toLogin")
 	public String toLogin(Model model, String error) {
-
 		System.err.println("login error:" + error);
 		if (error != null) {
 			System.err.println("login failed");

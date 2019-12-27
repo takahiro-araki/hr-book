@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -24,7 +26,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private UserDetailsService memberDetailService;
+	private UserDetailsService userDetailsService;
 
 	/**
 	 * 静的リソースに対してセキュリティの設定を無効.
@@ -32,68 +34,68 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 //		web.ignoring().antMatchers("/**");
-		web.ignoring().antMatchers("/img/**", "/css/**", "/javascript/**", "/webjars/**", "/");
+		web.ignoring().antMatchers("/css/**", "/data/**", "/img/**", "/js/**", "/svgs/**", "/webfonts/**", "/base.css",
+				"/regist.css");
 	}
 
 	/**
 	 * 認可の設定やログイン/ログアウトに関する設定ができる.
 	 */
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		// 認可に関する設定
-//		http.authorizeRequests()
-//			.antMatchers("/login")
-//			.antMatchers("/top")
-//			.permitAll()
-//			.antMatchers("/emp-list/showDetail")
-//			.hasRole("USER")
-//			.antMatchers("/admin/**")
-//			.hasRole("ADMIN")
-//			.anyRequest().authenticated();
-//
-//		// ログインに関する設定
-//		http.formLogin()
-//			.loginPage("/user/toLogin")
-//			.loginProcessingUrl("/login")
-//			.failureUrl("/user/toLogin?error=true")
-//			.defaultSuccessUrl("/top", true)
-//			.usernameParameter("email")
-//			.passwordParameter("password");
-//
-//		// ログアウトに関する設定
-//		http.logout()
-//			.logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-//			.logoutSuccessUrl("/top")// ログアウト後に遷移させるパス(ここでは商品一覧画面を設定)
-//			.deleteCookies("JSESSIONID")
-//			.invalidateHttpSession(true);
-//	}
-
-	/**
-	 * Basic認証を無効にする. 全サイトログイン認証なしで入れるように一時的に修正
-	 * 
-	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/").permitAll();
+		// 認可に関する設定
+		http.authorizeRequests().antMatchers("/user/**", "/login", "/toLogin", "/toInsert", "/insert").permitAll()
+				.antMatchers("/personal-page", "/emp-list").hasRole("SALES")
+				.antMatchers("/skill-registe", "/personal-page", "/personal-edit" // 限定的.基本はuserのみ.
+						, "/emp-list")
+				.hasRole("ADMIN")
+				.antMatchers("/skill-registe", "/personal-page", "/personal-edit", "/emp-list", "/order-conf")
+				.hasRole("USER").anyRequest().authenticated();
+
+		// ログインに関する設定
+		http.formLogin().loginPage("/user/login").loginProcessingUrl("/user/toLogin")
+				.failureUrl("/user/toLogin?error=true").defaultSuccessUrl("/list", true) // 荒木さんの作成したページのパス
+				.usernameParameter("mailAddress").passwordParameter("password");
+
+		// ログアウトに関する設定
+		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout**")).logoutSuccessUrl("/user/login")
+				.deleteCookies("JSESSIONID").invalidateHttpSession(true);
 	}
 
-	/**
-	 * 認証に関する設定. 認証ユーザを設定する「UserDetailsService」の設定およびパスワード照合時に使う「PasswordEncoder」の設定
-	 * 
-	 */
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(memberDetailService).passwordEncoder(new BCryptPasswordEncoder());
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 
 	/**
-	 * bcryptアルゴリズムでハッシュ化する実装を返す パスワードハッシュ化やマッチ確認する際にPasswordEncoderクラスのDpomIを可能にする
-	 * 
-	 * @return bcryptアルゴリズムでハッシュ化する実装オブジェクト
+	 * @return bcryptアルゴリズムで暗号化する実装オブジェクト
 	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	/**
+	 * 複合化に使用するメソッド
+	 * 
+	 * @param secret
+	 * @param salt
+	 * @param plainText
+	 * @return 複合化したテキスト
+	 */
+	public String encryptText(String secret, String salt, String plainText) {
+		TextEncryptor encrypt = Encryptors.text(secret, salt);
+		return encrypt.encrypt(plainText);
+	}
+
+	/**
+	 * 暗号化に使用するメソッド
+	 * 
+	 * @return 暗号化したテキスト
+	 */
+	public String decryptText(String secret, String salt, String cipherText) {
+		TextEncryptor decrypt = Encryptors.text(secret, salt);
+		return decrypt.decrypt(cipherText);
 	}
 
 }

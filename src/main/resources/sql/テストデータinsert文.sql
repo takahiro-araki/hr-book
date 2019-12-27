@@ -2,7 +2,7 @@ INSERT INTO USERS (
     emp_id,
     user_name,
     mail_address,
-    passward,
+    password,
     user_roll,
     act_status
   )

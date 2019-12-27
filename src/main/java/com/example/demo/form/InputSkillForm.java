@@ -1,5 +1,8 @@
 package com.example.demo.form;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
@@ -17,15 +20,27 @@ public class InputSkillForm {
 	private String empId;
 	@NotBlank(message = "お名前を入れてください")
 	private String humanName;
+	@NotBlank(message = "会社名を入れてください")
+	private String assignCompanyName;
 	@NotBlank(message = "入社日を入力してください")
 	@Pattern(message = "入力形式に従ってください", regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
 	private String joinDate;
-	private MultipartFile iconImage;
+	private MultipartFile iconImg;
 	private List<String> baseSkillIds;
 	private List<String> baseSkillScores;
 	private List<String> commonSkillIds;
 	private List<String> commonSkillScores;
 	private List<String> subSkillIds;
+	
+	public Integer getIntEmpId() {
+		return Integer.parseInt(empId);
+	}
+	
+	public Date getDateJoinData() throws ParseException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = dateFormat.parse(joinDate);
+		return date;
+	}
 
 	public String getEmpId() {
 		return empId;
@@ -43,6 +58,14 @@ public class InputSkillForm {
 		this.humanName = humanName;
 	}
 
+	public String getAssignCompanyName() {
+		return assignCompanyName;
+	}
+
+	public void setAssignCompanyName(String assignCompanyName) {
+		this.assignCompanyName = assignCompanyName;
+	}
+
 	public String getJoinDate() {
 		return joinDate;
 	}
@@ -51,12 +74,12 @@ public class InputSkillForm {
 		this.joinDate = joinDate;
 	}
 
-	public MultipartFile getIconImage() {
-		return iconImage;
+	public MultipartFile getIconImg() {
+		return iconImg;
 	}
 
-	public void setIconImage(MultipartFile iconImage) {
-		this.iconImage = iconImage;
+	public void setIconImg(MultipartFile iconImg) {
+		this.iconImg = iconImg;
 	}
 
 	public List<String> getBaseSkillIds() {
@@ -101,10 +124,13 @@ public class InputSkillForm {
 
 	@Override
 	public String toString() {
-		return "InputSkillForm [empId=" + empId + ", humanName=" + humanName + ", joinDate=" + joinDate + ", iconImage="
-				+ iconImage + ", baseSkillIds=" + baseSkillIds + ", baseSkillScores=" + baseSkillScores
-				+ ", commonSkillIds=" + commonSkillIds + ", commonSkillScores=" + commonSkillScores + ", subSkillIds="
-				+ subSkillIds + "]";
+		return "InputSkillForm [empId=" + empId + ", humanName=" + humanName + ", assignCompanyName="
+				+ assignCompanyName + ", joinDate=" + joinDate + ", iconImg=" + iconImg + ", baseSkillIds="
+				+ baseSkillIds + ", baseSkillScores=" + baseSkillScores + ", commonSkillIds=" + commonSkillIds
+				+ ", commonSkillScores=" + commonSkillScores + ", subSkillIds=" + subSkillIds + "]";
 	}
 
+	
+
+	
 }

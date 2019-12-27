@@ -23,13 +23,13 @@ public class UserRepository {
 
 	private static final RowMapper<User> USER_ROW_MAPPER = (rs, i) -> {
 		User user = new User();
-		user.setUserId(rs.getInt("userId"));
-		user.setEmpId(rs.getInt("empId"));
-		user.setName(rs.getString("name"));
-		user.setMailAddress(rs.getString("mailAddress"));
+		user.setUserId(rs.getInt("user_id"));
+		user.setEmpId(rs.getInt("emp_id"));
+		user.setUserName(rs.getString("user_name"));
+		user.setMailAddress(rs.getString("mail_address"));
 		user.setPassword(rs.getString("password"));
-		user.setUserRole(rs.getInt("userRole"));
-		user.setActStatus(rs.getInt("actStatus"));
+		user.setUserRole(rs.getInt("user_roll"));
+		user.setActStatus(rs.getInt("act_status"));
 		return user;
 	};
 
@@ -44,8 +44,7 @@ public class UserRepository {
 	 */
 	public User findByMailAddress(String mailAddress) {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress);
-		String sql = "SELECT (user_id,emp_id,user_name,mail_address,password,user_roll,act_status)  " + "FROM Users  "
-				+ "WHERE mail_address = :mailAddress  " + ";";
+		String sql = "SELECT user_id,emp_id,user_name,mail_address,password,user_roll,act_status FROM USERS WHERE mail_address = :mailAddress";
 		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
 		if (userList.size() == 0) {
 			return null;
@@ -58,7 +57,7 @@ public class UserRepository {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(user);
 		String sql = "INSERT INTO USERS ( " + "    emp_id, " + "    user_name, " + "    mail_address, "
 				+ "    password, " + "    user_roll, " + "    act_status " + "  ) " + "VALUES "
-				+ "  (:empId, :name, :mailAddress, :password, :userRole, 1)";
+				+ "  (:empId, :userName, :mailAddress, :password, :userRole, 1)";
 		template.update(sql, param);
 	}
 }

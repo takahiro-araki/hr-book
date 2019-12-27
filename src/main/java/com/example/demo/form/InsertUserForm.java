@@ -18,7 +18,7 @@ public class InsertUserForm {
 
 	/** ユーザ名 */
 	@NotBlank(message = "お名前を入力してください")
-	private String name;
+	private String userName;
 
 	/** メールアドレス */
 	@Email(message = "アドレスが不正です")
@@ -45,12 +45,12 @@ public class InsertUserForm {
 		this.empId = empId;
 	}
 
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getMailAddress() {
@@ -87,8 +87,11 @@ public class InsertUserForm {
 
 	@Override
 	public String toString() {
-		return "InsertUserForm [empId=" + empId + ", name=" + name + ", mailAddress=" + mailAddress + ", password="
-				+ password + ", confirmationPassword=" + confirmationPassword + ", userRole=" + userRole + "]";
+		return "InsertUserForm [empId=" + empId + ", userName=" + userName + ", mailAddress=" + mailAddress
+				+ ", password=" + password + ", confirmationPassword=" + confirmationPassword + ", userRole=" + userRole
+				+ "]";
 	}
+
+	
 
 }
