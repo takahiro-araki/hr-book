@@ -2,7 +2,8 @@
 	position: relative;
 	padding: 0.2rem 1.4rem;
 	border: #17a2b8 2px solid;
-	height:1500px;
+	height:1200px;
+	width:1100px;
 }
 
 
@@ -162,7 +163,7 @@ input:focus {
 .btn {
 	position:absolute;
 	top:-570px;
-	left:470px;
+	left:370px;
 	font-size: 2rem;
 	font-weight: bold;
 	padding: 0.6rem 1.6rem;
@@ -225,11 +226,12 @@ input:focus {
 .numerical-ability-header{
 	position:relative;
 	top:-1250px;
+	left:40px;
 }
 .special-ability-header{
 	position:absolute;;
 	top:-1000px;
-	left:-150px;
+	left:-110px;
 }
 .indivisual-numetic-abilities{
 	margin-top:10px;
@@ -237,7 +239,7 @@ input:focus {
 .numerical-abilities{
 	position:relative;
 	top:-1250px;
-	left:60px;
+	left:90px;
 	margin:0 0 20px 0;
 }
 .sub-skill{
@@ -299,11 +301,11 @@ select[name=commonSkillScores]{
 }
 .numeric-skill{
 	position:relative;
-	top:1480px;
+	top:1380px;
 }
 .sub-skill{
 	position:absolute;
-	top:2000px;
+	top:1700px;
 	left:170px;
 }
 .description{
@@ -315,8 +317,13 @@ select[name=commonSkillScores]{
 #company{
 	padding-right:55px;
 	position:relative;
-	left:-51px;
+	left:-70px;
 }
+#company label{
+	position:relative;
+	left:51px;
+}
+
 #assignCompanyName{
 	position:relative;
 	left:50px;
@@ -327,7 +334,8 @@ select[name=commonSkillScores]{
 	position:relative;
 
 	display: inline-block;
-    width: 14%;
+    width: 19%;
+    height: 20px;
     padding:5px 0 0 3px;
     border:solid;
     color:#919191;
