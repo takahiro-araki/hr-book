@@ -69,8 +69,11 @@ public class HumanRepository {
 			if (base.equals(rs.getString("skill_type"))) {
 				PreHumanBaseSkill preHumanBaseSkill = new PreHumanBaseSkill();
 				preHumanBaseSkill.setBaseSkillScore(rs.getInt("score"));
+				preHumanBaseSkill.setBaseSkillId(rs.getInt("skill_id"));
 				BaseSkill baseSkill = new BaseSkill();
 				baseSkill.setBaseSkillName(rs.getString("skill_name"));
+				baseSkill.setBaseSkillId(rs.getInt("skill_id"));
+				System.out.println("検証　"+rs.getInt("skill_id"));
 				preHumanBaseSkill.setBaseSkill(baseSkill);
 				baseSkills.add(preHumanBaseSkill);
 			} else if (common.equals(rs.getString("skill_type"))) {
@@ -78,15 +81,19 @@ public class HumanRepository {
 				CommonSkill commonSkill = new CommonSkill();
 				commonSkill.setCommonSkillName(rs.getString("skill_name"));
 				preHumanCommonSkill.setCommonSkillScore(rs.getInt("score"));
+				preHumanCommonSkill.setCommonSkillId(rs.getInt("skill_id"));
 				commonSkill.setDescription(rs.getString("description"));
+				commonSkill.setCommonSkillId(rs.getInt("skill_id"));
 				preHumanCommonSkill.setCommonSkill(commonSkill);
 				commonSkills.add(preHumanCommonSkill);
 			} else if (sub.equals(rs.getString("skill_type"))) {
 				PreHumanSubSkill preHumanSubSkill = new PreHumanSubSkill();
 				SubSkill subSkill = new SubSkill();
+				preHumanSubSkill.setSubSkillId(rs.getInt("skill_id"));
 				subSkill.setSubSkillName(rs.getString("skill_name"));
 				subSkill.setSubSkillStatusType(rs.getInt("score"));
 				subSkill.setDescription(rs.getString("description"));
+				subSkill.setSubSkillId(rs.getInt("skill_id"));
 				preHumanSubSkill.setSubSkill(subSkill);
 				subSkills.add(preHumanSubSkill);
 			}
@@ -116,8 +123,10 @@ public class HumanRepository {
 			}
 			PreHumanBaseSkill preHumanBaseSkill = new PreHumanBaseSkill();
 			preHumanBaseSkill.setBaseSkillScore(rs.getInt("base_skill_score"));
+			preHumanBaseSkill.setBaseSkillId(rs.getInt("skill_id"));
 			BaseSkill baseSkill = new BaseSkill();
 			baseSkill.setBaseSkillName(rs.getString("base_skill_name"));
+			baseSkill.setBaseSkillId(rs.getInt("skill_id"));
 			preHumanBaseSkill.setBaseSkill(baseSkill);
 			baseSkills.add(preHumanBaseSkill);
 		}
@@ -138,7 +147,7 @@ public class HumanRepository {
 				+ "      emp_id, " + "      human_name, " + "      join_date, " + "      icon_img, "
 				+ "      assign_company_name, " + "      skill_id, " + "      skill_name, " + "      score, "
 				+ "      skill_type, " + "      description, " + "      order_status, " + "      order_id, "
-				+ "      rank() over( " + "        partition by human_id " + "        ORDER BY "
+				+ "      dense_rank() over( " + "        partition by human_id " + "        ORDER BY "
 				+ "          order_id DESC " + "      ) AS order_ver " + "    FROM ( " + "        ( "
 				+ "          SELECT " + "            human_id, " + "            emp_id, " + "            human_name, "
 				+ "            join_date, " + "            icon_img, " + "            assign_company_name, "
@@ -200,7 +209,7 @@ public class HumanRepository {
 		StringBuilder sb = new StringBuilder();
 		sb.append(
 				"select HUMANS.user_id,HUMANS.human_id,HUMANS.human_name, HUMANS.join_date,HUMANS.icon_img,HUMANS.assign_company_name, ");
-		sb.append("ORDERS.order_status,PRE_HUMAN_BASE_SKILLS.base_skill_score,BASE_SKILLS.base_skill_name ");
+		sb.append("ORDERS.order_status,PRE_HUMAN_BASE_SKILLS.base_skill_score,BASE_SKILLS.base_skill_name,BASE_SKILLS.base_skill_id as skill_id ");
 		sb.append("from HUMANS ");
 		sb.append("LEFT OUTER JOIN ORDERS USING(human_id) ");
 		sb.append("LEFT OUTER JOIN PRE_HUMAN_BASE_SKILLS USING(order_id) ");
@@ -239,5 +248,7 @@ public class HumanRepository {
 			}
 		return humanList;
 	}
+	
+	
 
 }
