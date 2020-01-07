@@ -51,18 +51,7 @@ public class ShowHumanListController {
 		}
 		List<Human> humanList = showHumanListService.showList(form, loginUser.getUser().getUserRole(),
 				loginUser.getUser().getUserId());
-		// 検証用。終わったら削除
-		/*
-		 * for (Human human : humanList) {
-		 * System.out.println("-----------Human情報-----------------");
-		 * System.out.println("名前：" + human.getHumanName()); System.out.println("入社日：" +
-		 * human.getJoinDate()); System.out.println("申請状況：" + human.getOrderStatus());
-		 * System.out.println("-----------スキル情報-----------------"); for
-		 * (PreHumanBaseSkill baseSkill : human.getBaseSkills()) {
-		 * System.out.println("スキル名：" + baseSkill.getBaseSkill().getBaseSkillName());
-		 * System.out.println("スキルスコア：" + baseSkill.getBaseSkillScore()); } }
-		 */
-		if (loginUser.getUser().getUserRole() == 3) {
+		if (loginUser.getUser().getUserRole() == 2) {
 			Human user = null;
 			int num = -1;
 			for (int i = 0; i < humanList.size(); i++) {
@@ -71,7 +60,6 @@ public class ShowHumanListController {
 					BeanUtils.copyProperties(humanList.get(i), user);
 					num = i;
 				}
-
 			}
 			humanList.remove(num);
 			model.addAttribute("user", user);

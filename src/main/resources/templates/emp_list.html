@@ -59,6 +59,9 @@
 				<a th:href="@{/emp-list/detail(humanId=${user.humanId})}"><button>個別詳細へ進む</button></a>
 			</div>
 		</div>
+		<div class="main-contents" th:unless="${user!=null}">
+		<a th:href="@{/showSkillForm}">スキルを登録してね！！</a>
+		</div>
 		<br>
 		-----------------------------------------------------------------------------------------------------
 		<br>
