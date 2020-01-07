@@ -44,12 +44,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// 認可に関する設定
-		http.authorizeRequests().antMatchers("/user/**", "/login", "/toLogin", "/toInsert", "/insert").permitAll()
-				.antMatchers("/personal-page", "/emp-list").hasRole("SALES")
+		http.authorizeRequests().antMatchers("/user/**", "/login", "/toLogin", "/toInsert", "/insert","/showSkillForm","/order-conf", "/emp-list","/insert-skills","/list").permitAll() //"/showSkillForm"(SALES以外見れる)、, "/order-conf"(USERSのみ見れる)あとで消す
+				.antMatchers("/personal-page").hasRole("SALES") // "/list"戻す
 				.antMatchers("/skill-registe", "/personal-page", "/personal-edit" // 限定的.基本はuserのみ.
-						, "/emp-list")
+						) // "/list"戻す
 				.hasRole("ADMIN")
-				.antMatchers("/skill-registe", "/personal-page", "/personal-edit", "/emp-list", "/order-conf")
+				.antMatchers("/skill-registe", "/personal-page", "/personal-edit") //"/order-conf"、"/emp-list"を戻す
 				.hasRole("USER").anyRequest().authenticated();
 
 		// ログインに関する設定

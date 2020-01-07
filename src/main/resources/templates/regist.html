@@ -21,14 +21,14 @@
     <h1>Regist Form</h1>
     <div class="container">
         <div class="form-box">
-          <form method="post" id="submit" th:action="@{insertSkills}" enctype="multipart/form-data" th:object="${inputSkillForm}"> 
+          <form method="post" id="submit" th:action="@{/order-conf}" enctype="multipart/form-data" th:object="${inputSkillForm}"> 
           
             <div class="profile">
                 <h2>Profile</h2>
                 <div>
                 <div class="contents">
                     <label>Name</label><input type="text" id="name" th:field="*{humanName}" placeholder="開発太郎">
-                <div class="error"style="color:red" th:errors="*{humanName}"></div>
+                <div class="error" style="color:red" th:errors="*{humanName}"></div>
                 </div>
                 <div class="contents">
                     <label>Employee Id</label><input type="text" id="empId" th:field="*{empId}" placeholder="0000">
@@ -41,13 +41,13 @@
                 <div class="contents">
                 <div id="company">
                 <div></div>
-                    <label>AssignCompanyName</label><input type="text" id="assignCompanyName"  placeholder="○○株式会社">
+                    <label>AssignCompanyName</label><input type="text" id="assignCompanyName" th:field="*{assignCompanyName}" placeholder="○○株式会社">
                 </div>
                 </div>
                 
                 <div class="contents">
-                    <label>Image</label><input th:field="*{iconImage}" type="file" accept=".jpg,.png,image/jpeg,image/png" placeholder=".png/.jpeg"/>
-                <div class="error" style=color:red th:errors="*{iconImage}"></div>
+                    <label>Image</label><input th:field="*{iconImg}" type="file" accept=".jpg,.png,img/jpeg,img/png" placeholder=".png/.jpeg"/>
+                <div class="error" style=color:red th:errors="*{iconImg}"></div>
                 </div>
                </div>
 
@@ -112,7 +112,7 @@
 	                        <option value="5">5</option>
 	                    </select>
                     <pre class="description" th:text="${commonSkill.description}">コモンスキル</pre>
-	                <input type="hidden" th:field="*{commonSkillIds}" th:value="${commonSkill.commonSkillId}">
+	                <input type="hidden" th:value="${commonSkill.commonSkillId}" name="commonSkillIds">
                 </div>
                 
             </div>
@@ -123,7 +123,7 @@
                    	<div class="subSkillError" style="color:red" th:errors="*{subSkillIds}"></div>
                 	<span th:each="subSkill:${subSkillList}">	
 	                	<input type="button" th:value="${subSkill.subSkillName}" class="off" onclick="switchOnOff(this)">
-	                	<input type="hidden" th:value="${subSkill.subSkillId}" th:field="*{subSkillIds}">
+	                	<input type="hidden" th:value="${subSkill.subSkillId}" name="subSkillIds">
                    	</span>
                 </div>
                 		<button type="button" id="output" class="btn btn-blue">Output</button>
