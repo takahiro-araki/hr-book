@@ -79,7 +79,6 @@ public class HumanRepository {
 				BaseSkill baseSkill = new BaseSkill();
 				baseSkill.setBaseSkillName(rs.getString("skill_name"));
 				baseSkill.setBaseSkillId(rs.getInt("skill_id"));
-				System.out.println("検証　" + rs.getInt("skill_id"));
 				preHumanBaseSkill.setBaseSkill(baseSkill);
 				baseSkills.add(preHumanBaseSkill);
 			} else if (common.equals(rs.getString("skill_type"))) {
