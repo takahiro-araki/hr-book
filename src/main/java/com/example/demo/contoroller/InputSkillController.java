@@ -52,9 +52,10 @@ public class InputSkillController {
 	 */
 	@RequestMapping("showSkillForm")
 	public String showSkillForm(Model model, Integer humanId) {
-		List<BaseSkill> baseSkillList = inputSkillService.findAllBaseSkill();
-		Human user = null;
+		// ２回目以降のスキル登録の場合
 		if (humanId != null) {
+			List<BaseSkill> baseSkillList = inputSkillService.findAllBaseSkill();
+			Human user = null;
 			List<Integer> selectOptions = new ArrayList<>();
 			for (int i = 1; i <= 5; i++) {
 				selectOptions.add(i);
@@ -76,11 +77,18 @@ public class InputSkillController {
 			}
 			model.addAttribute("valueMap", valueMap);
 			model.addAttribute("user", user);
+			model.addAttribute("baseSkillList", baseSkillList);
+			model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
+			model.addAttribute("subSkillList", inputSkillService.findAllSubSkill());
+			return "regist";
 		}
-		model.addAttribute("baseSkillList", baseSkillList);
-		model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
-		model.addAttribute("subSkillList", inputSkillService.findAllSubSkill());
-		return "regist";
+		// 初めてのスキル登録の場合
+		else {
+			model.addAttribute("baseSkillList", inputSkillService.findAllBaseSkill());
+			model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
+			model.addAttribute("subSkillList", inputSkillService.findAllSubSkill());
+			return "regist";
+		}
 	}
 
 	/**
