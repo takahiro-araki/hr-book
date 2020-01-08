@@ -26,11 +26,14 @@ public class InputSkillForm {
 	@Pattern(message = "入力形式に従ってください", regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
 	private String joinDate;
 	private MultipartFile iconImg;
+	/**アイコン画像名（編集画面で使用） */
+	private String iconImgName;
 	private List<String> baseSkillIds;
 	private List<String> baseSkillScores;
 	private List<String> commonSkillIds;
 	private List<String> commonSkillScores;
 	private List<String> subSkillIds;
+	
 	
 	public Integer getIntEmpId() {
 		return Integer.parseInt(empId);
@@ -122,13 +125,24 @@ public class InputSkillForm {
 		this.subSkillIds = subSkillIds;
 	}
 
+	public String getIconImgName() {
+		return iconImgName;
+	}
+
+	public void setIconImgName(String iconImgName) {
+		this.iconImgName = iconImgName;
+	}
+
 	@Override
 	public String toString() {
 		return "InputSkillForm [empId=" + empId + ", humanName=" + humanName + ", assignCompanyName="
-				+ assignCompanyName + ", joinDate=" + joinDate + ", iconImg=" + iconImg + ", baseSkillIds="
-				+ baseSkillIds + ", baseSkillScores=" + baseSkillScores + ", commonSkillIds=" + commonSkillIds
-				+ ", commonSkillScores=" + commonSkillScores + ", subSkillIds=" + subSkillIds + "]";
+				+ assignCompanyName + ", joinDate=" + joinDate + ", iconImg=" + iconImg + ", iconImgName=" + iconImgName
+				+ ", baseSkillIds=" + baseSkillIds + ", baseSkillScores=" + baseSkillScores + ", commonSkillIds="
+				+ commonSkillIds + ", commonSkillScores=" + commonSkillScores + ", subSkillIds=" + subSkillIds + "]";
 	}
+	
+	
+
 
 	
 

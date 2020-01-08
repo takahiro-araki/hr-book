@@ -53,7 +53,6 @@ public class OrderConfirmationController {
 	public String showOrderConfirmation(@Validated InputSkillForm form, BindingResult result, Model model)
 			throws ParseException, UnsupportedEncodingException, IOException {
 		System.out.println("form111111 * " + form);
-
 		Human human = new Human();
 		human.setEmpId(form.getIntEmpId());
 		human.setHumanName(form.getHumanName());
@@ -62,12 +61,78 @@ public class OrderConfirmationController {
 		// 画像のバリデーションチェックのメソッドを呼び出す
 		checkImage(form.getIconImg().getBytes(), form.getIconImg().getOriginalFilename(), result);
 		human.setIconImg(changeBase64(form.getIconImg()));
-
 		model.addAttribute("human", human);
-
 		// baseSkillScoreのバリデーションチェック
 		for (String score : form.getBaseSkillScores()) {
-			String pattern = "^[1-9]{1,2}$|^100$|^0$";
+			String pattern = "[1-9]?[0-9]|^100$";
+			if (!score.matches(pattern)) {
+				result.rejectValue("baseSkillScores", "", "半角数字0~100で記入ください");
+				break;
+			}
+		}
+		// subSkillIdのバリデーションチェック
+		if (form.getSubSkillIds() == null) {
+			result.rejectValue("subSkillIds", "", "1つ以上選択してください");
+		}
+		// result.hasErrorメソッド
+		if (result.hasErrors()) {
+			model.addAttribute("baseSkillList", inputSkillService.findAllBaseSkill());
+			model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
+			model.addAttribute("subSkillList", inputSkillService.findAllSubSkill());
+			return "regist";
+		}
+
+		List<BaseSkill> baseSkills = new ArrayList<>();
+		baseSkills = orderConfirmationService.findAllBaseSkill();
+		List<PreHumanBaseSkill> preHumanBaseSkillList = new ArrayList<>();
+		for (int i = 0; i < form.getBaseSkillIds().size(); i++) {
+			PreHumanBaseSkill preHumanBaseSkill = new PreHumanBaseSkill();
+			preHumanBaseSkill.setBaseSkillId(Integer.parseInt(form.getBaseSkillIds().get(i)));
+			preHumanBaseSkill.setBaseSkillScore(Integer.parseInt(form.getBaseSkillScores().get(i)));
+			preHumanBaseSkill.setBaseSkill(baseSkills.get(i));
+			preHumanBaseSkillList.add(preHumanBaseSkill);
+		}
+		List<CommonSkill> commonSkills = new ArrayList<>();
+		commonSkills = orderConfirmationService.findAllCommonSkill();
+		List<PreHumanCommonSkill> preHumanCommonSkillList = new ArrayList<>();
+		for (int i = 0; i < form.getCommonSkillIds().size(); i++) {
+			PreHumanCommonSkill preHumanCommonSkill = new PreHumanCommonSkill();
+			preHumanCommonSkill.setCommonSkillId(Integer.parseInt(form.getCommonSkillIds().get(i)));
+			preHumanCommonSkill.setCommonSkillScore(Integer.parseInt(form.getCommonSkillScores().get(i)));
+			preHumanCommonSkill.setCommonSkill(commonSkills.get(i));
+			preHumanCommonSkillList.add(preHumanCommonSkill);
+		}
+		List<SubSkill> subSkills = new ArrayList<>();
+		subSkills = orderConfirmationService.findAllSubSkill();
+		List<PreHumanSubSkill> preHumanSubSkillList = new ArrayList<>();
+		for (int i = 0; i < form.getSubSkillIds().size(); i++) {
+			PreHumanSubSkill preHumanSubSkill = new PreHumanSubSkill();
+			preHumanSubSkill.setSubSkillId(Integer.parseInt(form.getSubSkillIds().get(i)));
+			preHumanSubSkill.setSubSkill(subSkills.get(i));
+			preHumanSubSkillList.add(preHumanSubSkill);
+		}
+
+		model.addAttribute("preHumanBaseSkillList", preHumanBaseSkillList);
+		model.addAttribute("preHumanCommonSkillList", preHumanCommonSkillList);
+		model.addAttribute("preHumanSubSkillList", preHumanSubSkillList);
+		model.addAttribute("form", form);
+		return "order-confrimation";
+	}
+	
+	@RequestMapping("/edit-order-conf")
+	public String showOrderConfirmationFromEdit(@Validated InputSkillForm form, BindingResult result, Model model)
+			throws ParseException, UnsupportedEncodingException, IOException {
+		System.out.println("form111111 * " + form);
+		Human human = new Human();
+		human.setEmpId(form.getIntEmpId());
+		human.setHumanName(form.getHumanName());
+		human.setAssignCompanyName(form.getAssignCompanyName());
+		human.setJoinDate(form.getDateJoinData());
+		human.setIconImg(changeBase64(form.getIconImg()));
+		model.addAttribute("human", human);
+		// baseSkillScoreのバリデーションチェック
+		for (String score : form.getBaseSkillScores()) {
+			String pattern = "[1-9]?[0-9]|^100$";
 			if (!score.matches(pattern)) {
 				result.rejectValue("baseSkillScores", "", "半角数字0~100で記入ください");
 				break;
@@ -122,6 +187,7 @@ public class OrderConfirmationController {
 
 		return "order-confrimation";
 	}
+	
 
 	/**
 	 * スキル登録するメソッド.
@@ -167,6 +233,10 @@ public class OrderConfirmationController {
 		String fileExtension = null;
 		try {
 			fileExtension = extractExtension(iconImageName);
+			/*
+			 * System.out.println("検証"+iconImageName);
+			 * System.out.println("検証"+fileExtension);
+			 */
 			extractExtension(iconImageName);
 			if (!"jpg".equals(fileExtension) && !"png".equals(fileExtension)) {
 				result.rejectValue("iconImg", "", "拡張子が.pngまたは.jpgのファイルを選択してください");
