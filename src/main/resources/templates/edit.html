@@ -17,67 +17,17 @@
 
 </head>
 <body>
-	<div th:unless="${user}!=null">
-		<h1>登録フォーム</h1>
-	</div>
-	<div th:if="${user}!=null">
 		<h1>編集フォーム</h1>
-	</div>
 	<div class="container">
 		<div class="form-box">
-			<form method="post" id="submit" th:action="@{/order-conf}"
+			<form method="post" id="submit" th:action="@{/edit-order-conf}"
 				enctype="multipart/form-data" th:object="${inputSkillForm}">
-				<div class="editField" th:if="${user}==null">
-					<div class="profile">
-						<h2>プロフィール</h2>
-						<div class="contents">
-							<label>名前</label><input type="text" id="name" name="humanName"
-								placeholder="開発太郎">
-						</div>
-						<div class="contents">
-							<label>社員ID</label><input type="text" id="empId"
-								name="empId" placeholder="0000">
-						</div>
-						<div class="contents">
-							<label>入社日</label><input type="text" id="title"
-								name="joinDate" placeholder="2019-01-01">
-						</div>
-						<div class="contents">
-							<div id="company">
-								<div></div>
-								<label>アサイン先</label><input type="text" id="assignCompanyName"
-									th:field="*{assignCompanyName}" placeholder="○○株式会社">
-							</div>
-						</div>
-						<div class="contents">
-							<label>画像</label><input th:field="*{iconImg}" type="file"
-								accept=".jpg,.png,image/jpeg,image/png" placeholder=".png/.jpeg" />
-						</div>
-						<div style="color: red" th:errors="*{iconImg}"></div>
-
-					</div>
-				</div>
-				<div class="editField" th:if="${user==null}">
-					<div class="base-skill">
-						<h2>基本スキル</h2>
-                        <div class="baseSkillError" style="color:red" th:errors="*{baseSkillScores}"></div>
-						<div class="contents skill-point"
-							th:each="baseSkill:${baseSkillList}">
-							 <span class="box12"
-								th:text="${baseSkill.baseSkillName}">ここに文章</span> <input
-								type="hidden" th:value="${baseSkill.baseSkillId}"
-								name="baseSkillIds"> <label>スキルポイント</label><input
-								type="number" class="skill-value" name="baseSkillScores"
-								value="100" placeholder="100" min="1" max="100">
-						</div>
-					</div>
-				</div>
 				<div th:unless="${user==null}">
 				<input type="hidden" th:value="${user.empId}" name="empId">
 				<input type="hidden" th:value="${user.humanName}" name="humanName">
 				<input type="hidden" th:value="${user.assignCompanyName}" name="assignCompanyName">
 				<input type="hidden" th:value="${user.joinDate}" name="joinDate">
-				<input type="hidden" th:value="${user.iconImg}" accept=".jpg,.png,image/jpeg,image/png" name="iconImg">
+				<input type="file" th:value="${user.iconImg}"  name="iconImg">
 				
 					<div class="base-skill">
 						<h2>基本スキル</h2>
@@ -93,29 +43,7 @@
 						</div>
 					</div>
 				</div>
-				<div th:if=${user==null}>
-					<div class="numeric-skill">
-						<h2 class="numerical-ability-header">共通スキル</h2>
-						<div class="numerical-abilities"
-							th:each="commonSkill:${commonSkillList}">
-							<div class="indivisual-numetic-abilities"></div>
-							<span th:text="${commonSkill.commonSkillName}">対障害</span>&nbsp;&nbsp;&nbsp;
-							<select name="commonSkillScores">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-							</select>
-							<pre class="description" th:text="${commonSkill.description}">コモンスキル</pre>
-							<input type="hidden" name="commonSkillIds"
-								th:value="${commonSkill.commonSkillId}">
-						</div>
 
-					</div>
-				</div>
-
-				<div class="editField" th:unless=${user==null}>
 					<div class="numeric-skill">
 						<h2 class="numerical-ability-header">共通スキル</h2>
 						<div class="numerical-abilities"
@@ -137,22 +65,8 @@
 								th:value="${commonSkill.commonSkillId}">
 						</div>
 					</div>
-				</div>
 
 
-				<div th:if="${user==null}">
-					<div class="sub-skill">
-						<h2 class="special-ability-header">サブスキル</h2>
-						<div class="special-abilities">
-							<span th:each="subSkill:${subSkillList}"> <input
-								type="button" th:value="${subSkill.subSkillName}" class="off"
-								onclick="switchOnOff(this)"> <input type="hidden"
-								th:value="${subSkill.subSkillId}" name="subSkillIds">
-							</span>
-						</div>
-						<button type="button" id="output" class="btn btn-blue">送信</button>
-					</div>
-				</div>
 
 
 				<div class="editField" th:unless="${user==null}">

@@ -45,50 +45,17 @@ public class InputSkillController {
 	}
 
 	/**
-	 * 入力画面を表示するメソッド.個別詳細から編集をする際は、human_idを引数にとる.
+	 * 入力画面を表示するメソッド
 	 * 
 	 * @param model
 	 * @return 入力画面
 	 */
 	@RequestMapping("showSkillForm")
-	public String showSkillForm(Model model, Integer humanId) {
-		// ２回目以降のスキル登録の場合
-		if (humanId != null) {
-			List<BaseSkill> baseSkillList = inputSkillService.findAllBaseSkill();
-			Human user = null;
-			List<Integer> selectOptions = new ArrayList<>();
-			for (int i = 1; i <= 5; i++) {
-				selectOptions.add(i);
-			}
-			model.addAttribute("selectOptions", selectOptions);
-			user = humanService.load(humanId);
-			Map<Integer, String> valueMap = new HashMap<>();
-			for (int i = 1; i <= baseSkillList.size(); i++) {
-				valueMap.put(i, "off");
-			}
-			for (PreHumanSubSkill subSkill : user.getSubSkills()) {
-				for (int i = 1; i <= baseSkillList.size(); i++) {
-					if (subSkill.getSubSkillId() == i) {
-						valueMap.put(i, "on");
-					} else if (subSkill.getSubSkillId() == null) {
-						break;
-					}
-				}
-			}
-			model.addAttribute("valueMap", valueMap);
-			model.addAttribute("user", user);
-			model.addAttribute("baseSkillList", baseSkillList);
-			model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
-			model.addAttribute("subSkillList", inputSkillService.findAllSubSkill());
-			return "regist";
-		}
-		// 初めてのスキル登録の場合
-		else {
+	public String showSkillForm(Model model) {
 			model.addAttribute("baseSkillList", inputSkillService.findAllBaseSkill());
 			model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
 			model.addAttribute("subSkillList", inputSkillService.findAllSubSkill());
 			return "regist";
-		}
 	}
 
 	/**
