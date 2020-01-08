@@ -16,6 +16,7 @@ SELECT
 FROM (
     SELECT
       human_id,
+      act_status,
       emp_id,
       human_name,
       join_date,
@@ -37,6 +38,7 @@ FROM (
         (
           SELECT
             human_id,
+            h.act_status,
             emp_id,
             human_name,
             join_date,
@@ -49,7 +51,7 @@ FROM (
             '' AS description,
             order_status,
             order_id
-          FROM humans
+          FROM humans as h 
           LEFT JOIN orders USING(human_id)
           LEFT JOIN pre_human_base_skills USING(order_id)
           LEFT JOIN base_skills USING(base_skill_id)
@@ -58,6 +60,7 @@ FROM (
           (
             SELECT
               human_id,
+            h.act_status,
               emp_id,
               human_name,
               join_date,
@@ -70,7 +73,7 @@ FROM (
               description,
               order_status,
               order_id
-            FROM humans
+            FROM humans as h 
             LEFT JOIN orders USING(human_id)
             LEFT JOIN pre_human_common_skills USING(order_id)
             LEFT JOIN common_skills USING(common_skill_id)
@@ -79,6 +82,7 @@ FROM (
           (
             SELECT
               human_id,
+            h.act_status,
               emp_id,
               human_name,
               join_date,
@@ -91,7 +95,7 @@ FROM (
               description,
               order_status,
               order_id
-            FROM humans
+            FROM humans as h 
             LEFT JOIN orders USING(human_id)
             LEFT JOIN pre_human_sub_skills USING(order_id)
             LEFT JOIN sub_skills USING(sub_skill_id)
@@ -99,8 +103,9 @@ FROM (
       ) AS j
   ) AS j2
 WHERE
-  order_ver =:orderId
-  AND human_id =:humanId
+  order_ver = 1
+  AND human_id = :humanId
+  AND act_status = 1
 ORDER BY
   human_id,
   skill_type,

@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.common.ReadSql;
 import com.example.demo.domain.BaseSkill;
 import com.example.demo.domain.CommonSkill;
 import com.example.demo.domain.Human;
@@ -32,9 +34,13 @@ public class HumanRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
+
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private ReadSql readSql;
+
+	static final String SQL_LOAD = "src/main/resources/sql/load.sql";
 
 	public static final ResultSetExtractor<List<Human>> EXTRACTOR = (rs) -> {
 		List<Human> humanList = new ArrayList<>();
@@ -73,7 +79,7 @@ public class HumanRepository {
 				BaseSkill baseSkill = new BaseSkill();
 				baseSkill.setBaseSkillName(rs.getString("skill_name"));
 				baseSkill.setBaseSkillId(rs.getInt("skill_id"));
-				System.out.println("検証　"+rs.getInt("skill_id"));
+				System.out.println("検証　" + rs.getInt("skill_id"));
 				preHumanBaseSkill.setBaseSkill(baseSkill);
 				baseSkills.add(preHumanBaseSkill);
 			} else if (common.equals(rs.getString("skill_type"))) {
@@ -138,45 +144,10 @@ public class HumanRepository {
 	 * 
 	 * @param humanId
 	 * @return エンジニア情報
+	 * @throws IOException
 	 */
-	public Human load(Integer humanId) {
-		String sql = "SELECT " + "  j2.human_id, " + "  j2.emp_id, " + "  j2.human_name, " + "  j2.join_date, "
-				+ "  j2.icon_img, " + "  j2.assign_company_name, " + "  j2.skill_id, " + "  j2.skill_name, "
-				+ "  j2.score, " + "  j2.skill_type, " + "  j2.description, " + "  j2.order_status, "
-				+ "  j2.order_id, " + "  j2.order_ver " + "FROM ( " + "    SELECT " + "      human_id, "
-				+ "      emp_id, " + "      human_name, " + "      join_date, " + "      icon_img, "
-				+ "      assign_company_name, " + "      skill_id, " + "      skill_name, " + "      score, "
-				+ "      skill_type, " + "      description, " + "      order_status, " + "      order_id, "
-				+ "      dense_rank() over( " + "        partition by human_id " + "        ORDER BY "
-				+ "          order_id DESC " + "      ) AS order_ver " + "    FROM ( " + "        ( "
-				+ "          SELECT " + "            human_id, " + "            emp_id, " + "            human_name, "
-				+ "            join_date, " + "            icon_img, " + "            assign_company_name, "
-				+ "            base_skill_id AS skill_id, " + "            base_skill_name AS skill_name, "
-				+ "            base_skill_score AS score, " + "            'base' AS skill_type, "
-				+ "            '' AS description, " + "            order_status, " + "            order_id "
-				+ "          FROM humans " + "          LEFT JOIN orders USING(human_id) "
-				+ "          LEFT JOIN pre_human_base_skills USING(order_id) "
-				+ "          LEFT JOIN base_skills USING(base_skill_id) " + "        ) " + "        UNION "
-				+ "          ( " + "            SELECT " + "              human_id, " + "              emp_id, "
-				+ "              human_name, " + "              join_date, " + "              icon_img, "
-				+ "              assign_company_name, " + "              common_skill_id AS skill_id, "
-				+ "              common_skill_name AS skill_name, " + "              common_skill_score AS score, "
-				+ "              'common' AS skill_type, " + "              description, "
-				+ "              order_status, " + "              order_id " + "            FROM humans "
-				+ "            LEFT JOIN orders USING(human_id) "
-				+ "            LEFT JOIN pre_human_common_skills USING(order_id) "
-				+ "            LEFT JOIN common_skills USING(common_skill_id) " + "          ) " + "        UNION "
-				+ "          ( " + "            SELECT " + "              human_id, " + "              emp_id, "
-				+ "              human_name, " + "              join_date, " + "              icon_img, "
-				+ "              assign_company_name, " + "              sub_skill_id AS skill_id, "
-				+ "              sub_skill_name AS skill_name, " + "              sub_skill_status_type AS score, "
-				+ "              'sub' AS skill_type, " + "              description, " + "              order_status, "
-				+ "              order_id " + "            FROM humans "
-				+ "            LEFT JOIN orders USING(human_id) "
-				+ "            LEFT JOIN pre_human_sub_skills USING(order_id) "
-				+ "            LEFT JOIN sub_skills USING(sub_skill_id) " + "          ) " + "      ) AS j "
-				+ "  ) AS j2 " + " WHERE " + "  order_ver = 1 " + "  AND human_id =:humanId " + " ORDER BY "
-				+ "  human_id, " + "  skill_type, " + "  skill_id";
+	public Human load(Integer humanId) throws IOException {
+		String sql = readSql.readAll(SQL_LOAD);
 		SqlParameterSource param = new MapSqlParameterSource().addValue("humanId", humanId);
 		List<Human> humanList = template.query(sql, param, EXTRACTOR);
 		if (humanList.size() == 0) {
@@ -191,17 +162,21 @@ public class HumanRepository {
 	 * 
 	 * @param human
 	 */
-	public Integer insertHuman(Human human,Timestamp date) {
+	public Integer insertHuman(Human human, Timestamp date) {
 		String insertSql = "INSERT INTO HUMANS(user_id,emp_id,human_name,join_date,icon_img,act_status,version_num,register,regist_date)"
-			+ "VALUES(?,?,?,?,?,?,?,?,?) RETURNING human_id";
-		Integer a = jdbcTemplate.queryForObject(insertSql,Integer.class,human.getUserId(),human.getEmpId(),human.getHumanName(),human.getJoinDate(),human.getIconImg(),1,1,human.getHumanName(),date);
-		return a;}
-		
-	/* エンジニアを一覧表示するメソッド.
+				+ "VALUES(?,?,?,?,?,?,?,?,?) RETURNING human_id";
+		Integer humanId = jdbcTemplate.queryForObject(insertSql, Integer.class, human.getUserId(), human.getEmpId(),
+				human.getHumanName(), human.getJoinDate(), human.getIconImg(), 1, 1, human.getHumanName(), date);
+		return humanId;
+	}
+
+	/*
+	 * エンジニアを一覧表示するメソッド.
 	 * 
 	 * userRoleが１～２の場合、全エンジニアを表示、userRoleが３の場合、ユーザーと全員がアクセス可能なエンジニアを表示
 	 * 
 	 * @param ユーザーロール
+	 * 
 	 * @return エンジニア情報リスト
 	 */
 	public List<Human> getList(ShowHumanListForm form, Integer userRole, Integer userId) {
@@ -209,7 +184,8 @@ public class HumanRepository {
 		StringBuilder sb = new StringBuilder();
 		sb.append(
 				"select HUMANS.user_id,HUMANS.human_id,HUMANS.human_name, HUMANS.join_date,HUMANS.icon_img,HUMANS.assign_company_name, ");
-		sb.append("ORDERS.order_status,PRE_HUMAN_BASE_SKILLS.base_skill_score,BASE_SKILLS.base_skill_name,BASE_SKILLS.base_skill_id as skill_id ");
+		sb.append(
+				"ORDERS.order_status,PRE_HUMAN_BASE_SKILLS.base_skill_score,BASE_SKILLS.base_skill_name,BASE_SKILLS.base_skill_id as skill_id ");
 		sb.append("from HUMANS ");
 		sb.append("LEFT OUTER JOIN ORDERS USING(human_id) ");
 		sb.append("LEFT OUTER JOIN PRE_HUMAN_BASE_SKILLS USING(order_id) ");
@@ -220,11 +196,10 @@ public class HumanRepository {
 					sb.append(" WHERE HUMANS.human_name LIKE :name ");
 				}
 				if (form.getOrder() != "") {
-					if(form.getOrder().equals("joinDate") ) {
-						sb.append("ORDER BY  " + "	HUMANS.join_date " + "desc, "+"HUMANS.human_id  ");	
-					}
-					else {
-						sb.append("ORDER BY  " + "ORDERS.order_status, " + "HUMANS.human_id ");	
+					if (form.getOrder().equals("joinDate")) {
+						sb.append("ORDER BY  " + "	HUMANS.join_date " + "desc, " + "HUMANS.human_id  ");
+					} else {
+						sb.append("ORDER BY  " + "ORDERS.order_status, " + "HUMANS.human_id ");
 					}
 				}
 				SqlParameterSource param = new MapSqlParameterSource().addValue("name", ("%" + form.getName() + "%"));
@@ -233,22 +208,21 @@ public class HumanRepository {
 				humanList = template.query(sb.toString(), EXTRACTOR_ONLY_BASESKILL);
 			}
 		} else {
-				if(form.getName()!="") {
-					sb.append("WHERE ( HUMANS.user_id=:userId ) OR ");
-					sb.append(" ( (HUMANS.emp_id= 999 OR HUMANS.emp_id=99) ");
-					sb.append(" AND HUMANS.human_name LIKE :name ) ");
-					SqlParameterSource param = new MapSqlParameterSource().addValue("userId",userId).addValue("name", ("%" + form.getName() + "%"));
-						humanList = template.query(sb.toString(), param, EXTRACTOR_ONLY_BASESKILL);
-				}else {
-					sb.append("WHERE  HUMANS.user_id=:userId  OR ");
-					sb.append(" (HUMANS.emp_id= 999 OR HUMANS.emp_id=99) ");
-						SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
-						humanList = template.query(sb.toString(), param, EXTRACTOR_ONLY_BASESKILL);
-				}
+			if (form.getName() != "") {
+				sb.append("WHERE ( HUMANS.user_id=:userId ) OR ");
+				sb.append(" ( (HUMANS.emp_id= 999 OR HUMANS.emp_id=99) ");
+				sb.append(" AND HUMANS.human_name LIKE :name ) ");
+				SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("name",
+						("%" + form.getName() + "%"));
+				humanList = template.query(sb.toString(), param, EXTRACTOR_ONLY_BASESKILL);
+			} else {
+				sb.append("WHERE  HUMANS.user_id=:userId  OR ");
+				sb.append(" (HUMANS.emp_id= 999 OR HUMANS.emp_id=99) ");
+				SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
+				humanList = template.query(sb.toString(), param, EXTRACTOR_ONLY_BASESKILL);
 			}
+		}
 		return humanList;
 	}
-	
-	
 
 }

@@ -27,8 +27,8 @@ public class OrderRepository {
 	public Integer insertOrder(Orders orders, String humanName, Timestamp date) {
 		String insertSql = "INSERT INTO ORDERS(human_id,order_status,act_status,version_num,register,regist_date)"
 				+ "VALUES(?,?,?,?,?,?) RETURNING order_id";
-		Integer a = jdbcTemplate.queryForObject(insertSql, Integer.class,orders.getHumanId(),orders.getOrderStatus(),orders.getActStatus(),orders.getVersionNum(),humanName, date);
-		return a;
+		Integer orderId = jdbcTemplate.queryForObject(insertSql, Integer.class,orders.getHumanId(),orders.getOrderStatus(),orders.getActStatus(),orders.getVersionNum(),humanName, date);
+		return orderId;
 
 	}
 	

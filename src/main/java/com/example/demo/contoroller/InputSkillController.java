@@ -1,9 +1,8 @@
 package com.example.demo.contoroller;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +34,7 @@ public class InputSkillController {
 
 	@Autowired
 	private InputSkillService inputSkillService;
-	
+
 	@Autowired
 	private ShowHumanService humanService;
 
@@ -49,33 +48,34 @@ public class InputSkillController {
 	 * 
 	 * @param model
 	 * @return 入力画面
+	 * @throws IOException
 	 */
 	@RequestMapping("showSkillForm")
-	public String showSkillForm(Model model,Integer humanId) {
-		List<BaseSkill>baseSkillList=inputSkillService.findAllBaseSkill();
-		Human user=null;
-		if(humanId!=null) {
-		List<Integer> selectOptions=new ArrayList<>();
-		for(int i=1;i<=5;i++) {
-			selectOptions.add(i);
-		}
-		model.addAttribute("selectOptions",selectOptions);
-			user=humanService.load(humanId);
-			Map<Integer,String> valueMap=new HashMap<>();
-			for(int i=1;i<=baseSkillList.size();i++) {
+	public String showSkillForm(Model model, Integer humanId) {
+		List<BaseSkill> baseSkillList = inputSkillService.findAllBaseSkill();
+		Human user = null;
+		if (humanId != null) {
+			List<Integer> selectOptions = new ArrayList<>();
+			for (int i = 1; i <= 5; i++) {
+				selectOptions.add(i);
+			}
+			model.addAttribute("selectOptions", selectOptions);
+			user = humanService.load(humanId);
+			Map<Integer, String> valueMap = new HashMap<>();
+			for (int i = 1; i <= baseSkillList.size(); i++) {
 				valueMap.put(i, "off");
 			}
-			for(PreHumanSubSkill subSkill:user.getSubSkills()) {
-				for(int i=1;i<=baseSkillList.size();i++) {
-					if(subSkill.getSubSkillId()==i) {
-						valueMap.put(i,"on");
-					}else if(subSkill.getSubSkillId()==null) {
+			for (PreHumanSubSkill subSkill : user.getSubSkills()) {
+				for (int i = 1; i <= baseSkillList.size(); i++) {
+					if (subSkill.getSubSkillId() == i) {
+						valueMap.put(i, "on");
+					} else if (subSkill.getSubSkillId() == null) {
 						break;
 					}
-				} 
+				}
 			}
-			model.addAttribute("valueMap",valueMap);
-			model.addAttribute("user",user);
+			model.addAttribute("valueMap", valueMap);
+			model.addAttribute("user", user);
 		}
 		model.addAttribute("baseSkillList", baseSkillList);
 		model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
@@ -163,6 +163,5 @@ public class InputSkillController {
 		return imageFileName.substring(point + 1);
 
 	}
-	
-	
+
 }

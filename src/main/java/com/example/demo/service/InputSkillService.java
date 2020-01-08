@@ -85,7 +85,7 @@ public class InputSkillService {
 	 */
 	public void insertHuman(InputSkillForm form) throws ParseException {
 		Human human = new Human();
-		// SpringSecurityが完成次第.
+		//TODO SpringSecurityが完成次第.
 		human.setUserId(2);
 		human.setEmpId(Integer.parseInt(form.getEmpId()));
 		human.setHumanName(form.getHumanName());

@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +23,13 @@ public class ShowHumanService {
 	private HumanRepository humanRepository;
 
 	public Human load(Integer humanId) {
-		return humanRepository.load(humanId);
+		try {
+			return humanRepository.load(humanId);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
