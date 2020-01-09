@@ -1,18 +1,12 @@
 package com.example.demo.contoroller;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import org.apache.tomcat.util.codec.binary.Base64;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +28,12 @@ import com.example.demo.form.InputSkillForm;
 import com.example.demo.service.InputSkillService;
 import com.example.demo.service.OrderConfirmationService;
 
+/**
+ * スキル申請確認画面に関するコントローラ.
+ * 
+ * @author atsushi
+ *
+ */
 @Controller
 @RequestMapping("")
 public class OrderConfirmationController {
@@ -52,7 +52,7 @@ public class OrderConfirmationController {
 	@RequestMapping("/order-conf")
 	public String showOrderConfirmation(@Validated InputSkillForm form, BindingResult result, Model model)
 			throws ParseException, UnsupportedEncodingException, IOException {
-		System.out.println("form111111 * " + form);
+
 		Human human = new Human();
 		human.setEmpId(form.getIntEmpId());
 		human.setHumanName(form.getHumanName());
@@ -190,16 +190,15 @@ public class OrderConfirmationController {
 	
 
 	/**
-	 * スキル登録するメソッド.
+	 * スキル登録をするメソッド.
 	 * 
 	 * @param スキル情報
 	 * @param エラーメッセージ格納変数
-	 * @return おそらく個別スキル画面.
+	 * @return 社員一覧
 	 */
 	@RequestMapping("/insert-skills")
 	public String insertSkills(@Validated InputSkillForm form, byte[] iconImageByte, String iconImageName,
 			BindingResult result, Model model) {
-		System.out.println("form * " + form);
 
 		// 画像のバリデーションチェックのメソッドを呼び出す
 		checkImage(iconImageByte, iconImageName, result);
@@ -225,11 +224,10 @@ public class OrderConfirmationController {
 	/**
 	 * 画像ファイルのバリデーションチェックメソッド.
 	 * 
-	 * @param 入力したスキル情報.
+	 * @param 入力したスキル情報
 	 * @param エラーメッセージ格納変数
 	 */
 	public void checkImage(byte[] iconImageByte, String iconImageName, BindingResult result) {
-//		MultipartFile imageFile = form.getIconImage();
 		String fileExtension = null;
 		try {
 			fileExtension = extractExtension(iconImageName);

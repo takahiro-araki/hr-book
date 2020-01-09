@@ -14,12 +14,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.domain.BaseSkill;
 import com.example.demo.domain.CommonSkill;
 import com.example.demo.domain.Human;
-import com.example.demo.domain.LoginUser;
 import com.example.demo.domain.Orders;
 import com.example.demo.domain.PreHumanBaseSkill;
 import com.example.demo.domain.PreHumanCommonSkill;

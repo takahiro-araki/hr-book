@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.domain.Human;
 import com.example.demo.domain.LoginUser;
-import com.example.demo.domain.PreHumanBaseSkill;
 import com.example.demo.form.ShowHumanListForm;
 import com.example.demo.service.ShowHumanListService;
 
