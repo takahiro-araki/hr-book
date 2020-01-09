@@ -26,7 +26,13 @@
 	<div class="container">
 		<div class="form-box">
 			<form method="post" id="submit" th:action="@{/order-conf}"
-				enctype="multipart/form-data" th:object="${inputSkillForm}">
+                enctype="multipart/form-data" th:object="${inputSkillForm}">
+                <div th:if="${user}!=null">
+                    <input　type="hidden" th:value="${user.empId}"　name="empId">
+                    <input　type="hidden" th:value="${user.humanName}"　name="humanName">
+                    <input　type="hidden" th:value="${user.joinDate}"　name="joinDate">
+                    <input　type="hidden" th:value="${user.assignCompanyName}"　name="assignCompanyName">
+                </div>
 				<div class="editField" th:if="${user}==null">
 					<div class="profile">
 						<h2>Profile</h2>

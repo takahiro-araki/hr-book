@@ -44,17 +44,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// 認可に関する設定
-		http.authorizeRequests().antMatchers("/user/**", "/login", "/toLogin", "/toInsert", "/insert","/showSkillForm","/order-conf", "/emp-list","/insert-skills","/list").permitAll() //"/showSkillForm"(SALES以外見れる)、, "/order-conf"(USERSのみ見れる)あとで消す
-				.antMatchers("/personal-page").hasRole("SALES") // "/list"戻す
+		http.authorizeRequests().antMatchers("/user/**", "/login", "/toLogin", "/toInsert", "/insert","/showSkillForm", "/insert-skills","/list","/showSkillForm", "/order-conf").permitAll() 
+				.antMatchers().hasRole("SALES") 
 				.antMatchers("/skill-registe", "/personal-page", "/personal-edit" // 限定的.基本はuserのみ.
-						) // "/list"戻す
+						) //, "/showSkillForm"追加する
 				.hasRole("ADMIN")
-				.antMatchers("/skill-registe", "/personal-page", "/personal-edit") //"/order-conf"、"/emp-list"を戻す
+				.antMatchers("/skill-registe", "/personal-page", "/personal-edit") //, "/order-conf", "/showSkillForm"追加する
 				.hasRole("USER").anyRequest().authenticated();
 
 		// ログインに関する設定
 		http.formLogin().loginPage("/user/login").loginProcessingUrl("/user/toLogin")
-				.failureUrl("/user/toLogin?error=true").defaultSuccessUrl("/list", true) // 荒木さんの作成したページのパス
+				.failureUrl("/user/toLogin?error=true").defaultSuccessUrl("/list", true)
 				.usernameParameter("mailAddress").passwordParameter("password");
 
 		// ログアウトに関する設定
