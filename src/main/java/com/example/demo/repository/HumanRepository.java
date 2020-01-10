@@ -56,6 +56,7 @@ public class HumanRepository {
 			int nowHumanId = rs.getInt("human_id");
 			if (beforeHumanId != nowHumanId) {
 				Human human = new Human();
+				human.setHumanId(rs.getInt("human_id"));
 				human.setEmpId(rs.getInt("emp_id"));
 				human.setHumanName(rs.getString("human_name"));
 				human.setJoinDate(rs.getDate("join_date"));
