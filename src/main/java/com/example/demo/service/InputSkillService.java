@@ -109,7 +109,6 @@ public class InputSkillService {
 		order.setHumanId(humanId);
 		order.setActStatus(1);
 		order.setOrderStatus(1);
-		order.setActStatus(1);
 		order.setVersionNum(1);
 		order.setRegister(form.getHumanName());
 		order.setRegistDate(returnToday());
