@@ -1,10 +1,16 @@
 package com.example.demo.contoroller;
 
+import java.util.Objects;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.domain.Human;
+import com.example.demo.domain.LoginUser;
 import com.example.demo.service.ShowHumanService;
 
 /**
@@ -19,6 +25,8 @@ public class ShowHumanController {
 
 	@Autowired
 	private ShowHumanService humanService;
+	@Autowired
+	private HttpSession session;
 
 	/**
 	 * エンジニアの個別のスキル詳細ページを表示するメソッド.
@@ -26,10 +34,15 @@ public class ShowHumanController {
 	 * @return スキル詳細ページ
 	 */
 	@RequestMapping("/detail")
-	public String showDetail(Model model, Integer humanId) {
-		if (humanId == null) humanId = 1;
-		model.addAttribute("human", humanService.load(humanId));
+	public String showDetail(Integer humanId, @AuthenticationPrincipal LoginUser loginUser) {
+		if (humanId == null)
+			humanId = 1;
+		Human human = humanService.load(humanId);
+		if (Objects.nonNull(session.getAttribute("human"))) {
+			session.removeAttribute("human");
+		}
+		session.setAttribute("human", human);
 		return "humanDetail";
 	}
-
+	
 }
