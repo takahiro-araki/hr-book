@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.domain.BaseSkill;
 import com.example.demo.domain.CommonSkill;
 import com.example.demo.domain.Human;
-import com.example.demo.domain.Orders;
+import com.example.demo.domain.Order;
 import com.example.demo.domain.PreHumanBaseSkill;
 import com.example.demo.domain.PreHumanCommonSkill;
 import com.example.demo.domain.PreHumanSubSkill;
@@ -94,7 +94,7 @@ public class InputSkillService {
 		// ここに写真を保存するメソッドを呼び出す
 		createFile(form.getIconImg());
 		Integer humanId = humanRepository.insertHuman(human, returnToday());
-		insertOrders(form, humanId);
+		insertOrder(form, humanId);
 	}
 
 	/**
@@ -104,16 +104,16 @@ public class InputSkillService {
 	 * @param humanId
 	 * @throws ParseException
 	 */
-	public void insertOrders(InputSkillForm form, Integer humanId) throws ParseException {
-		Orders orders = new Orders();
-		orders.setHumanId(humanId);
-		orders.setActStatus(1);
-		orders.setOrderStatus(1);
-		orders.setActStatus(1);
-		orders.setVersionNum(1);
-		orders.setRegister(form.getHumanName());
-		orders.setRegistDate(returnToday());
-		Integer orderId = orderRepository.insertOrder(orders, form.getHumanName(), returnToday());
+	public void insertOrder(InputSkillForm form, Integer humanId) throws ParseException {
+		Order order = new Order();
+		order.setHumanId(humanId);
+		order.setActStatus(1);
+		order.setOrderStatus(1);
+		order.setActStatus(1);
+		order.setVersionNum(1);
+		order.setRegister(form.getHumanName());
+		order.setRegistDate(returnToday());
+		Integer orderId = orderRepository.insertOrder(order, form.getHumanName(), returnToday());
 		insertPreHumanBaseSkill(form, orderId);
 	}
 

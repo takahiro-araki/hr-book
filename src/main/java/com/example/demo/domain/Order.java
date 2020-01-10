@@ -7,7 +7,7 @@ import java.util.Date;
  * @author yuma.watanebe
  *
  */
-public class Orders {
+public class Order {
 	private Integer orderId;
 	private Integer humanId;
 	private Integer orderStatus;
