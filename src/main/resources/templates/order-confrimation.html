@@ -82,8 +82,10 @@
 						</div>
 					</div>
 				</div>
+				<div th:if=${form.iconImg}>
 				<input type="hidden" th:value="${form.iconImg.getBytes()}" name="iconImageByte">
 				<input type="hidden" th:value="${form.iconImg.getOriginalFilename()}" name="iconImageName"> 
+				</div>
 				<!-- <input type="hidden" th:value="${form.baseSkillIds}" name="baseSkillIds">  -->
 				<input type="hidden" th:value="${form.baseSkillScores}" name="baseSkillScores"> 
 				<!-- <input type="hidden" th:value="${form.commonSkillIds}" name="commonSkillIds">  -->

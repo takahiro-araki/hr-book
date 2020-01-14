@@ -26,9 +26,9 @@ public class ShowHumanController {
 	 * @return スキル詳細ページ
 	 */
 	@RequestMapping("/detail")
-	public String showDetail(Model model, Integer humanId) {
-		if (humanId == null) humanId = 1;
-		model.addAttribute("human", humanService.load(humanId));
+	public String showDetail(Model model, Integer empId) {
+		if (empId == null) empId = 1;
+		model.addAttribute("human", humanService.load(empId));
 		return "humanDetail";
 	}
 
