@@ -22,9 +22,9 @@ public class ShowHumanService {
 	@Autowired
 	private HumanRepository humanRepository;
 
-	public Human load(Integer humanId) {
+	public Human load(Integer empId) {
 		try {
-			return humanRepository.load(humanId);
+			return humanRepository.load(empId);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

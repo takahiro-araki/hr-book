@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.common.ReadSql;
+import com.example.demo.common.UserRole;
 import com.example.demo.domain.BaseSkill;
 import com.example.demo.domain.CommonSkill;
 import com.example.demo.domain.Human;
@@ -41,6 +42,8 @@ public class HumanRepository {
 	private ReadSql readSql;
 
 	static final String SQL_LOAD = "src/main/resources/sql/load.sql";
+
+	static final String SQL_SHOW_LIST = "src/main/resources/sql/showList.sql";
 
 	public static final ResultSetExtractor<List<Human>> EXTRACTOR = (rs) -> {
 		List<Human> humanList = new ArrayList<>();
@@ -111,11 +114,13 @@ public class HumanRepository {
 		List<Human> humanList = new ArrayList<>();
 		List<PreHumanBaseSkill> baseSkills = null;
 		int beforeHumanId = -1;
+		String base = "base";
 		while (rs.next()) {
 			int nowHumanId = rs.getInt("human_id");
 			if (beforeHumanId != nowHumanId) {
 				Human human = new Human();
 				human.setHumanId(rs.getInt("human_id"));
+				human.setEmpId(rs.getInt("emp_id"));
 				human.setHumanName(rs.getString("human_name"));
 				human.setUserId(rs.getInt("user_id"));
 				human.setJoinDate(rs.getDate("join_date"));
@@ -127,14 +132,16 @@ public class HumanRepository {
 				humanList.add(human);
 				beforeHumanId = nowHumanId;
 			}
-			PreHumanBaseSkill preHumanBaseSkill = new PreHumanBaseSkill();
-			preHumanBaseSkill.setBaseSkillScore(rs.getInt("base_skill_score"));
-			preHumanBaseSkill.setBaseSkillId(rs.getInt("skill_id"));
-			BaseSkill baseSkill = new BaseSkill();
-			baseSkill.setBaseSkillName(rs.getString("base_skill_name"));
-			baseSkill.setBaseSkillId(rs.getInt("skill_id"));
-			preHumanBaseSkill.setBaseSkill(baseSkill);
-			baseSkills.add(preHumanBaseSkill);
+			if (base.equals(rs.getString("skill_type"))) {
+				PreHumanBaseSkill preHumanBaseSkill = new PreHumanBaseSkill();
+				preHumanBaseSkill.setBaseSkillScore(rs.getInt("score"));
+				preHumanBaseSkill.setBaseSkillId(rs.getInt("skill_id"));
+				BaseSkill baseSkill = new BaseSkill();
+				baseSkill.setBaseSkillName(rs.getString("skill_name"));
+				baseSkill.setBaseSkillId(rs.getInt("skill_id"));
+				preHumanBaseSkill.setBaseSkill(baseSkill);
+				baseSkills.add(preHumanBaseSkill);
+			}
 		}
 		return humanList;
 	};
@@ -142,13 +149,13 @@ public class HumanRepository {
 	/**
 	 * エンジニア一人をloadするメソッド.
 	 * 
-	 * @param humanId
+	 * @param empId
 	 * @return エンジニア情報
 	 * @throws IOException
 	 */
-	public Human load(Integer humanId) throws IOException {
+	public Human load(Integer empId) throws IOException {
 		String sql = readSql.readAll(SQL_LOAD);
-		SqlParameterSource param = new MapSqlParameterSource().addValue("humanId", humanId);
+		SqlParameterSource param = new MapSqlParameterSource().addValue("empId", empId);
 		List<Human> humanList = template.query(sql, param, EXTRACTOR);
 		if (humanList.size() == 0) {
 			return null;
@@ -173,33 +180,29 @@ public class HumanRepository {
 	/*
 	 * エンジニアを一覧表示するメソッド.
 	 * 
-	 * userRoleが１～２の場合、全エンジニアを表示、userRoleが３の場合、ユーザーと全員がアクセス可能なエンジニアを表示
+	 * userRoleが0～１の場合、全エンジニアを表示、userRoleが2の場合、ユーザーと全員がアクセス可能なエンジニアを表示
 	 * 
 	 * @param ユーザーロール
 	 * 
 	 * @return エンジニア情報リスト
 	 */
-	public List<Human> getList(ShowHumanListForm form, Integer userRole, Integer userId) {
+	public List<Human> getList(ShowHumanListForm form, Integer userRole, Integer userId) throws IOException {
+		String sql = readSql.readAll(SQL_SHOW_LIST);
+		StringBuilder sb = new StringBuilder(sql);
 		List<Human> humanList = null;
-		StringBuilder sb = new StringBuilder();
-		sb.append(
-				"select HUMANS.user_id,HUMANS.human_id,HUMANS.human_name, HUMANS.join_date,HUMANS.icon_img,HUMANS.assign_company_name, ");
-		sb.append(
-				"ORDERS.order_status,PRE_HUMAN_BASE_SKILLS.base_skill_score,BASE_SKILLS.base_skill_name,BASE_SKILLS.base_skill_id as skill_id ");
-		sb.append("from HUMANS ");
-		sb.append("LEFT OUTER JOIN ORDERS USING(human_id) ");
-		sb.append("LEFT OUTER JOIN PRE_HUMAN_BASE_SKILLS USING(order_id) ");
-		sb.append("LEFT OUTER JOIN BASE_SKILLS USING(base_skill_id) ");
-		if (userRole == 1 || userRole == 2) {
+		UserRole role = new UserRole();
+
+		if (userRole == role.ADMINISTRATOR || userRole == role.INSIDE_OFFICE) {
 			if (form.search()) {
 				if (form.getName() != "") {
-					sb.append(" WHERE HUMANS.human_name LIKE :name ");
+					sb.append("WHERE (order_ver = 1 AND act_status = 1) AND ");
+					sb.append(" j2.human_name LIKE :name ");
 				}
 				if (form.getOrder() != "") {
 					if (form.getOrder().equals("joinDate")) {
-						sb.append("ORDER BY  " + "	HUMANS.join_date " + "desc, " + "HUMANS.human_id  ");
+						sb.append("ORDER BY  " + "	j2.join_date " + "desc, " + "j2.human_id  ");
 					} else {
-						sb.append("ORDER BY  " + "ORDERS.order_status, " + "HUMANS.human_id ");
+						sb.append("ORDER BY  " + "j2.order_status, " + "j2.human_id ");
 					}
 				}
 				SqlParameterSource param = new MapSqlParameterSource().addValue("name", ("%" + form.getName() + "%"));
@@ -208,16 +211,17 @@ public class HumanRepository {
 				humanList = template.query(sb.toString(), EXTRACTOR_ONLY_BASESKILL);
 			}
 		} else {
+			sb.append("WHERE (order_ver = 1 AND act_status = 1) AND ");
 			if (form.getName() != "") {
-				sb.append("WHERE ( HUMANS.user_id=:userId ) OR ");
-				sb.append(" ( (HUMANS.emp_id= 999 OR HUMANS.emp_id=99) ");
-				sb.append(" AND HUMANS.human_name LIKE :name ) ");
+				sb.append("( j2.user_id=:userId ) OR ");
+				sb.append(" ( (j2.emp_id= 999 OR j2.emp_id=99) ");
+				sb.append(" AND j2.human_name LIKE :name ) ");
 				SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("name",
 						("%" + form.getName() + "%"));
 				humanList = template.query(sb.toString(), param, EXTRACTOR_ONLY_BASESKILL);
 			} else {
-				sb.append("WHERE  HUMANS.user_id=:userId  OR ");
-				sb.append(" (HUMANS.emp_id= 999 OR HUMANS.emp_id=99) ");
+				sb.append(" ( j2.user_id=:userId  OR ");
+				sb.append(" (j2.emp_id= 999 OR j2.emp_id=99) )");
 				SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 				humanList = template.query(sb.toString(), param, EXTRACTOR_ONLY_BASESKILL);
 			}

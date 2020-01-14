@@ -56,7 +56,7 @@
 						<div th:class="skill-point" th:text="*{baseSkillScore}">100</div>
 					</div>
 				</div>
-				<a th:href="@{/emp-list/detail(humanId=${user.humanId})}"><button>個別詳細へ進む</button></a>
+				<a th:href="@{/emp-list/detail(empId=${user.empId})}"><button>個別詳細へ進む</button></a>
 			</div>
 		</div>
 		<div class="main-contents" th:unless="${user!=null}">
@@ -125,7 +125,7 @@
 							<div class="skill-point" th:text="*{baseSkillScore}">100</div>
 						</div>
 					</div>
-					<a th:href="@{/emp-list/detail(humanId=${human.humanId})}"><button>個別詳細へ進む</button></a> 
+					<a th:href="@{/emp-list/detail(empId=${human.empId})}"><button>個別詳細へ進む</button></a> 
 				</div>
 			</div>
 			<span class="pagenation" th:if="${humanPage.totalPages>0}"

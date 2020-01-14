@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import org.apache.tomcat.util.codec.binary.Base64;
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,7 @@ import com.example.demo.domain.SubSkill;
 import com.example.demo.form.InputSkillForm;
 import com.example.demo.service.InputSkillService;
 import com.example.demo.service.OrderConfirmationService;
+import com.example.demo.service.ShowHumanService;
 
 /**
  * スキル申請確認画面に関するコントローラ.
@@ -49,6 +51,9 @@ public class OrderConfirmationController {
 	@Autowired
 	private InputSkillService inputSkillService;
 
+	@Autowired
+	private ShowHumanService humanService;
+	
 	@RequestMapping("/order-conf")
 	public String showOrderConfirmation(@Validated InputSkillForm form, BindingResult result, Model model)
 			throws ParseException, UnsupportedEncodingException, IOException {
@@ -122,13 +127,12 @@ public class OrderConfirmationController {
 	@RequestMapping("/edit-order-conf")
 	public String showOrderConfirmationFromEdit(@Validated InputSkillForm form, BindingResult result, Model model)
 			throws ParseException, UnsupportedEncodingException, IOException {
-		System.out.println("form111111 * " + form);
 		Human human = new Human();
 		human.setEmpId(form.getIntEmpId());
 		human.setHumanName(form.getHumanName());
 		human.setAssignCompanyName(form.getAssignCompanyName());
 		human.setJoinDate(form.getDateJoinData());
-		human.setIconImg(changeBase64(form.getIconImg()));
+		human.setIconImg(form.getIconImgName());
 		model.addAttribute("human", human);
 		// baseSkillScoreのバリデーションチェック
 		for (String score : form.getBaseSkillScores()) {
@@ -184,7 +188,6 @@ public class OrderConfirmationController {
 		model.addAttribute("preHumanCommonSkillList", preHumanCommonSkillList);
 		model.addAttribute("preHumanSubSkillList", preHumanSubSkillList);
 		model.addAttribute("form", form);
-
 		return "order-confrimation";
 	}
 	
@@ -201,17 +204,19 @@ public class OrderConfirmationController {
 			BindingResult result, Model model) {
 
 		// 画像のバリデーションチェックのメソッドを呼び出す
-		checkImage(iconImageByte, iconImageName, result);
+		if(form.getIconImg()!=null) checkImage(iconImageByte, iconImageName, result);
 		// result.hasErrorメソッド
 		if (result.hasErrors()) {
+			System.out.println("確認"+result.toString());
 			model.addAttribute("baseSkillList", inputSkillService.findAllBaseSkill());
 			model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
 			model.addAttribute("subSkillList", inputSkillService.findAllSubSkill());
 			return "regist";
 		}
 		try {
-			// 社員番号があればhumanを追加する処理
-			if(form.getEmpId() != null) {
+			// 社員番号がDB上にあればhumanを追加する処理
+			Optional<Human>human=Optional.ofNullable(humanService.load(Integer.parseInt(form.getEmpId())));
+			if(!human.isPresent()) {
 				orderConfirmationService.insertHuman(form, iconImageByte, iconImageName);
 			}
 		} catch (ParseException e) {
@@ -220,6 +225,8 @@ public class OrderConfirmationController {
 		}
 		return "redirect:/list";
 	}
+	
+	
 
 	/**
 	 * 画像ファイルのバリデーションチェックメソッド.
@@ -231,10 +238,6 @@ public class OrderConfirmationController {
 		String fileExtension = null;
 		try {
 			fileExtension = extractExtension(iconImageName);
-			/*
-			 * System.out.println("検証"+iconImageName);
-			 * System.out.println("検証"+fileExtension);
-			 */
 			extractExtension(iconImageName);
 			if (!"jpg".equals(fileExtension) && !"png".equals(fileExtension)) {
 				result.rejectValue("iconImg", "", "拡張子が.pngまたは.jpgのファイルを選択してください");

@@ -1,6 +1,5 @@
 package com.example.demo.contoroller;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,8 +8,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -47,7 +44,7 @@ public class EditHuman {
 	 * @return 編集画面
 	 */
 	@RequestMapping("showEditForm")
-	public String showSkillForm(Model model, Integer humanId) {
+	public String showSkillForm(Model model, Integer empId) {
 			List<BaseSkill> baseSkillList = inputSkillService.findAllBaseSkill();
 			Human user = null;
 			List<Integer> selectOptions = new ArrayList<>();
@@ -55,7 +52,7 @@ public class EditHuman {
 				selectOptions.add(i);
 			}
 			model.addAttribute("selectOptions", selectOptions);
-			user = humanService.load(humanId);
+			user = humanService.load(empId);
 			Map<Integer, String> valueMap = new HashMap<>();
 			for (int i = 1; i <= baseSkillList.size(); i++) {
 				valueMap.put(i, "off");

@@ -1,46 +1,10 @@
 SELECT
-  j2.human_id,
-  j2.emp_id,
-  j2.human_name,
-  j2.join_date,
-  j2.icon_img,
-  j2.assign_company_name,
-  j2.skill_id,
-  j2.skill_name,
-  j2.score,
-  j2.skill_type,
-  j2.description,
-  j2.order_status,
-  j2.order_id,
-  j2.order_ver
+  j2.user_id,j2.human_id,j2.emp_id,j2.human_name,j2.join_date,j2.icon_img,j2.assign_company_name,j2.skill_id,j2.skill_name,j2.score,j2.skill_type,j2.description,j2.order_status,j2.order_id,j2.order_ver
 FROM (
     SELECT
-      human_id,
-      act_status,
-      emp_id,
-      human_name,
-      join_date,
-      icon_img,
-      assign_company_name,
-      skill_id,
-      skill_name,
-      score,
-      skill_type,
-      description,
-      order_status,
-      order_id,
-      dense_rank() over(
-        partition by human_id
-        ORDER BY
-          order_id DESC
-      ) AS order_ver
-    FROM (
-        (
-          SELECT
-            human_id,
-            h.act_status,
-            emp_id,
-            human_name,
+      user_id,human_id,act_status,emp_id,human_name,join_date,icon_img,assign_company_name,skill_id,skill_name,score,skill_type,description,order_status,order_id,
+      dense_rank() over( partition by human_id ORDER BY order_id DESC ) AS order_ver
+    FROM ( ( SELECT   user_id,human_id, h.act_status,emp_id, human_name,
             join_date,
             icon_img,
             assign_company_name,
@@ -59,7 +23,7 @@ FROM (
         UNION
           (
             SELECT
-              human_id,
+              user_id,human_id,
             h.act_status,
               emp_id,
               human_name,
@@ -81,7 +45,7 @@ FROM (
         UNION
           (
             SELECT
-              human_id,
+              user_id,human_id,
             h.act_status,
               emp_id,
               human_name,
@@ -102,11 +66,4 @@ FROM (
           )
       ) AS j
   ) AS j2
-WHERE
-  order_ver = 1
-  AND emp_id = :empId
-  AND act_status = 1
-ORDER BY
-  human_id,
-  skill_type,
-  skill_id;
+

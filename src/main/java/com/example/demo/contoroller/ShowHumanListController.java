@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.common.UserRole;
 import com.example.demo.domain.Human;
 import com.example.demo.domain.LoginUser;
 import com.example.demo.form.ShowHumanListForm;
@@ -50,18 +51,22 @@ public class ShowHumanListController {
 		}
 		List<Human> humanList = showHumanListService.showList(form, loginUser.getUser().getUserRole(),
 				loginUser.getUser().getUserId());
-		if (loginUser.getUser().getUserRole() == 2) {
+		int num = -1;
+		UserRole role=new UserRole();
+		if (loginUser.getUser().getUserRole() ==role.ENGINEER ) {			
 			Human user = null;
-			int num = -1;
+			
 			for (int i = 0; i < humanList.size(); i++) {
-				if (humanList.get(i).getUserId() == 1) {
+				if (humanList.get(i).getUserId() == loginUser.getUser().getUserId()) {
 					user = new Human();
 					BeanUtils.copyProperties(humanList.get(i), user);
 					num = i;
 				}
 			}
-			humanList.remove(num);
 			model.addAttribute("user", user);
+		}
+		if(num!=-1) {
+			humanList.remove(num);	
 		}
 		Page<Human> humanPage = showHumanListService.showListPaging(form.getPage(), VIEW_SIZE, humanList);
 		List<Integer> pageNum = calcPageNum(model, humanPage);
@@ -88,5 +93,4 @@ public class ShowHumanListController {
 		}
 		return pageNum;
 	}
-
 }

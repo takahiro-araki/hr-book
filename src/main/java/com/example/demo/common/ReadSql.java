@@ -28,5 +28,6 @@ public class ReadSql {
 		return Files.lines(Paths.get(path), Charset.forName("UTF-8"))
 				.collect(Collectors.joining(System.getProperty("line.separator")));
 	}
+	
 
 }

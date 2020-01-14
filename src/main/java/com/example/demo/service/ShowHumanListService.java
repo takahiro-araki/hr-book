@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,9 +34,14 @@ public class ShowHumanListService {
 	 * @return
 	 */
 	public List<Human> showList(ShowHumanListForm form,Integer userRole, Integer userId) {
+		try {
 		List<Human> humanList = humanRepository.getList(form,userRole, userId);
-		return humanList;
+		return humanList;}catch(IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
+	
 	
 	public Page<Human>showListPaging(int page,int size,List<Human> humanList){
 	page--;

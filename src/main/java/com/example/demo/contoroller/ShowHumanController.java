@@ -38,13 +38,13 @@ public class ShowHumanController {
 	 * @return スキル詳細ページ
 	 */
 	@RequestMapping("/detail")
-	public String showDetail(Integer humanId, @AuthenticationPrincipal LoginUser loginUser) {
-		if (humanId == null && Objects.isNull(session.getAttribute("human"))) {
-			humanId = 1;
-		} else if (humanId == null && Objects.nonNull(session.getAttribute("human"))) {
-			humanId = ((Human) session.getAttribute("human")).getHumanId();
+	public String showDetail(Integer empId, @AuthenticationPrincipal LoginUser loginUser) {
+		if (empId == null && Objects.isNull(session.getAttribute("human"))) {
+			empId = 1;
+		} else if (empId == null && Objects.nonNull(session.getAttribute("human"))) {
+			empId = ((Human) session.getAttribute("human")).getEmpId();
 		}
-		Human human = humanService.load(humanId);
+		Human human = humanService.load(empId);
 		session.setAttribute("human", human);
 		return "humanDetail";
 	}
