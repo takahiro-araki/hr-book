@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.domain.BaseSkill;
 import com.example.demo.domain.CommonSkill;
 import com.example.demo.domain.Human;
-import com.example.demo.domain.Orders;
+import com.example.demo.domain.Order;
 import com.example.demo.domain.PreHumanBaseSkill;
 import com.example.demo.domain.PreHumanCommonSkill;
 import com.example.demo.domain.PreHumanSubSkill;
@@ -35,32 +35,30 @@ import com.example.demo.repository.SubSkillRepository;
 
 @Service
 public class OrderConfirmationService {
-	
+
 	@Autowired
 	private HumanRepository humanRepository;
 
 	@Autowired
 	private OrderRepository orderRepository;
-	
+
 	@Autowired
 	private PreHumanBaseSkillRepository preHumanBaseSkillRepository;
 
 	@Autowired
 	private PreHumanCommonSkillRepository preHumanCommonSkillRepository;
-	
+
 	@Autowired
 	private PreHumanSubSkillRepository preHumanSubSkillRepository;
 
 	@Autowired
 	private BaseSkillRepository baseSkillRepository;
-	
+
 	@Autowired
 	private CommonSkillRepository commonSkillRepository;
-	
+
 	@Autowired
 	private SubSkillRepository subSkillRepository;
-	
-	
 
 	public List<BaseSkill> findAllBaseSkill() {
 		return baseSkillRepository.findAll();
@@ -80,7 +78,7 @@ public class OrderConfirmationService {
 	 * @param form
 	 * @throws ParseException
 	 */
-	public void insertHuman(InputSkillForm form,byte[] iconImageByte,String iconImageName) throws ParseException {
+	public void insertHuman(InputSkillForm form, byte[] iconImageByte, String iconImageName) throws ParseException {
 		Human human = new Human();
 		// SpringSecurityが完成次第.
 //		human.setUserId(loginUser.getUser().getUserId());
@@ -90,10 +88,11 @@ public class OrderConfirmationService {
 		human.setJoinDate(Date.valueOf(form.getJoinDate()));
 		human.setIconImg(iconImageName);
 		// ここに写真を保存するメソッドを呼び出す
-		createFile(iconImageByte,iconImageName);
+		createFile(iconImageByte, iconImageName);
 		Integer humanId = humanRepository.insertHuman(human, returnToday());
 		insertOrders(form, humanId);
 	}
+
 	/**
 	 * 基礎スキルをドメインに格納するメソッド.
 	 * 
@@ -111,6 +110,7 @@ public class OrderConfirmationService {
 		}
 		insertPreHumanCommonSkill(form, orderId);
 	}
+
 	/**
 	 * 共通スキルをドメインに格納するメソッド.
 	 * 
@@ -129,6 +129,7 @@ public class OrderConfirmationService {
 		}
 		insertPreHumanSubSkill(form, orderId);
 	}
+
 	/**
 	 * サブスキルをドメインに格納するメソッド.
 	 * 
@@ -148,10 +149,7 @@ public class OrderConfirmationService {
 			}
 		}
 	}
-	
-	
-	
-	
+
 	/**
 	 * 承認管理情報をドメインに格納するメソッド.
 	 * 
@@ -160,17 +158,18 @@ public class OrderConfirmationService {
 	 * @throws ParseException
 	 */
 	public void insertOrders(InputSkillForm form, Integer humanId) throws ParseException {
-		Orders orders = new Orders();
-		orders.setHumanId(humanId);
-		orders.setActStatus(1);
-		orders.setOrderStatus(1);
-		orders.setActStatus(1);
-		orders.setVersionNum(1);
-		orders.setRegister(form.getHumanName());
-		orders.setRegistDate(returnToday());
-		Integer orderId = orderRepository.insertOrder(orders, form.getHumanName(), returnToday());
+		Order order = new Order();
+		order.setHumanId(humanId);
+		order.setActStatus(1);
+		order.setOrderStatus(1);
+		order.setActStatus(1);
+		order.setVersionNum(1);
+		order.setRegister(form.getHumanName());
+		order.setRegistDate(returnToday());
+		Integer orderId = orderRepository.insertOrder(order, form.getHumanName(), returnToday());
 		insertPreHumanBaseSkill(form, orderId);
 	}
+
 	/**
 	 * 入力した日付を返すメソッド.
 	 * 
@@ -181,6 +180,7 @@ public class OrderConfirmationService {
 		return new Timestamp(System.currentTimeMillis());
 
 	}
+
 	/**
 	 * エンジニアの画像を書き込むファイルを作成するメソッド.
 	 * 
@@ -198,6 +198,7 @@ public class OrderConfirmationService {
 		}
 
 	}
+
 	/**
 	 * 画像をファイルに書き込むメソッド.
 	 * 
