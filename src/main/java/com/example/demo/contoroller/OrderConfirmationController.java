@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.domain.BaseSkill;
 import com.example.demo.domain.CommonSkill;
 import com.example.demo.domain.Human;
+import com.example.demo.domain.LoginUser;
 import com.example.demo.domain.PreHumanBaseSkill;
 import com.example.demo.domain.PreHumanCommonSkill;
 import com.example.demo.domain.PreHumanSubSkill;
@@ -200,14 +202,13 @@ public class OrderConfirmationController {
 	 * @return 社員一覧
 	 */
 	@RequestMapping("/insert-skills")
-	public String insertSkills(@Validated InputSkillForm form, byte[] iconImageByte, String iconImageName,
+	public String insertSkills(@AuthenticationPrincipal LoginUser loginUser,@Validated InputSkillForm form, byte[] iconImageByte, String iconImageName,
 			BindingResult result, Model model) {
 
 		// 画像のバリデーションチェックのメソッドを呼び出す
 		if(form.getIconImg()!=null) checkImage(iconImageByte, iconImageName, result);
 		// result.hasErrorメソッド
 		if (result.hasErrors()) {
-			System.out.println("確認"+result.toString());
 			model.addAttribute("baseSkillList", inputSkillService.findAllBaseSkill());
 			model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
 			model.addAttribute("subSkillList", inputSkillService.findAllSubSkill());
@@ -217,7 +218,9 @@ public class OrderConfirmationController {
 			// 社員番号がDB上にあればhumanを追加する処理
 			Optional<Human>human=Optional.ofNullable(humanService.load(Integer.parseInt(form.getEmpId())));
 			if(!human.isPresent()) {
-				orderConfirmationService.insertHuman(form, iconImageByte, iconImageName);
+				orderConfirmationService.insertHuman(loginUser,form, iconImageByte, iconImageName);
+			}else {
+				
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
