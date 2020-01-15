@@ -13,11 +13,13 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.BaseSkill;
 import com.example.demo.domain.CommonSkill;
 import com.example.demo.domain.Human;
+import com.example.demo.domain.LoginUser;
 import com.example.demo.domain.Order;
 import com.example.demo.domain.PreHumanBaseSkill;
 import com.example.demo.domain.PreHumanCommonSkill;
@@ -78,11 +80,9 @@ public class OrderConfirmationService {
 	 * @param form
 	 * @throws ParseException
 	 */
-	public void insertHuman(InputSkillForm form, byte[] iconImageByte, String iconImageName) throws ParseException {
+	public void insertHuman(@AuthenticationPrincipal LoginUser loginUser,InputSkillForm form, byte[] iconImageByte, String iconImageName) throws ParseException {
 		Human human = new Human();
-		// SpringSecurityが完成次第.
-//		human.setUserId(loginUser.getUser().getUserId());
-		human.setUserId(2);
+		human.setUserId(loginUser.getUser().getUserId());
 		human.setEmpId(Integer.parseInt(form.getEmpId()));
 		human.setHumanName(form.getHumanName());
 		human.setJoinDate(Date.valueOf(form.getJoinDate()));

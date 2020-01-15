@@ -71,7 +71,6 @@ public class InputSkillController {
 			}
 			model.addAttribute("valueMap", valueMap);
 			model.addAttribute("user", user);
-			System.out.println("userのなかみ:" + user); //検証後この一行を消す
 		}
 		model.addAttribute("baseSkillList", baseSkillList);
 		model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
