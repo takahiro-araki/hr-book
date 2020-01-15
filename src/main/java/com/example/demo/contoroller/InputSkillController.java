@@ -49,7 +49,6 @@ public class InputSkillController {
 	public String showSkillForm(Model model, Integer humanId) {
 		List<BaseSkill> baseSkillList = inputSkillService.findAllBaseSkill();
 		Human user = null;
-		humanId = 17; //検証後この一行を消す
 		if (humanId != null) {
 			List<Integer> selectOptions = new ArrayList<>();
 			for (int i = 1; i <= 5; i++) {
