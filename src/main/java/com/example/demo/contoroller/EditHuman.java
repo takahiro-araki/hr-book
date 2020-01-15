@@ -23,6 +23,7 @@ import com.example.demo.service.ShowHumanService;
  *
  */
 @Controller
+@RequestMapping("")
 public class EditHuman {
 	
 	@Autowired
