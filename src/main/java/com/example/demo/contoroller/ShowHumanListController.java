@@ -54,7 +54,7 @@ public class ShowHumanListController {
 			Human user = null;
 			int num = -1;
 			for (int i = 0; i < humanList.size(); i++) {
-				if (humanList.get(i).getUserId() == 1) {
+				if (humanList.get(i).getUserId() == loginUser.getUser().getUserId()) {
 					user = new Human();
 					BeanUtils.copyProperties(humanList.get(i), user);
 					num = i;

@@ -26,6 +26,7 @@ import com.example.demo.service.ShowHumanService;
  *
  */
 @Controller
+@RequestMapping("")
 public class EditHuman {
 	
 	@Autowired
@@ -46,7 +47,7 @@ public class EditHuman {
 	 * @param model,human情報のID
 	 * @return 編集画面
 	 */
-	@RequestMapping("showEditForm")
+	@RequestMapping("/showEditForm")
 	public String showSkillForm(Model model, Integer humanId) {
 			List<BaseSkill> baseSkillList = inputSkillService.findAllBaseSkill();
 			Human user = null;
