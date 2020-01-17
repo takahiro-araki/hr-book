@@ -74,6 +74,7 @@ public class ShowHumanListController {
 		model.addAttribute("order", form.getOrder());
 		model.addAttribute("humanPage", humanPage);
 		model.addAttribute("pageNumbers", pageNum);
+		
 		return "emp_list";
 	}
 

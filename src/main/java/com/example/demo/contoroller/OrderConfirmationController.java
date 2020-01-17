@@ -2,11 +2,19 @@ package com.example.demo.contoroller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +63,12 @@ public class OrderConfirmationController {
 
 	@Autowired
 	private ShowHumanService humanService;
-	
+
+	@Autowired
+	HttpSession session;
+
+	private Path path;
+
 	@RequestMapping("/order-conf")
 	public String showOrderConfirmation(@Validated InputSkillForm form, BindingResult result, Model model)
 			throws ParseException, UnsupportedEncodingException, IOException {
@@ -123,9 +136,19 @@ public class OrderConfirmationController {
 		model.addAttribute("preHumanCommonSkillList", preHumanCommonSkillList);
 		model.addAttribute("preHumanSubSkillList", preHumanSubSkillList);
 		model.addAttribute("form", form);
+
+		// 画像のバリデーションチェックのメソッドを呼び出す
+		if (form.getIconImg() != null)
+			checkImage(form.getIconImg().getBytes(), form.getIconImg().getOriginalFilename(), result);
+		// この時点で画像を作成してしまう.
+		// ディレクトリは仮に用意してINSERT時に保存ディレクトリに移動.仮ディレクトリはバッチ処理で定期的に完全削除.
+		createFile(form.getIconImg().getBytes(), form.getIconImg().getOriginalFilename());
+		String partialPath = path.toString().substring(36);
+		model.addAttribute("partialPath", partialPath);
+
 		return "order-confrimation";
 	}
-	
+
 	@RequestMapping("/edit-order-conf")
 	public String showOrderConfirmationFromEdit(@Validated InputSkillForm form, BindingResult result, Model model)
 			throws ParseException, UnsupportedEncodingException, IOException {
@@ -192,7 +215,6 @@ public class OrderConfirmationController {
 		model.addAttribute("form", form);
 		return "order-confrimation";
 	}
-	
 
 	/**
 	 * スキル登録をするメソッド.
@@ -200,13 +222,15 @@ public class OrderConfirmationController {
 	 * @param スキル情報
 	 * @param エラーメッセージ格納変数
 	 * @return 社員一覧
+	 * @throws IOException
 	 */
 	@RequestMapping("/insert-skills")
-	public String insertSkills(@AuthenticationPrincipal LoginUser loginUser,@Validated InputSkillForm form, byte[] iconImageByte, String iconImageName,
-			BindingResult result, Model model) {
+	public String insertSkills(@AuthenticationPrincipal LoginUser loginUser, @Validated InputSkillForm form,
+			byte[] iconImageByte, String iconImageName, String partialPath, BindingResult result, Model model)
+			throws IOException {
 
-		// 画像のバリデーションチェックのメソッドを呼び出す
-		if(form.getIconImg()!=null) checkImage(iconImageByte, iconImageName, result);
+//		// 画像のバリデーションチェックのメソッドを呼び出す
+//		if(form.getIconImg()!=null) checkImage(iconImageByte, iconImageName, result);
 		// result.hasErrorメソッド
 		if (result.hasErrors()) {
 			model.addAttribute("baseSkillList", inputSkillService.findAllBaseSkill());
@@ -216,20 +240,21 @@ public class OrderConfirmationController {
 		}
 		try {
 			// 社員番号がDB上にあればhumanを追加する処理
-			Optional<Human>human=Optional.ofNullable(humanService.load(Integer.parseInt(form.getEmpId())));
-			if(!human.isPresent()) {
-				orderConfirmationService.insertHuman(loginUser,form, iconImageByte, iconImageName);
-			}else {
-				
+			Optional<Human> human = Optional.ofNullable(humanService.load(Integer.parseInt(form.getEmpId())));
+			if (!human.isPresent()) {
+				orderConfirmationService.insertHuman(loginUser, form, iconImageByte, iconImageName);
+				orderConfirmationService.fileInOut(form.getEmpId(), partialPath);
+				session.setAttribute("partialPath", partialPath);
+			} else {
+
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		session.setAttribute("partialPath", partialPath);
 		return "redirect:/list";
 	}
-	
-	
 
 	/**
 	 * 画像ファイルのバリデーションチェックメソッド.
@@ -284,5 +309,40 @@ public class OrderConfirmationController {
 		data.append("data:image/jpeg;base64,");
 		data.append(base64);
 		return data.toString();
+	}
+
+	/**
+	 * エンジニアの画像を書き込むファイルを作成するメソッド.
+	 * 
+	 * @param file
+	 */
+	public void createFile(byte[] iconImageByte, String iconImageName) {
+		this.path = Paths.get("../hr_book/src/main/resources/static/img/temporary/" + iconImageName);
+		try {
+			Files.createFile(path);
+			writeImage(path, iconImageByte);
+		} catch (FileAlreadyExistsException e) {
+			System.out.println(e);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+
+	}
+
+	/**
+	 * 画像をファイルに書き込むメソッド.
+	 * 
+	 * @param path
+	 * @param imageFile
+	 * @throws IOException
+	 */
+	public void writeImage(Path path, byte[] iconImageByte) throws IOException {
+		try (OutputStream os = Files.newOutputStream(path, StandardOpenOption.CREATE)) {
+			byte[] bytes = iconImageByte;
+			os.write(bytes);
+		} catch (IOException e) {
+		} finally {
+
+		}
 	}
 }

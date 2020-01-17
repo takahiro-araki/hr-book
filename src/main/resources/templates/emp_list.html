@@ -25,7 +25,8 @@
 						<div class="title row" th:text="'入社日 : '+${user.joinDate}">入社日</div>
 					</div>
 					<div class="col">
-						<img class="avatar" src="/hr-book/img/avator-male.png">
+						<!-- <img class="avatar" src="/hr-book/img/avator-male.png"> -->
+						<img class="avatar" th:src="@{${session.partialPath}}">
 					</div>
 					<div class="row">
 						<div class="style">
