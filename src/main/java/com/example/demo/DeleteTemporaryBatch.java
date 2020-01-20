@@ -14,7 +14,6 @@ public class DeleteTemporaryBatch {
 		String pathName = "/Users/atsushi/workspace-spring-tool-suite-4-4.3.1.RELEASE/hr_book/src/main/resources/static/img/temporary";
 		
 		File file = new File(pathName);
-		System.out.println("fileのなかみ：" + file);
 		
 		delete(file);
 	}
