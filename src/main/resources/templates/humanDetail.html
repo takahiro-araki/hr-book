@@ -71,7 +71,7 @@
 						<div class="skill-point" th:text="*{baseSkillScore}">100</div>
 					</div>
 				</div>
-
+				
 				<div class="abilities">
 					<div class="numerical-abilities" id="sample1">
 						<div th:each="commonSkill:${session.human.commonSkills}"
@@ -91,7 +91,7 @@
 					</div>
 				</div>
 				<a th:href="@{/emp-list/detail/authen}"><button type="button" class="btn btn-primary">承認する</button></a>
-				
+				<a th:href="@{'/showEditForm?empId='+${session.human.empId}}"><button type="button" class="btn btn-primary">編集する</button></a>
 
 			</div>
 

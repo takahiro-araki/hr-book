@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -187,14 +188,14 @@ public class OrderConfirmationService {
 	 * @param file
 	 */
 	public void createFile(byte[] iconImageByte, String iconImageName) {
-		Path path = Paths.get("../hr_book/src/main/resources/static/img/human-img/" + iconImageName);
+		Path path = Paths.get("../hr_book/src/main/resources/static/img/human_img/" + iconImageName);
 		try {
 			Files.createFile(path);
 			writeImage(path, iconImageByte);
 		} catch (FileAlreadyExistsException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 
 	}
@@ -206,11 +207,12 @@ public class OrderConfirmationService {
 	 * @param imageFile
 	 * @throws IOException
 	 */
-	public void writeImage(Path path, byte[] iconImageByte) throws IOException {
+	public void writeImage(Path path, byte[] iconImageByte)  {
 		try (OutputStream os = Files.newOutputStream(path, StandardOpenOption.CREATE)) {
 			byte[] bytes = iconImageByte;
 			os.write(bytes);
 		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
 
 		}
