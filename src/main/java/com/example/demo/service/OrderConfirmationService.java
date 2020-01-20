@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -201,19 +202,7 @@ public class OrderConfirmationService {
 						+ empId + ".jpg");
 
 		byte[] buf = new byte[256];
-		int len;
-
-		while ((len = fileIn.read(buf)) != -1) {
-			fileOut.write(buf);
-		}
-
-		// ファイルに内容を書き込む
-		fileOut.flush();
-
-		// ファイルの終了処理
-		fileOut.close();
-		fileIn.close();
-	}
+		int len;}
 
 //	/**
 //	 * エンジニアの画像を書き込むファイルを作成するメソッド.
