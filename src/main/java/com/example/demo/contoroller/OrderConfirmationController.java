@@ -143,6 +143,7 @@ public class OrderConfirmationController {
 		// この時点で画像を作成してしまう.
 		// ディレクトリは仮に用意してINSERT時に保存ディレクトリに移動.仮ディレクトリはバッチ処理で定期的に完全削除.
 		createFile(form.getIconImg().getBytes(), form.getIconImg().getOriginalFilename());
+		//pathがtemporary経由だとtemporaryをbatch処理で削除したときに問題.あとで改善.
 		String partialPath = path.toString().substring(36);
 		model.addAttribute("partialPath", partialPath);
 
