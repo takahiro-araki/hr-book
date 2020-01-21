@@ -144,8 +144,8 @@ public class OrderConfirmationController {
 		// ディレクトリは仮に用意してINSERT時に保存ディレクトリに移動.仮ディレクトリはバッチ処理で定期的に完全削除.
 		createFile(form.getIconImg().getBytes(), form.getIconImg().getOriginalFilename());
 		//pathがtemporary経由だとtemporaryをbatch処理で削除したときに問題.あとで改善.
-		String partialPath = path.toString().substring(36);
-		
+		String[] pathArray=path.toString().split("\\\\");
+		String partialPath =pathArray[pathArray.length-1];
 		model.addAttribute("partialPath", partialPath);
 
 		return "order-confrimation";
@@ -324,7 +324,7 @@ public class OrderConfirmationController {
 	 * @param file
 	 */
 	public void createFile(byte[] iconImageByte, String iconImageName) {
-		this.path = Paths.get("\\hr_book\\src\\main\\resources\\static\\img\\temporary\\" + iconImageName);
+		this.path = Paths.get("C:/env/spring-workspace/hr_book/src/main/resources/static/img/temporary/" + iconImageName);
 		try {
 			Files.createFile(path);
 			writeImage(path, iconImageByte);

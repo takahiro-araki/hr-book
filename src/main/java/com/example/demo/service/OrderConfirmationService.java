@@ -195,10 +195,10 @@ public class OrderConfirmationService {
 	 */
 	public void fileInOut(String empId, String partialPath) throws IOException {
 		FileInputStream fileIn = new FileInputStream(
-				"C:\\env\\spring-workspace\\hr-book\\src\\main\\resources\\static" + partialPath);
+				"C:/env/spring-workspace/hr-book/src/main/resources/static/" + partialPath);
 
 		FileOutputStream fileOut = new FileOutputStream(
-				"C:\\env\\spring-workspace\\hr-book\\src\\main\\resources\\static\\img\\human_img\\" + empId + ".jpg");
+				"C:/env/spring-workspace/hr-book/src/main/resources/static/img/human_img/" + empId + ".jpg");
 
 		byte[] buf = new byte[256];
 		int len;

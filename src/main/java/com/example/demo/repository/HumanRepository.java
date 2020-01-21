@@ -201,9 +201,9 @@ public class HumanRepository {
 				if (form.getOrder() != "") {
 					sb.append("WHERE order_ver = 1 ");
 					if (form.getOrder().equals("joinDate")) {
-						sb.append("ORDER BY  " + "	j2.join_date " + "desc, " + "j2.human_id  ");
+						sb.append("ORDER BY  " + "	j2.join_date " + "desc, " + "j2.human_id, "+"skill_type, "+"skill_id ");
 					} else {
-						sb.append("ORDER BY  " + "j2.order_status, " + "j2.human_id ");
+						sb.append("ORDER BY  " + "j2.order_status, " + "j2.human_id, "+"skill_type, "+"skill_id ");
 					}
 				}
 				SqlParameterSource param = new MapSqlParameterSource().addValue("name", ("%" + form.getName() + "%"));
@@ -217,12 +217,14 @@ public class HumanRepository {
 				sb.append("( j2.user_id=:userId ) OR ");
 				sb.append(" ( (j2.emp_id= 999 OR j2.emp_id=99) ");
 				sb.append(" AND j2.human_name LIKE :name ) ");
+				sb.append("ORDER BY  "  + "j2.human_id, "+"skill_type, "+"skill_id ");
 				SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("name",
 						("%" + form.getName() + "%"));
 				humanList = template.query(sb.toString(), param, EXTRACTOR_ONLY_BASESKILL);
 			} else {
 				sb.append(" ( j2.user_id=:userId  OR ");
-				sb.append(" (j2.emp_id= 999 OR j2.emp_id=99) )");
+				sb.append(" (j2.emp_id= 999 OR j2.emp_id=99) ) ");
+				sb.append("ORDER BY  "  + "j2.human_id, "+"skill_type, "+"skill_id ");
 				SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 				humanList = template.query(sb.toString(), param, EXTRACTOR_ONLY_BASESKILL);
 			}
