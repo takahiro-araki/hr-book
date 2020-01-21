@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 public class InsertUserForm {
 
 	/** 従業員ID */
-	@Pattern(message = "入力形式が不正です", regexp = "^[0-9]{4}$")
+	@Pattern(message = "入力形式が不正です", regexp = "^[0-9]{4,8}$")
 	private String empId;
 
 	/** ユーザ名 */
