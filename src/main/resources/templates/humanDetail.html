@@ -90,9 +90,15 @@
 						</div>
 					</div>
 				</div>
-				<a th:href="@{/emp-list/detail/authen}"><button type="button" class="btn btn-primary">承認する</button></a>
-				<a th:href="@{'/showEditForm?empId='+${session.human.empId}}"><button type="button" class="btn btn-primary">編集する</button></a>
-
+				<div sec:authorize="hasRole('ROLE_ADMIN')" th:if="${session.human.orderStatus == 1}">
+					<a th:href="@{/emp-list/detail/authen}">
+						<button type="button" class="btn btn-primary">承認する</button>
+					</a>
+				</div>
+				<div th:if="${#authentication.principal.user.empId == session.human.empId }">
+					<a th:href="@{'/showEditForm?empId='+${session.human.empId}}"><button
+							type="button" class="btn btn-primary">編集する</button></a>
+				</div>
 			</div>
 
 		</div>
