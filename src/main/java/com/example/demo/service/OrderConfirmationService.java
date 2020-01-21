@@ -19,6 +19,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.domain.BaseSkill;
 import com.example.demo.domain.CommonSkill;
@@ -40,6 +41,7 @@ import com.example.demo.repository.PreHumanSubSkillRepository;
 import com.example.demo.repository.SubSkillRepository;
 
 @Service
+@Transactional
 public class OrderConfirmationService {
 
 	@Autowired
@@ -167,7 +169,6 @@ public class OrderConfirmationService {
 		order.setHumanId(humanId);
 		order.setActStatus(1);
 		order.setOrderStatus(1);
-		order.setActStatus(1);
 		order.setVersionNum(1);
 		order.setRegister(form.getHumanName());
 		order.setRegistDate(returnToday());
@@ -194,15 +195,14 @@ public class OrderConfirmationService {
 	 */
 	public void fileInOut(String empId, String partialPath) throws IOException {
 		FileInputStream fileIn = new FileInputStream(
-				"/Users/atsushi/workspace-spring-tool-suite-4-4.3.1.RELEASE/hr_book/src/main/resources/static"
-						+ partialPath);
+				"C:\\env\\spring-workspace\\hr-book\\src\\main\\resources\\static" + partialPath);
 
 		FileOutputStream fileOut = new FileOutputStream(
-				"/Users/atsushi/workspace-spring-tool-suite-4-4.3.1.RELEASE/hr_book/src/main/resources/static/img/human_img/"
-						+ empId + ".jpg");
+				"C:\\env\\spring-workspace\\hr-book\\src\\main\\resources\\static\\img\\human_img\\" + empId + ".jpg");
 
 		byte[] buf = new byte[256];
-		int len;}
+		int len;
+	}
 
 //	/**
 //	 * エンジニアの画像を書き込むファイルを作成するメソッド.

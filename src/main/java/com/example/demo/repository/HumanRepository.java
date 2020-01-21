@@ -199,6 +199,7 @@ public class HumanRepository {
 					sb.append(" j2.human_name LIKE :name ");
 				}
 				if (form.getOrder() != "") {
+					sb.append("WHERE order_ver = 1 ");
 					if (form.getOrder().equals("joinDate")) {
 						sb.append("ORDER BY  " + "	j2.join_date " + "desc, " + "j2.human_id  ");
 					} else {

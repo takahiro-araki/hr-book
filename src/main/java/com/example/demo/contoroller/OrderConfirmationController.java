@@ -145,6 +145,7 @@ public class OrderConfirmationController {
 		createFile(form.getIconImg().getBytes(), form.getIconImg().getOriginalFilename());
 		//pathがtemporary経由だとtemporaryをbatch処理で削除したときに問題.あとで改善.
 		String partialPath = path.toString().substring(36);
+		
 		model.addAttribute("partialPath", partialPath);
 
 		return "order-confrimation";
@@ -214,6 +215,8 @@ public class OrderConfirmationController {
 		model.addAttribute("preHumanCommonSkillList", preHumanCommonSkillList);
 		model.addAttribute("preHumanSubSkillList", preHumanSubSkillList);
 		model.addAttribute("form", form);
+		
+		
 		return "order-confrimation";
 	}
 
@@ -246,8 +249,11 @@ public class OrderConfirmationController {
 				orderConfirmationService.insertHuman(loginUser, form, iconImageByte, iconImageName);
 				orderConfirmationService.fileInOut(form.getEmpId(), partialPath);
 				session.setAttribute("partialPath", partialPath);
+				model.addAttribute("human",human.get());
 			} else {
-
+				orderConfirmationService.insertOrders(form, human.get().getHumanId());
+				model.addAttribute("human",human.get());
+				
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -318,7 +324,7 @@ public class OrderConfirmationController {
 	 * @param file
 	 */
 	public void createFile(byte[] iconImageByte, String iconImageName) {
-		this.path = Paths.get("../hr_book/src/main/resources/static/img/temporary/" + iconImageName);
+		this.path = Paths.get("\\hr_book\\src\\main\\resources\\static\\img\\temporary\\" + iconImageName);
 		try {
 			Files.createFile(path);
 			writeImage(path, iconImageByte);
