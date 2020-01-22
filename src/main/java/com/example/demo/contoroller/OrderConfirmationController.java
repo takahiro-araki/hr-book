@@ -144,8 +144,7 @@ public class OrderConfirmationController {
 		// ディレクトリは仮に用意してINSERT時に保存ディレクトリに移動.仮ディレクトリはバッチ処理で定期的に完全削除.
 		createFile(form.getIconImg().getBytes(), form.getIconImg().getOriginalFilename());
 		//pathがtemporary経由だとtemporaryをbatch処理で削除したときに問題.あとで改善.
-		String[] pathArray=path.toString().split("\\\\");
-		String partialPath =pathArray[pathArray.length-1];
+		String partialPath = path.toString().substring(36);
 		model.addAttribute("partialPath", partialPath);
 
 		return "order-confrimation";
@@ -249,7 +248,7 @@ public class OrderConfirmationController {
 				orderConfirmationService.insertHuman(loginUser, form, iconImageByte, iconImageName);
 				orderConfirmationService.fileInOut(form.getEmpId(), partialPath);
 				session.setAttribute("partialPath", partialPath);
-				model.addAttribute("human",human.get());
+//				model.addAttribute("human",human.get());
 			} else {
 				orderConfirmationService.insertOrders(form, human.get().getHumanId());
 				model.addAttribute("human",human.get());
@@ -324,14 +323,15 @@ public class OrderConfirmationController {
 	 * @param file
 	 */
 	public void createFile(byte[] iconImageByte, String iconImageName) {
-		this.path = Paths.get("C:/env/spring-workspace/hr_book/src/main/resources/static/img/temporary/" + iconImageName);
+		this.path = Paths.get("../hr_book/src/main/resources/static/img/temporary/" + iconImageName);
 		try {
 			Files.createFile(path);
 			writeImage(path, iconImageByte);
 		} catch (FileAlreadyExistsException e) {
-			System.out.println(e);
+			e.printStackTrace();
+
 		} catch (IOException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 
 	}
@@ -343,11 +343,12 @@ public class OrderConfirmationController {
 	 * @param imageFile
 	 * @throws IOException
 	 */
-	public void writeImage(Path path, byte[] iconImageByte) throws IOException {
+	public void writeImage(Path path, byte[] iconImageByte) {
 		try (OutputStream os = Files.newOutputStream(path, StandardOpenOption.CREATE)) {
 			byte[] bytes = iconImageByte;
 			os.write(bytes);
 		} catch (IOException e) {
+			e.printStackTrace();
 		} finally {
 
 		}

@@ -1,16 +1,8 @@
 package com.example.demo.service;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -195,48 +187,25 @@ public class OrderConfirmationService {
 	 */
 	public void fileInOut(String empId, String partialPath) throws IOException {
 		FileInputStream fileIn = new FileInputStream(
-				"C:/env/spring-workspace/hr-book/src/main/resources/static/" + partialPath);
+				"/Users/atsushi/workspace-spring-tool-suite-4-4.3.1.RELEASE/hr_book/src/main/resources/static"
+						+ partialPath);
 
 		FileOutputStream fileOut = new FileOutputStream(
-				"C:/env/spring-workspace/hr-book/src/main/resources/static/img/human_img/" + empId + ".jpg");
+				"/Users/atsushi/workspace-spring-tool-suite-4-4.3.1.RELEASE/hr_book/src/main/resources/static/img/human_img/"
+						+ empId + ".jpg");
 
 		byte[] buf = new byte[256];
 		int len;
+
+		while ((len = fileIn.read(buf)) != -1) {
+			fileOut.write(buf);
+		}
+
+		// ファイルに内容を書き込む
+		fileOut.flush();
+
+		// ファイルの終了処理
+		fileOut.close();
+		fileIn.close();
 	}
-
-//	/**
-//	 * エンジニアの画像を書き込むファイルを作成するメソッド.
-//	 * 
-//	 * @param file
-//	 */
-//	public void createFile(byte[] iconImageByte, String iconImageName) {
-//		Path path = Paths.get("../hr_book/src/main/resources/static/img/human_img/" + iconImageName);
-//		try {
-//			Files.createFile(path);
-//			writeImage(path, iconImageByte);
-//		} catch (FileAlreadyExistsException e) {
-//			System.out.println(e);
-//		} catch (IOException e) {
-//			System.out.println(e);
-//		}
-//
-//	}
-//
-//	/**
-//	 * 画像をファイルに書き込むメソッド.
-//	 * 
-//	 * @param path
-//	 * @param imageFile
-//	 * @throws IOException
-//	 */
-//	public void writeImage(Path path, byte[] iconImageByte) throws IOException {
-//		try (OutputStream os = Files.newOutputStream(path, StandardOpenOption.CREATE)) {
-//			byte[] bytes = iconImageByte;
-//			os.write(bytes);
-//		} catch (IOException e) {
-//		} finally {
-//
-//		}
-//	}
-
 }
