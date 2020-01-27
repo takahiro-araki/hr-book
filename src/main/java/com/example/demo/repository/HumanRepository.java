@@ -43,6 +43,8 @@ public class HumanRepository {
 
 	static final String SQL_LOAD = "src/main/resources/sql/load.sql";
 
+	static final String SQL_LOAD_AUTH = "src/main/resources/sql/load_authenticated.sql";
+	
 	static final String SQL_SHOW_LIST = "src/main/resources/sql/showList.sql";
 
 	public static final ResultSetExtractor<List<Human>> EXTRACTOR = (rs) -> {
@@ -155,6 +157,23 @@ public class HumanRepository {
 	 */
 	public Human load(Integer empId) throws IOException {
 		String sql = readSql.readAll(SQL_LOAD);
+		SqlParameterSource param = new MapSqlParameterSource().addValue("empId", empId);
+		List<Human> humanList = template.query(sql, param, EXTRACTOR);
+		if (humanList.size() == 0) {
+			return null;
+		}
+		return humanList.get(0);
+	}
+	
+	/**
+	 * 認証済みのエンジニア一人をloadするメソッド.
+	 * 
+	 * @param empId
+	 * @return 認証済みのエンジニア情報
+	 * @throws IOException
+	 */
+	public Human loadAuth(Integer empId) throws IOException {
+		String sql = readSql.readAll(SQL_LOAD_AUTH);
 		SqlParameterSource param = new MapSqlParameterSource().addValue("empId", empId);
 		List<Human> humanList = template.query(sql, param, EXTRACTOR);
 		if (humanList.size() == 0) {

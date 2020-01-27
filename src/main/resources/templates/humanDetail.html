@@ -102,6 +102,75 @@
 			</div>
 
 		</div>
+		<div class="members"></div>
+		<div class="main-contents" th:if="${session.human.orderStatus != 2 && session.authHuman.orderStatus == 2}">
+
+			<div class="box ability-box" style="">
+				<div class="profile">
+					<div class="row">
+						<div class="col">
+							<div th:text="${session.authHuman.humanName}" class="name row">エンジニア太郎</div>
+							<div th:text="'アサイン先 : '+${session.authHuman.assignCompanyName}"
+								class="belong-to row">株式会社エンジニア</div>
+							<div
+								th:text="'入社日 : ' +${#dates.format(session.authHuman.joinDate, 'yyyy年MM月dd日')}"
+								class="title row">プログラマー</div>
+						</div>
+						<div class="col">
+							<img class="avatar" src="/hr-book/img/avator-male.png">
+						</div>
+					</div>
+					<div class="row">
+						<div class="style">
+							<div class="style-item col">
+								&nbsp;<span class="style-desktop dark-blue">認証状況</span>
+							</div>
+							<div class="style-item col" th:if="${session.authHuman.orderStatus == 0}">
+								&nbsp;<span class="style-mobile dark-gray" th:text="未承認">承認ステータス</span>
+							</div>
+							<div class="style-item col" th:if="${session.authHuman.orderStatus == 1}">
+								&nbsp;<span class="style-mobile dark-gray" th:text="申請中">承認ステータス</span>
+							</div>
+							<div class="style-item col" th:if="${session.authHuman.orderStatus == 2}">
+								&nbsp;<span class="style-mobile dark-green" th:text="認証済">承認ステータス</span>
+							</div>
+							<div class="style-item col" th:if="${session.authHuman.orderStatus == 3}">
+								&nbsp;<span class="style-mobile dark-red" th:text="差し戻し">承認ステータス</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="point-skills" th:each="baseSkill:${session.authHuman.baseSkills}"
+					th:object="${baseSkill}">
+					<div class="point-skill">
+						<div class="skill-name" th:text="*{baseSkill.baseSkillName}">プログラム</div>
+						<div th:class="'skill-score score-' + *{rank}" th:text="*{#strings.toUpperCase(rank)}">R</div>
+						<div class="skill-point" th:text="*{baseSkillScore}">100</div>
+					</div>
+				</div>
+				
+				<div class="abilities">
+					<div class="numerical-abilities" id="sample1">
+						<div th:each="commonSkill:${session.authHuman.commonSkills}"
+							th:class="'numerical-ability level-'+*{commonSkillScore}"
+							th:object="${commonSkill}">
+							<div class="ability-name" th:text="*{commonSkill.commonSkillName}">対障害</div>
+							<div class="ability-value" th:text="*{commonSkillScore}">5</div>
+							<div class="tooltips" th:text="*{commonSkill.description}"></div>
+						</div>
+					</div>
+					<div class="special-abilities">
+						<div th:class="'special-ability sub-skill-' + *{subSkill.subSkillStatusType}"
+							th:each="subSkill:${session.authHuman.subSkills}" th:object="${subSkill}">
+							<div class="ability-name" th:text="*{subSkill.subSkillName}">test</div>
+							<div class="tooltips" th:text="*{subSkill.description}"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
 	</div>
 
 	<div class="ajax-modal" style="display: none;">

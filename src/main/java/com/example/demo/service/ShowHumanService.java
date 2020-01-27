@@ -32,4 +32,14 @@ public class ShowHumanService {
 		return null;
 	}
 
+	public Human loadAuth(Integer empId) {
+		try {
+			return humanRepository.loadAuth(empId);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

@@ -46,6 +46,11 @@ public class ShowHumanController {
 		}
 		Human human = humanService.load(empId);
 		session.setAttribute("human", human);
+		if (human.getOrderStatus() != 2) {
+			Human authHuman = humanService.load(empId);
+			session.setAttribute("authHuman", authHuman);
+			System.out.println(authHuman.toString());
+		}
 		return "humanDetail";
 	}
 
