@@ -56,7 +56,7 @@
 									placeholder="Confirmation Password" th:field="*{confirmationPassword}">
 							</div>
 							<div class="form-group">
-								<label for="inputUserRole">ユーザー権限:</label>
+								<label for="inputUserRole">ユーザー権限:（0:管理者 1:営業 2:エンジニア）</label>
 								<label
 									class="control-label" style="color: red" for="inputError" th:errors="*{userRole}">権限を入力してください (0:管理者 1:営業 2:エンジニア)</label>
 								<input type="text" id="inputUserRole" class="form-control"
