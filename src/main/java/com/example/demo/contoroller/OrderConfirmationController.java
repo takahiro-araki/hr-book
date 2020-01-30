@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.common.All;
 import com.example.demo.domain.BaseSkill;
 import com.example.demo.domain.CommonSkill;
 import com.example.demo.domain.Human;
@@ -72,35 +73,87 @@ public class OrderConfirmationController {
 	@RequestMapping("/order-conf")
 	public String showOrderConfirmation(@Validated InputSkillForm form, BindingResult result, Model model)
 			throws ParseException, UnsupportedEncodingException, IOException {
+		
+		// result.hasErrorメソッド
+		if (result.hasErrors()) {
+			model.addAttribute("baseSkillList", inputSkillService.findAllBaseSkill());
+			model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
+			model.addAttribute("subSkillList", inputSkillService.findAllSubSkill());
+			
+			//empIdが4桁かどうかをチェック
+			if (!form.getEmpId().equals("")) {
+				String patternEmpId = "[0-9]{4}";
+				if (!form.getEmpId().matches(patternEmpId)) {
+					result.rejectValue("empId", "", "半角数字4桁で入力して下さい");
+				}
+			}
+			
+			//joinDateが入力形式に従っているかどうかのチェック
+			if (!form.getJoinDate().equals("")) {
+				String patternJoinDate = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$";
+				if (!form.getJoinDate().matches(patternJoinDate)) {
+					result.rejectValue("joinDate", "", "入力形式に従って入力して下さい");
+				}
+			}
+			
+			// 画像のバリデーションチェックのメソッドを呼び出す
+			checkImage(form.getIconImg().getBytes(), form.getIconImg().getOriginalFilename(), result);
+			// baseSkillScoreのバリデーションチェック
+			for (String score : form.getBaseSkillScores()) {
+				String pattern = "[1-9]?[0-9]|^100$";
+				if (!score.matches(pattern)) {
+					result.rejectValue("baseSkillScores", "", "半角数字0~100で記入ください");
+				}
+			}
+			// subSkillIdのバリデーションチェック
+			if (form.getSubSkillIds() == null) {
+				result.rejectValue("subSkillIds", "", "1つ以上選択してください");
+			}
+			return "regist";
+		}
 
-		Human human = new Human();
-		human.setEmpId(form.getIntEmpId());
-		human.setHumanName(form.getHumanName());
-		human.setAssignCompanyName(form.getAssignCompanyName());
-		human.setJoinDate(form.getDateJoinData());
+		//empIdが4桁かどうかをチェック
+		if (!form.getEmpId().equals("")) {
+			String patternEmpId = "[0-9]{4}";
+			if (!form.getEmpId().matches(patternEmpId)) {
+				result.rejectValue("empId", "", "半角数字4桁で入力して下さい");
+			}
+		}
+		//joinDateが入力形式に従っているかどうかのチェック
+		if (!form.getJoinDate().equals("")) {
+			String patternJoinDate = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$";
+			if (!form.getJoinDate().matches(patternJoinDate)) {
+				result.rejectValue("joinDate", "", "入力形式に従って入力して下さい");
+			}
+		}
 		// 画像のバリデーションチェックのメソッドを呼び出す
 		checkImage(form.getIconImg().getBytes(), form.getIconImg().getOriginalFilename(), result);
-		human.setIconImg(changeBase64(form.getIconImg()));
-		model.addAttribute("human", human);
 		// baseSkillScoreのバリデーションチェック
 		for (String score : form.getBaseSkillScores()) {
 			String pattern = "[1-9]?[0-9]|^100$";
 			if (!score.matches(pattern)) {
 				result.rejectValue("baseSkillScores", "", "半角数字0~100で記入ください");
-				break;
 			}
 		}
 		// subSkillIdのバリデーションチェック
 		if (form.getSubSkillIds() == null) {
 			result.rejectValue("subSkillIds", "", "1つ以上選択してください");
 		}
-		// result.hasErrorメソッド
+		
 		if (result.hasErrors()) {
 			model.addAttribute("baseSkillList", inputSkillService.findAllBaseSkill());
 			model.addAttribute("commonSkillList", inputSkillService.findAllCommonSkill());
 			model.addAttribute("subSkillList", inputSkillService.findAllSubSkill());
 			return "regist";
 		}
+		
+		Human human = new Human();
+		human.setEmpId(form.getIntEmpId());
+		human.setHumanName(form.getHumanName());
+		human.setAssignCompanyName(form.getAssignCompanyName());
+		human.setJoinDate(form.getDateJoinData());
+		human.setIconImg(changeBase64(form.getIconImg()));
+		model.addAttribute("human", human);
 
 		List<BaseSkill> baseSkills = new ArrayList<>();
 		baseSkills = orderConfirmationService.findAllBaseSkill();
@@ -273,11 +326,11 @@ public class OrderConfirmationController {
 		try {
 			fileExtension = extractExtension(iconImageName);
 			extractExtension(iconImageName);
-			if (!"jpg".equals(fileExtension) && !"png".equals(fileExtension)) {
-				result.rejectValue("iconImg", "", "拡張子が.pngまたは.jpgのファイルを選択してください");
+			if (!"jpg".equals(fileExtension) && !"png".equals(fileExtension) && !"jpeg".equals(fileExtension)) {
+				result.rejectValue("iconImg", "", "拡張子が.pngまたは.jpgまたは.jpegのファイルを選択してください");
 			}
 		} catch (FileNotFoundException e) {
-			result.rejectValue("iconImg", "", "拡張子が.pngまたは.jpgのファイルを選択してください");
+			result.rejectValue("iconImg", "", "拡張子が.pngまたは.jpgまたは.jpegのファイルを選択してください");
 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
