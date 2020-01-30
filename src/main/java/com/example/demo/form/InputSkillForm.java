@@ -5,25 +5,29 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.GroupSequence;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.groups.Default;
 
 import org.springframework.web.multipart.MultipartFile;
+
 
 /**
  * @author yuma.watanabe
  *
  */
 public class InputSkillForm {
+
 	@NotBlank(message = "社員番号を入力してください")
-	@Pattern(message = "半角数字4桁で入力してください", regexp = "^[0-9]{4}$")
+//	@Pattern(message = "半角数字4桁で入力してください", regexp = "[0-9]{4}")
 	private String empId;
 	@NotBlank(message = "お名前を入れてください")
 	private String humanName;
 	@NotBlank(message = "会社名を入れてください")
 	private String assignCompanyName;
 	@NotBlank(message = "入社日を入力してください")
-	@Pattern(message = "入力形式に従ってください", regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
+//	@Pattern(message = "入力形式に従って入力してください", regexp = "^[0-9]{4}-[0-9]{2}-[0-9]{2}$")
 	private String joinDate;
 	private MultipartFile iconImg;
 	/**アイコン画像名（編集画面で使用） */
